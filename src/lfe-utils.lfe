@@ -1,6 +1,11 @@
 (defmodule lfe-utils
   (export all)
   (import
+    (from erlang
+      (list_to_tuple 1)
+      (round 1)
+      (trunc 1)
+      (tuple_to_list 1))
     (from lists
       (flatten 1)
       (foldl 3)
@@ -17,15 +22,14 @@
     (flatten
       (map (lambda (x) (tuple_to_list x)) a))))
 
-(defun fast-floor (int)
+(defun fast-floor (num)
   "
   Sadly, this is named 'fast-floor' only because the Racket version was given
-  that name (it makes copying and pasting the code that much easier!). There
-  is no good floor function in Erlang... so this should probably have been
-  called 'slow-floor'.
+  that name. There is no good floor function in Erlang... so this should
+  probably have been called 'slow-floor'.
   "
-  (let* ((trunc (trunc int))
-         (check (- int trunc)))
+  (let* ((trunc (trunc num))
+         (check (- num trunc)))
     (cond
       ((< check 0) (- trunc 1))
       ((> check 0) trunc)
