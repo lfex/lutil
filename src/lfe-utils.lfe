@@ -45,3 +45,33 @@
   "
   (foldl #'+/2 0
     (zipwith #'*/2 a b)))
+
+(defun scale
+  "
+  Given a value and a range that value belongs to, calculate a new value based
+  upon a new range.
+
+  This is useful, for instance, when one wants to convert a decimal value
+  between 0.0 and 1.0 to a value between 0 and 255.
+  "
+  ((value (tuple lower-bound upper-bound)
+          (tuple lower-bound-prime upper-bound-prime))
+    (let* ((fraction (/
+                   (+ (abs lower-bound) value)
+                   (+ (abs lower-bound) upper-bound)))
+           (new-range (- upper-bound-prime lower-bound-prime)))
+      (+ (* fraction new-range) lower-bound-prime))))
+
+(defun unit-scale (value current-frame)
+  "
+  Given a value and a range that value belongs to, calculate the value when
+  scaled to the range 0.0 to 1.0.
+  "
+  (scale value current-frame #(0.0 1.0)))
+
+(defun color-scale (value current-frame)
+  "
+  Given a value and a range that value belongs to, calculate the value when
+  scaled to the range 0 to 255.
+  "
+  (round (scale value current-frame #(0.0 255.0))))
