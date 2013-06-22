@@ -2,6 +2,7 @@
   (export all)
   (import
     (from erlang
+      (binary_to_atom 1)
       (binary_to_list 1)
       (list_to_binary 1)
       (list_to_tuple 1)
@@ -107,10 +108,12 @@
   ;   > (: lfe-utils uuid4 (tuple 'type '"binary"))
   ;   #B(50 101 51 53 49 99 48 97 45 50 100 100 52 45 52 54 56 55 45 50 ...)
   ;
-  ;   > (: lfe-utils uuid4 (tuple 'type '"string"))
+  ;   > (: lfe-utils uuid4 (tuple 'type '"list"))
   ;   "65c0aff3-421e-40bf-0f64-3ac0d1e0b72d"
   ;
   (((tuple 'type '"binary"))
     (uuid4))
-  (((tuple 'type '"string"))
-    (binary_to_list (uuid4))))
+  (((tuple 'type '"list"))
+    (binary_to_list (uuid4)))
+  (((tuple 'type '"atom"))
+    (binary_to_atom (uuid4) 'latin1)))
