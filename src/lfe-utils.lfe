@@ -17,9 +17,15 @@
     (from math
       (pow 2))))
 
+(defun add-tuples (a b)
+  "
+  Given two tuples, add them together.
+  "
+  (add-tuples (list a b)))
+
 (defun add-tuples (a)
   "
-  If there's a better way to do this, pull requests welcome!
+  Given a list of any number of tuples, add them all together.
   "
   (list_to_tuple
     (flatten
