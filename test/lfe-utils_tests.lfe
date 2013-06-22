@@ -11,8 +11,6 @@
       (dot-product 2)
       (fast-floor 1)
       (round 2)
-      (get-perlin-for-point 3)
-      (round 2)
       (scale 3)
       (unit-scale 2)
       (uuid4 0)
