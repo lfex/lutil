@@ -1,14 +1,6 @@
 (defmodule lfe-utils_tests
   (export all)
   (import
-    (from erlang
-      (bit_size 1)
-      (byte_size 1)
-      (is_atom 1)
-      (is_binary 1)
-      (is_list 1)
-      (is_tuple 1)
-      (length 1))
     (from lfe-utils
       (add-tuples 1) (add-tuples 2)
       (color-scale 2)
