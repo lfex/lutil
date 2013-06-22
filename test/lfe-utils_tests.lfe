@@ -1,6 +1,10 @@
 (defmodule lfe-utils_tests
   (export all)
   (import
+    (from erlang
+      (bit_size 1)
+      (byte_size 1)
+      (length 1))
     (from lfe-utils
       (add-tuples 1)
       (color-scale 2)
@@ -10,7 +14,9 @@
       (get-perlin-for-point 3)
       (round 2)
       (scale 3)
-      (unit-scale 2))
+      (unit-scale 2)
+      (uuid4 0)
+      (uuid4 1))
     (from lfeunit-util
       (check-failed-assert 2)
       (check-wrong-assert-exception 2))
@@ -78,3 +84,10 @@
   (assert-equal 64 (color-scale -0.5 #(-1.0 1.0)))
   (assert-equal 128 (color-scale 0.5 #(0.0 1.0)))
   (assert-equal 255 (color-scale 1.0 #(0.0 1.0))))
+
+(defun uuid4_test ()
+  (assert-equal 36 (byte_size (uuid4)))
+  (assert-equal 288 (bit_size (uuid4)))
+  (assert-equal 36 (byte_size (uuid4 (tuple 'type '"binary"))))
+  (assert-equal 288 (bit_size (uuid4 (tuple 'type '"binary"))))
+  (assert-equal 36 (length (uuid4 (tuple 'type '"string")))))
