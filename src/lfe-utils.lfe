@@ -1,14 +1,6 @@
 (defmodule lfe-utils
   (export all)
   (import
-    (from erlang
-      (binary_to_atom 1)
-      (binary_to_list 1)
-      (list_to_binary 1)
-      (list_to_tuple 1)
-      (round 1)
-      (trunc 1)
-      (tuple_to_list 1))
     (from lists
       (flatten 1)
       (foldl 3)
