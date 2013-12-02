@@ -2,10 +2,10 @@
 {application, 'lfe-utils',
  [
   %% A quick description of the application.
-  {description, "My project description..."},
+  {description, "LFE Utility Functions."},
 
   %% The version of the application
-  {vsn, "0.1.0-"},
+  {vsn, "0.1.0"},
 
   %% All modules used by the application.
   {modules,
