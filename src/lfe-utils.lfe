@@ -97,6 +97,11 @@
   (((tuple 'type '"atom"))
     (binary_to_atom (uuid4) 'latin1)))
 
+(defun dump-data (filename data)
+  "A convenience function for writing Erlang data to disk."
+  (: file write_file filename
+     (: io_lib fwrite '"~p.~n" (list data))))
+
 
 
 
