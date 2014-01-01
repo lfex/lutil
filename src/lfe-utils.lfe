@@ -118,5 +118,28 @@
     (: dict from_list
        (: lists zip keys values))))
 
+(defun get-home-dir ()
+  (let (((list (tuple 'home (list home)))
+         (: lists sublist (: init get_arguments) 3 1)))
+    home))
+
+(defun is-home-dir? (path)
+  (cond ((=:= '"~/" (: string substr path 1 2))
+         'true)
+        ('true 'false)))
+
+(defun expand-home-dir (path-with-home)
+  (cond ((is-home-dir? path-with-home)
+         (: filename join
+            (list (get-home-dir)
+                  (: string substr path-with-home 3))))
+        ('true path-with-home)))
+
+(defun strip (string)
+  (: re replace
+     string
+     '"(^\\s+)|(\\s+$)"
+      ""
+      (list 'global (tuple 'return 'list))))
 
 
