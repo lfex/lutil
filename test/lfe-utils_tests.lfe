@@ -9,7 +9,9 @@
       (round 2)
       (scale 3)
       (unit-scale 2)
-      (uuid4 0) (uuid4 1))
+      (uuid4 0) (uuid4 1)
+      (partition-list 1)
+      (pair-dict 1))
     (from lfeunit-util
       (check-failed-assert 2)
       (check-wrong-assert-exception 2))
@@ -21,8 +23,7 @@
     (from lists
       (map 2)
       (seq 2)
-      (zipwith 3))
-    ))
+      (zipwith 3))))
 
 (defun add-tuples_test ()
   (let ((data1 (list (tuple 1 2 3) (tuple 2 3 4)))
@@ -94,3 +95,29 @@
   (assert-not `(is_list ,(uuid4 (tuple 'type '"binary"))))
   (assert `(is_atom ',(uuid4 (tuple 'type '"atom"))))
   (assert-not `(is_atom ',(uuid4 (tuple 'type '"list")))))
+
+(defun test-dict-data-1 ()
+  (list
+    'key-1 '"value 1"))
+
+(defun test-dict-data-2 ()
+  (list
+    'key-1 '"value 1"
+    'key-2 '"value 2"))
+
+(defun test-dict-data-3 ()
+  (list
+    'key-1 '"value 1"
+    'key-2 '"value 2"
+    'key-3 '"value 3"))
+
+(defun test-dict-2 ()
+  (pair-dict (test-dict-data-2)))
+
+(defun partition-list_test ()
+  (let ((result (partition-list (test-dict-data-2))))
+    (assert-equal #((key-1 key-2) ("value 1" "value 2")) result)))
+
+(defun pair-dict_test ()
+  (assert-equal '"value 1" `(: dict fetch 'key-1 ,(test-dict-2)))
+  (assert-equal '"value 2" `(: dict fetch 'key-2 ,(test-dict-2))))
