@@ -121,3 +121,33 @@
 (defun pair-dict_test ()
   (assert-equal '"value 1" `(: dict fetch 'key-1 ,(test-dict-2)))
   (assert-equal '"value 2" `(: dict fetch 'key-2 ,(test-dict-2))))
+
+(defun is-home-dir?_test ()
+  (assert-not `(: lfe-utils is-home-dir? '"~"))
+  (assert-not `(: lfe-utils is-home-dir? '"/"))
+  (assert-not `(: lfe-utils is-home-dir? '"~home/"))
+  (assert-not `(: lfe-utils is-home-dir? '"/home"))
+  (assert `(: lfe-utils is-home-dir? '"~/"))
+  (assert `(: lfe-utils is-home-dir? '"~/user"))
+  (assert `(: lfe-utils is-home-dir? '"~/user/more/path")))
+
+(defun expand-home-dir_test ()
+  (assert-equal '"/usr/local/bin"
+                `(: lfe-utils expand-home-dir '"/usr/local/bin"))
+  (assert-equal '"/home/oubiwann"
+                `(: lfe-utils expand-home-dir '"/home/oubiwann"))
+  ;; lfeunit has some issues with the following tests...
+  ;(let* ((tilde-dir '"~/my-data")
+  ;       (expanded (: lfe-utils expand-home-dir tilde-dir)))
+  ;  (assert `(: lfe-utils is-home-dir? ,tilde-dir))
+  ;  (assert-not `(: lfe-utils is-home-dir? ,expanded)))
+  )
+
+(defun strip_test ()
+  (assert-equal '"data" `(: lfe-utils strip '"data\n"))
+  (assert-equal '"data" `(: lfe-utils strip '"data\n\n"))
+  (assert-equal '"data" `(: lfe-utils strip '"data   "))
+  (assert-equal '"data" `(: lfe-utils strip '"data   \n   "))
+  (assert-equal '"data" `(: lfe-utils strip '"data   \n   \n")))
+
+
