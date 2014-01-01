@@ -102,7 +102,21 @@
   (: file write_file filename
      (: io_lib fwrite '"~p.~n" (list data))))
 
+(defun partition-list (list-data)
+  "This function takes lists of even length with an implicit key (atom) value
+  pairing and generates a list of two lists: one with all the keys, and the
+  other with all the values."
+  (: lists partition #'is_atom/1 list-data))
 
+(defun pair-dict (data)
+  "'data' is a list of implicit pairs:
+    * the odd elements are keys of type 'atom'
+    * the even elemnts are the values.
+
+  This list is partitioned. zipped to tuples, and then converted to a dict."
+  (let (((tuple keys values) (partition-list data)))
+    (: dict from_list
+       (: lists zip keys values))))
 
 
 
