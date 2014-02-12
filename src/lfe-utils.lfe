@@ -142,6 +142,10 @@
       ""
       (list 'global (tuple 'return 'list))))
 
+(defun list->tuple (list-data)
+  (let ((quoted (: lists map (lambda (x) `',x) list-data)))
+    (eval `(tuple ,@quoted))))
+
 (defun record-info (record-list-data)
   "This function is intended as a quick-fix only until a complete solution has
   landed in LFE. There are two macros under development for inclusion in LFE
@@ -156,8 +160,7 @@
 
   Once the record-info macro in LFE is working, this function will be
   deprecated."
-  (let ((quoted (: lists map (lambda (x) `',x) record-list-data)))
-    (eval `(tuple ,@quoted))))
+  'ok)
 
 (defun atom-cat (atom-1 atom-2)
   "Concatenate two tuples."
