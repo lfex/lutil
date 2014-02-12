@@ -142,4 +142,19 @@
       ""
       (list 'global (tuple 'return 'list))))
 
+(defun record-info (record-list-data)
+  "This function is intended as a quick-fix only until a complete solution has
+  landed in LFE. There are two macros under development for inclusion in LFE
+  that provide record metadata introspection:
+    * record-info
+    * record-list
+  Currently, only record-list is working.
 
+  As such, this function was created to take the return values from record-list
+  and trasnform them to the tuple that matches the output value of the Erlang
+  compile-time macro record_info.
+
+  Once the record-info macro in LFE is working, this function will be
+  deprecated."
+  (let ((quoted (: lists map (lambda (x) `',x) record-list-data)))
+    (eval `(tuple ,@quoted))))

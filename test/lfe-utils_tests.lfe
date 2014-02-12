@@ -21,7 +21,7 @@
       (zipwith 3))))
 
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
-
+(include-lib "include/utils-macros.lfe")
 
 (deftest add-tuples
   (let ((data1 (list (tuple 1 2 3) (tuple 2 3 4)))
@@ -146,4 +146,6 @@
   (is-equal '"data" (: lfe-utils strip '"data   \n   "))
   (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
 
+(deftest record-info
+  (is-equal #(a b c 1 2 3) (: lfe-utils record-info '(a b c 1 2 3))))
 
