@@ -146,8 +146,8 @@
   (is-equal '"data" (: lfe-utils strip '"data   \n   "))
   (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
 
-(deftest record-info
-  (is-equal #(a b c 1 2 3) (: lfe-utils record-info '(a b c 1 2 3))))
+(deftest list->tuple
+  (is-equal #(a b c 1 2 3) (: lfe-utils list->tuple '(a b c 1 2 3))))
 
 (deftest atom-cat
   (is-equal 'ab (: lfe-utils atom-cat 'a 'b)))
