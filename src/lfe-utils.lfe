@@ -158,3 +158,7 @@
   deprecated."
   (let ((quoted (: lists map (lambda (x) `',x) record-list-data)))
     (eval `(tuple ,@quoted))))
+
+(defun atom-cat (atom-1 atom-2)
+  "Concatenate two tuples."
+  (list_to_atom (++ (atom_to_list atom-1) (atom_to_list atom-2))))
