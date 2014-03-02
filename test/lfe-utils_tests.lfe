@@ -23,6 +23,8 @@
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 (include-lib "include/utils-macros.lfe")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; data types and type ops
 (deftest add-tuples
   (let ((data1 (list (tuple 1 2 3) (tuple 2 3 4)))
         (data2 (list (tuple 2 4) (tuple 6 8) (tuple 10 12))))
@@ -30,6 +32,47 @@
     (is-equal #(2 4 6 8 10 12) (add-tuples data2))
     (is-equal #(1 2 3 4) (add-tuples (tuple 1 2) (tuple 3 4)))))
 
+(defun test-dict-data-1 ()
+  (list
+    'key-1 '"value 1"))
+
+(defun test-dict-data-2 ()
+  (list
+    'key-1 '"value 1"
+    'key-2 '"value 2"))
+
+(defun test-dict-data-3 ()
+  (list
+    'key-1 '"value 1"
+    'key-2 '"value 2"
+    'key-3 '"value 3"))
+
+(defun test-dict-2 ()
+  (pair-dict (test-dict-data-2)))
+
+(deftest partition-list
+  (let ((result (partition-list (test-dict-data-2))))
+    (is-equal #((key-1 key-2) ("value 1" "value 2")) result)))
+
+(deftest pair-dict
+  (is-equal '"value 1" (: dict fetch 'key-1 (test-dict-2)))
+  (is-equal '"value 2" (: dict fetch 'key-2 (test-dict-2))))
+
+(deftest list->tuple
+  (is-equal #(a b c 1 2 3) (: lfe-utils list->tuple '(a b c 1 2 3))))
+
+(deftest atom-cat
+  (is-equal 'ab (: lfe-utils atom-cat 'a 'b)))
+
+(deftest strip
+  (is-equal '"data" (: lfe-utils strip '"data\n"))
+  (is-equal '"data" (: lfe-utils strip '"data\n\n"))
+  (is-equal '"data" (: lfe-utils strip '"data   "))
+  (is-equal '"data" (: lfe-utils strip '"data   \n   "))
+  (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
+
+;;;;;;;
+;; math
 (deftest fast-floor
   (is-equal 0 (fast-floor 0.0))
   (is-equal 1 (fast-floor 1.0))
@@ -80,46 +123,8 @@
   (is-equal 128 (color-scale 0.5 #(0.0 1.0)))
   (is-equal 255 (color-scale 1.0 #(0.0 1.0))))
 
-(deftest uuid4
-  (is-equal 36 (byte_size (uuid4)))
-  (is-equal 288 (bit_size (uuid4)))
-  (is (is_binary (uuid4)))
-  (is-equal 36 (byte_size (uuid4 (tuple 'type '"binary"))))
-  (is-equal 288 (bit_size (uuid4 (tuple 'type '"binary"))))
-  (is (is_binary (uuid4 (tuple 'type '"binary"))))
-  (is-not (is_binary (uuid4 (tuple 'type '"list"))))
-  (is-equal 36 (length (uuid4 (tuple 'type '"list"))))
-  (is (is_list (uuid4 (tuple 'type '"list"))))
-  (is-not (is_list (uuid4 (tuple 'type '"binary"))))
-  (is (is_atom (uuid4 (tuple 'type '"atom"))))
-  (is-not (is_atom (uuid4 (tuple 'type '"list")))))
-
-(defun test-dict-data-1 ()
-  (list
-    'key-1 '"value 1"))
-
-(defun test-dict-data-2 ()
-  (list
-    'key-1 '"value 1"
-    'key-2 '"value 2"))
-
-(defun test-dict-data-3 ()
-  (list
-    'key-1 '"value 1"
-    'key-2 '"value 2"
-    'key-3 '"value 3"))
-
-(defun test-dict-2 ()
-  (pair-dict (test-dict-data-2)))
-
-(deftest partition-list
-  (let ((result (partition-list (test-dict-data-2))))
-    (is-equal #((key-1 key-2) ("value 1" "value 2")) result)))
-
-(deftest pair-dict
-  (is-equal '"value 1" (: dict fetch 'key-1 (test-dict-2)))
-  (is-equal '"value 2" (: dict fetch 'key-2 (test-dict-2))))
-
+;;;;;;;;
+;; files
 (deftest is-home-dir?
   (is-not (: lfe-utils is-home-dir? '"~"))
   (is-not (: lfe-utils is-home-dir? '"/"))
@@ -139,16 +144,18 @@
     (is (: lfe-utils is-home-dir? tilde-dir))
     (is-not (: lfe-utils is-home-dir? expanded))))
 
-(deftest strip
-  (is-equal '"data" (: lfe-utils strip '"data\n"))
-  (is-equal '"data" (: lfe-utils strip '"data\n\n"))
-  (is-equal '"data" (: lfe-utils strip '"data   "))
-  (is-equal '"data" (: lfe-utils strip '"data   \n   "))
-  (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
-
-(deftest list->tuple
-  (is-equal #(a b c 1 2 3) (: lfe-utils list->tuple '(a b c 1 2 3))))
-
-(deftest atom-cat
-  (is-equal 'ab (: lfe-utils atom-cat 'a 'b)))
-
+;;;;;;;
+;; misc
+(deftest uuid4
+  (is-equal 36 (byte_size (uuid4)))
+  (is-equal 288 (bit_size (uuid4)))
+  (is (is_binary (uuid4)))
+  (is-equal 36 (byte_size (uuid4 (tuple 'type '"binary"))))
+  (is-equal 288 (bit_size (uuid4 (tuple 'type '"binary"))))
+  (is (is_binary (uuid4 (tuple 'type '"binary"))))
+  (is-not (is_binary (uuid4 (tuple 'type '"list"))))
+  (is-equal 36 (length (uuid4 (tuple 'type '"list"))))
+  (is (is_list (uuid4 (tuple 'type '"list"))))
+  (is-not (is_list (uuid4 (tuple 'type '"binary"))))
+  (is (is_atom (uuid4 (tuple 'type '"atom"))))
+  (is-not (is_atom (uuid4 (tuple 'type '"list")))))
