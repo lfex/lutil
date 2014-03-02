@@ -9,6 +9,8 @@
     (from math
       (pow 2))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; data types and type ops
 (defun add-tuples (a b)
   "Given two tuples, add them together."
   (add-tuples (list a b)))
@@ -19,6 +21,39 @@
     (flatten
       (map (lambda (x) (tuple_to_list x)) a))))
 
+(defun partition-list (list-data)
+  "This function takes lists of even length with an implicit key (atom) value
+  pairing and generates a list of two lists: one with all the keys, and the
+  other with all the values."
+  (: lists partition #'is_atom/1 list-data))
+
+(defun pair-dict (data)
+  "'data' is a list of implicit pairs:
+    * the odd elements are keys of type 'atom'
+    * the even elemnts are the values.
+
+  This list is partitioned. zipped to tuples, and then converted to a dict."
+  (let (((tuple keys values) (partition-list data)))
+    (: dict from_list
+       (: lists zip keys values))))
+
+(defun list->tuple (list-data)
+  (let ((quoted (: lists map (lambda (x) `',x) list-data)))
+    (eval `(tuple ,@quoted))))
+
+(defun atom-cat (atom-1 atom-2)
+  "Concatenate two tuples."
+  (list_to_atom (++ (atom_to_list atom-1) (atom_to_list atom-2))))
+
+(defun strip (string)
+  (: re replace
+     string
+     '"(^\\s+)|(\\s+$)"
+      ""
+      (list 'global (tuple 'return 'list))))
+
+;;;;;;;
+;; math
 (defun fast-floor (num)
   "Sadly, this is named 'fast-floor' only because the Racket version was given
   that name. There is no good floor function in Erlang... so this should
@@ -65,6 +100,50 @@
   scaled to the range 0 to 255."
   (round (scale value current-frame #(0.0 255.0))))
 
+;;;;;;;;
+;; files
+(defun dump-data (filename data)
+  "A convenience function for writing Erlang data to disk."
+  (: file write_file filename
+     (: io_lib fwrite '"~p.~n" (list data))))
+
+(defun get-home-dir ()
+  (let (((list (tuple 'home (list home)))
+         (: lists sublist (: init get_arguments) 3 1)))
+    home))
+
+(defun is-home-dir? (path)
+  (cond ((=:= '"~/" (: string substr path 1 2))
+         'true)
+        ('true 'false)))
+
+(defun expand-home-dir (path-with-home)
+  (cond ((is-home-dir? path-with-home)
+         (: filename join
+            (list (get-home-dir)
+                  (: string substr path-with-home 3))))
+        ('true path-with-home)))
+
+;;;;;;;;;;
+;; records
+(defun record-info (record-list-data)
+  "This function is intended as a quick-fix only until a complete solution has
+  landed in LFE. There are two macros under development for inclusion in LFE
+  that provide record metadata introspection:
+    * record-info
+    * record-list
+  Currently, only record-list is working.
+
+  As such, this function was created to take the return values from record-list
+  and trasnform them to the tuple that matches the output value of the Erlang
+  compile-time macro record_info.
+
+  Once the record-info macro in LFE is working, this function will be
+  deprecated."
+  'ok)
+
+;;;;;;;
+;; misc
 (defun uuid4 ()
   "Adapted from the implementation given here:
     https://github.com/afiskon/erlang-uuid-v4/blob/8c03a11524f6bccf984575877b533ef30a009175/src/uuid.erl
@@ -96,72 +175,3 @@
     (binary_to_list (uuid4)))
   (((tuple 'type '"atom"))
     (binary_to_atom (uuid4) 'latin1)))
-
-(defun dump-data (filename data)
-  "A convenience function for writing Erlang data to disk."
-  (: file write_file filename
-     (: io_lib fwrite '"~p.~n" (list data))))
-
-(defun partition-list (list-data)
-  "This function takes lists of even length with an implicit key (atom) value
-  pairing and generates a list of two lists: one with all the keys, and the
-  other with all the values."
-  (: lists partition #'is_atom/1 list-data))
-
-(defun pair-dict (data)
-  "'data' is a list of implicit pairs:
-    * the odd elements are keys of type 'atom'
-    * the even elemnts are the values.
-
-  This list is partitioned. zipped to tuples, and then converted to a dict."
-  (let (((tuple keys values) (partition-list data)))
-    (: dict from_list
-       (: lists zip keys values))))
-
-(defun get-home-dir ()
-  (let (((list (tuple 'home (list home)))
-         (: lists sublist (: init get_arguments) 3 1)))
-    home))
-
-(defun is-home-dir? (path)
-  (cond ((=:= '"~/" (: string substr path 1 2))
-         'true)
-        ('true 'false)))
-
-(defun expand-home-dir (path-with-home)
-  (cond ((is-home-dir? path-with-home)
-         (: filename join
-            (list (get-home-dir)
-                  (: string substr path-with-home 3))))
-        ('true path-with-home)))
-
-(defun strip (string)
-  (: re replace
-     string
-     '"(^\\s+)|(\\s+$)"
-      ""
-      (list 'global (tuple 'return 'list))))
-
-(defun list->tuple (list-data)
-  (let ((quoted (: lists map (lambda (x) `',x) list-data)))
-    (eval `(tuple ,@quoted))))
-
-(defun record-info (record-list-data)
-  "This function is intended as a quick-fix only until a complete solution has
-  landed in LFE. There are two macros under development for inclusion in LFE
-  that provide record metadata introspection:
-    * record-info
-    * record-list
-  Currently, only record-list is working.
-
-  As such, this function was created to take the return values from record-list
-  and trasnform them to the tuple that matches the output value of the Erlang
-  compile-time macro record_info.
-
-  Once the record-info macro in LFE is working, this function will be
-  deprecated."
-  'ok)
-
-(defun atom-cat (atom-1 atom-2)
-  "Concatenate two tuples."
-  (list_to_atom (++ (atom_to_list atom-1) (atom_to_list atom-2))))
