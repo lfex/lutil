@@ -54,6 +54,75 @@
 
 ;;;;;;;
 ;; math
+(defun odd? (x)
+  ;; initial experiments with implementations:
+  ;; > (set odd1': (set odd1? (match-lambda ((x) (when (== 1 (rem x 2))) 'true) ((_) 'false)))
+  ;; > (set odd2': (set odd2? (match-lambda ((x) (when (== 1 (band x 1))) 'true) ((_) 'false)))
+  ;; > (set odd3': (set odd3? (lambda (x) (== 1 (rem x 2))))
+  ;; > (set odd4': (set odd4? (lambda (x) (== 1 (band x 1))))
+  ;; > (set odd5': (set odd5? (lambda (x) (if (== 1 (rem x 2)) 'true 'false)))
+  ;; > (set odd6': (set odd6? (lambda (x) (if (== 1 (band x 1)) 'true 'false)))
+  ;;
+  ;; benchmarks were done with the following:
+  ;; (set numbers (lambda (x) (: lists seq 1 x))
+  ;; (set testit (lambda (func calls) (: lists map (lambda (x) (funcall func x)) (funcall numbers calls))))
+  ;; (set raw-benchmark (lambda (func calls runs) (: lists map (lambda (_) (let (((tuple micro _) (: timer tc (lambda () (funcall testit func calls))))) (* micro 1.0e-6))) (: lists seq 1 runs))))
+  ;; (set process-results (lambda (x) (let ((min (: lists min x)) (max (: lists max x)) (med (: lists nth (round (/ (length x) 2)) (: lists sort x))) (avg (/ (: lists foldl (lambda (y acc) (+ y acc)) 0 x) (length x)))) (list min max med avg))))
+  ;; (set format-results (lambda (x) (: io format '"Range: ~p - ~p mics~nMedian: ~p mics~nAverage: ~p mics~n" (funcall process-results x))))
+  ;; (set benchmark (lambda (func calls runs) (funcall format-results (funcall raw-benchmark func calls runs))))
+  ;;
+  ;; results:
+  ;;
+  ;; > (funcall benchmark odd1? 1000 1000)
+  ;; Range: 0.010598 - 0.015139999999999999 mics
+  ;; Median: 0.011491 mics
+  ;; Average: 0.011770212 mics
+  ;; ok
+  ;; > (funcall benchmark odd2? 1000 1000)
+  ;; Range: 0.010702 - 0.015528 mics
+  ;; Median: 0.011482 mics
+  ;; Average: 0.011741301000000003 mics
+  ;; ok
+  ;; > (funcall benchmark odd3? 1000 1000)
+  ;; Range: 0.005876 - 0.009034 mics
+  ;; Median: 0.006233 mics
+  ;; Average: 0.0063988080000000015 mics
+  ;; ok
+  ;; > (funcall benchmark odd4? 1000 1000)
+  ;; Range: 0.005928 - 0.009072 mics
+  ;; Median: 0.006359999999999999 mics
+  ;; Average: 0.006509416000000003 mics
+  ;; ok
+  ;; > (funcall benchmark odd5? 1000 1000)
+  ;; Range: 0.006188 - 0.009649 mics
+  ;; Median: 0.006738999999999999 mics
+  ;; Average: 0.006882939999999999 mics
+  ;; ok
+  ;; > (funcall benchmark odd6? 1000 1000)
+  ;; Range: 0.006091 - 0.009559 mics
+  ;; Median: 0.006624 mics
+  ;; Average: 0.006720350000000002 mics
+  ;; ok
+  ;; >
+  ;;
+  ;; the winner is... implementation #3!
+  (== 1 (rem x 2)))
+
+(defun even? (x)
+  ;; > (set even1? (lambda (x) (== 0 (rem x 2))))
+  ;; > (set even2? (lambda (x) (not (funcall odd3? x))))
+  ;; > (funcall benchmark even1? 1000 1000)
+  ;; Range: 0.006228 - 0.009419 mics
+  ;; Median: 0.006723 mics
+  ;; Average: 0.006849136999999996 mics
+  ;; ok
+  ;; > (funcall benchmark even2? 1000 1000)
+  ;; Range: 0.011061 - 0.016139999999999998 mics
+  ;; Median: 0.011913 mics
+  ;; Average: 0.012135202000000015 mics
+  ;; ok
+  (== 0 (rem x 2)))
+
 (defun fast-floor (num)
   "Sadly, this is named 'fast-floor' only because the Racket version was given
   that name. There is no good floor function in Erlang... so this should
@@ -161,14 +230,14 @@
 
 (defun uuid4
   "A wrapper for uuid4/0."
-  ; Example usage:
-  ;
-  ;   > (: lfe-utils uuid4 (tuple 'type '"binary"))
-  ;   #B(50 101 51 53 49 99 48 97 45 50 100 100 52 45 52 54 56 55 45 50 ...)
-  ;
-  ;   > (: lfe-utils uuid4 (tuple 'type '"list"))
-  ;   "65c0aff3-421e-40bf-0f64-3ac0d1e0b72d"
-  ;
+  ;; Example usage:
+  ;;
+  ;;   > (: lfe-utils uuid4 (tuple 'type '"binary"))
+  ;;   #B(50 101 51 53 49 99 48 97 45 50 100 100 52 45 52 54 56 55 45 50 ...)
+  ;;
+  ;;   > (: lfe-utils uuid4 (tuple 'type '"list"))
+  ;;   "65c0aff3-421e-40bf-0f64-3ac0d1e0b72d"
+  ;;
   (((tuple 'type '"binary"))
     (uuid4))
   (((tuple 'type '"list"))
