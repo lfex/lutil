@@ -21,7 +21,6 @@
       (zipwith 3))))
 
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
-(include-lib "include/utils-macros.lfe")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; data types and type ops
