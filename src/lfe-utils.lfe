@@ -58,6 +58,9 @@
 (defun unicode? (data)
   (: io_lib printable_unicode_list data))
 
+(defun list? (data)
+  (and (is_list data) (not (string? data))))
+
 ;;;;;;;
 ;; math
 (defun odd? (x)

@@ -77,6 +77,10 @@
 
 ;; XXX add a unit test for (unicode? ...)
 
+(deftest list?
+  (is-not (: lfe-utils list? '"string data! yaya!"))
+  (is (: lfe-utils list? (list '"my" '"string" '"data"))))
+
 ;;;;;;;
 ;; math
 (deftest fast-floor
