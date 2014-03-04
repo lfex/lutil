@@ -52,6 +52,12 @@
       ""
       (list 'global (tuple 'return 'list))))
 
+(defun string? (data)
+  (: io_lib printable_list data))
+
+(defun unicode? (data)
+  (: io_lib printable_unicode_list data))
+
 ;;;;;;;
 ;; math
 (defun odd? (x)

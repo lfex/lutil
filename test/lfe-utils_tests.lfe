@@ -71,6 +71,12 @@
   (is-equal '"data" (: lfe-utils strip '"data   \n   "))
   (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
 
+(deftest stinrg?
+  (is (: lfe-utils string? '"string data! yaya!"))
+  (is-not (: lfe-utils string? (list '"my" '"string" '"data"))))
+
+;; XXX add a unit test for (unicode? ...)
+
 ;;;;;;;
 ;; math
 (deftest fast-floor
