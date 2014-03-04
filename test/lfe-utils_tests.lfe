@@ -81,6 +81,15 @@
   (is-not (: lfe-utils list? '"string data! yaya!"))
   (is (: lfe-utils list? (list '"my" '"string" '"data"))))
 
+(deftest tuple?
+  (is-not (: lfe-utils tuple? '"string data! yaya!"))
+  (is (: lfe-utils tuple? (tuple '"my" '"string" '"data"))))
+
+(deftest atom?
+  (is-not (: lfe-utils atom? '"string data! yaya!"))
+  (is (: lfe-utils atom? 'my-atom))
+  (is (: lfe-utils atom? '|more atom data|)))
+
 ;;;;;;;
 ;; math
 (deftest fast-floor
