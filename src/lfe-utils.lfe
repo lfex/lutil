@@ -91,8 +91,10 @@
 (defun number? (data)
   (is_number data))
 
-(defun record? (data record-tag)
-  (is_record data record-tag))
+;; XXX causes error in Erjang
+;; XXX see ticket: https://github.com/trifork/erjang/issues/83
+;;(defun record? (data record-tag)
+;;  (is_record data record-tag))
 
 (defun record? (data record-tag size)
   (is_record data record-tag size))
