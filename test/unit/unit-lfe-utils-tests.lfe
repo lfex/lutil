@@ -1,4 +1,4 @@
-(defmodule lfe-utils_tests
+(defmodule unit-lfe-utils-tests
   (export all)
   (import
     (from lfe-utils
