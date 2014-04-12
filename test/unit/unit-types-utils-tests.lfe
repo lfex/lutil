@@ -11,7 +11,8 @@
       (unit-scale 2)
       (uuid4 0) (uuid4 1)
       (partition-list 1)
-      (pair-dict 1))
+      (pair-dict 1)
+      (capitalized? 1))
     (from lfeunit-util
       (check-failed-is 2)
       (check-wrong-is-exception 2))
@@ -67,6 +68,12 @@
   (is-equal '"data" (: lfe-utils strip '"data   "))
   (is-equal '"data" (: lfe-utils strip '"data   \n   "))
   (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
+
+(deftest capitalized?
+  (is (capitalized? '"Apple"))
+  (is-not (capitalized? '"apple"))
+  (is (capitalized? '"APPLE"))
+  (is-not (capitalized? '"aPPLE")))
 
 (deftest stinrg?
   (is (: lfe-utils string? '"string data! yaya!"))

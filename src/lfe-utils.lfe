@@ -52,6 +52,13 @@
       ""
       (list 'global (tuple 'return 'list))))
 
+(defun capitalized? (string)
+  "This function checks to see if the first letter of a passed string is
+  capitalized.
+
+  Capital letters range from 'A' (ASCII code 65) to 'Z' (ASCII code 90)."
+  (lists:member (car string) (lists:seq 65 90)))
+
 (defun string? (data)
   (: io_lib printable_list data))
 
