@@ -192,7 +192,7 @@
 (defun round (number precision)
   "Round a floating point number to the given number of decimal places."
   (let ((p (pow 10 precision)))
-    (/ (round (* number p)) p)))
+    (/ (erlang:round (* number p)) p)))
 
 (defun dot-product (a b)
   "This doesn't appear to be needed for this particular library, but it was fun
@@ -222,7 +222,7 @@
 (defun color-scale (value current-frame)
   "Given a value and a range that value belongs to, calculate the value when
   scaled to the range 0 to 255."
-  (round (scale value current-frame #(0.0 255.0))))
+  (erlang:round (scale value current-frame #(0.0 255.0))))
 
 ;;;;;;;;
 ;; files
