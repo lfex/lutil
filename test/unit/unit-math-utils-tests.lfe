@@ -6,6 +6,7 @@
       (color-scale 2)
       (dot-product 2)
       (factorial 1)
+      (factors 1)
       (fast-floor 1)
       (round 2)
       (scale 3)
@@ -91,3 +92,14 @@
   (is-equal 5040 (factorial 7))
   (is-equal 362880 (factorial 9))
   (is-equal 2432902008176640000 (factorial 20)))
+
+(deftest factors
+  (is-equal #(error undefined) (factors -1))
+  (is-equal #(error undefined) (factors 0))
+  (is-equal '() (factors 1))
+  (is-equal '(2) (factors 2))
+  (is-equal '(3) (factors 3))
+  (is-equal '(2 2) (factors 4))
+  (is-equal '(5 2) (factors 10))
+  (is-equal '(5 5 2 2) (factors 100))
+  (is-equal '(333667 37 3 3 3) (factors 333333333)))
