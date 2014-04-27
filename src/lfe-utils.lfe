@@ -238,7 +238,7 @@
   (factors n 2 '()))
 
 (defun factors
-  ((1 _ acc) acc)
+  ((1 _ acc) (++ acc '(1)))
   ((n _ acc) (when (=< n 0))
     #(error undefined))
   ((n k acc) (when (== 0 (rem n k)))
