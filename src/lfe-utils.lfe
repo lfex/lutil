@@ -9,8 +9,8 @@
     (from math
       (pow 2))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; data types and type ops
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; data types and type ops
 (defun add-tuples (a b)
   "Given two tuples, add them together."
   (add-tuples (list a b)))
@@ -107,8 +107,8 @@
 (defun reference? (data)
   (is_reference data))
 
-;;;;;;;
-;; math
+;;;;;;;;
+;;; math
 (defun odd? (x)
   ;; initial experiments with implementations:
   ;; > (set odd1': (set odd1? (match-lambda ((x) (when (== 1 (rem x 2))) 'true) ((_) 'false)))
@@ -224,8 +224,30 @@
   scaled to the range 0 to 255."
   (erlang:round (scale value current-frame #(0.0 255.0))))
 
-;;;;;;;;
-;; files
+(defun factorial (n)
+  "Tail-recursive factrial function."
+  (factorial n 1))
+
+(defun factorial
+  ((0 acc) acc)
+  ((n acc) (when (> n 0))
+    (factorial (- n 1) (* n acc))))
+
+(defun factors (n)
+  "Tail-recursive prime factors function."
+  (factors n 2 '()))
+
+(defun factors
+  ((1 _ acc) (++ acc '(1)))
+  ((n _ acc) (when (=< n 0))
+    #(error undefined))
+  ((n k acc) (when (== 0 (rem n k)))
+    (factors (div n k) k (cons k acc)))
+  ((n k acc)
+    (factors n (+ k 1) acc)))
+
+;;;;;;;;;
+;;; files
 (defun dump-data (filename data)
   "A convenience function for writing Erlang data to disk."
   (: file write_file filename
@@ -248,8 +270,8 @@
                   (: string substr path-with-home 3))))
         ('true path-with-home)))
 
-;;;;;;;;;;
-;; records
+;;;;;;;;;;;
+;;; records
 (defun record-info (record-list-data)
   "This function is intended as a quick-fix only until a complete solution has
   landed in LFE. There are two macros under development for inclusion in LFE
@@ -266,8 +288,8 @@
   deprecated."
   'ok)
 
-;;;;;;;
-;; misc
+;;;;;;;;
+;;; misc
 (defun uuid4 ()
   "Adapted from the implementation given here:
     https://github.com/afiskon/erlang-uuid-v4/blob/8c03a11524f6bccf984575877b533ef30a009175/src/uuid.erl
