@@ -5,6 +5,8 @@
       (add-tuples 1) (add-tuples 2)
       (color-scale 2)
       (dot-product 2)
+      (factorial 1)
+      (factors 1)
       (fast-floor 1)
       (round 2)
       (scale 3)
@@ -12,9 +14,6 @@
       (uuid4 0) (uuid4 1)
       (partition-list 1)
       (pair-dict 1))
-    (from lfeunit-util
-      (check-failed-is 2)
-      (check-wrong-is-exception 2))
     (from lists
       (map 2)
       (seq 2)
@@ -83,3 +82,24 @@
   (is (: lfe-utils even? 2))
   (is-not (: lfe-utils even? 3))
   (is (: lfe-utils even? 4)))
+
+(deftest factorial
+  (is-equal 1 (factorial 0))
+  (is-equal 1 (factorial 1))
+  (is-equal 2 (factorial 2))
+  (is-equal 6 (factorial 3))
+  (is-equal 120 (factorial 5))
+  (is-equal 5040 (factorial 7))
+  (is-equal 362880 (factorial 9))
+  (is-equal 2432902008176640000 (factorial 20)))
+
+(deftest factors
+  (is-equal #(error undefined) (factors -1))
+  (is-equal #(error undefined) (factors 0))
+  (is-equal '(1) (factors 1))
+  (is-equal '(2 1) (factors 2))
+  (is-equal '(3 1) (factors 3))
+  (is-equal '(2 2 1) (factors 4))
+  (is-equal '(5 2 1) (factors 10))
+  (is-equal '(5 5 2 2 1) (factors 100))
+  (is-equal '(333667 37 3 3 3 1) (factors 333333333)))
