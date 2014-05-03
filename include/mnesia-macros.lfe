@@ -23,13 +23,14 @@
       'fields' variable.
     * The Mnesia 'create_table' function is then called, passing the table name
       as well as the obtained fields."
-  ((table-name ())
-   `(create-table ,table-name (#(type set))))
-  ((table-name table-defs)
-    (let* ((macro-name (lfe-utils:atom-cat 'fields- table-name))
-      (fields `(,macro-name)))
-        `(mnesia:create_table
-           ',table-name
-           (++ ',table-defs
-               (list (tuple 'attributes ,fields)))))))
+  ((record-table-name '())
+    `(create-table ,record-table-name (#(type set))))
+  ((record-table-name table-defs)
+    (let* ((record-fields-macro-name (lfe-utils:atom-cat
+                                       'fields- record-table-name))
+           (computed-record-fields `(,record-fields-macro-name)))
+      `(mnesia:create_table
+        ',record-table-name
+        (++ ,table-defs
+            (list (tuple 'attributes ,computed-record-fields)))))))
 
