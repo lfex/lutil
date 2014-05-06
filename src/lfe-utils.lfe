@@ -324,3 +324,16 @@
     (binary_to_list (uuid4)))
   (((tuple 'type 'atom))
     (binary_to_atom (uuid4) 'latin1)))
+
+(defun get-app-src-version (filename)
+  (let* (((tuple 'ok (list app)) (file:consult filename)))
+    (proplists:get_value 'vsn (element 3 app))))
+
+(defun get-lfe-version ()
+  (get-app-src-version '"deps/lfe/src/lfe.app.src"))
+
+(defun get-version ()
+  `(#(erlang ,(erlang:system_info 'otp_release))
+    #(emulator ,(erlang:system_info 'version))
+    #(driver-version ,(erlang:system_info 'driver_version))
+    #(lfe ,(get-lfe-version))))
