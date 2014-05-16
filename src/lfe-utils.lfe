@@ -254,12 +254,21 @@
   (((cons a str1) (cons b str2)) (when (== a b))
     (levenshtein-distance str1 str2))
   (((= (cons _ str1-tail) str1) (= (cons _ str2-tail) str2))
-    ;[ld(S,TT), ld(ST,T), ld(ST,TT)]
     (+ 1 (lists:min
           (list
            (levenshtein-distance str1 str2-tail)
            (levenshtein-distance str1-tail str2)
            (levenshtein-distance str1-tail str2-tail))))))
+
+(defun levenshtein-sort (str1 str-list)
+  (tuple str1
+    (lists:sort
+      (lists:map
+        (lambda (str2)
+          (list
+            (levenshtein-distance str1 str2)
+            str2))
+        str-list))))
 
 ;;;;;;;;;
 ;;; files
