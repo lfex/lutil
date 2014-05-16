@@ -13,7 +13,8 @@
       (unit-scale 2)
       (uuid4 0) (uuid4 1)
       (partition-list 1)
-      (pair-dict 1))
+      (pair-dict 1)
+      (levenshtein-distance 2))
     (from lists
       (map 2)
       (seq 2)
@@ -103,3 +104,18 @@
   (is-equal '(5 2 1) (factors 10))
   (is-equal '(5 5 2 2 1) (factors 100))
   (is-equal '(333667 37 3 3 3 1) (factors 333333333)))
+
+(deftest levenshtein-distance
+  (is-equal 0 (levenshtein-distance "a" "a"))
+  (is-equal 1 (levenshtein-distance "a" ""))
+  (is-equal 1 (levenshtein-distance "" "b"))
+  (is-equal 0 (levenshtein-distance "" ""))
+  (is-equal 0 (levenshtein-distance "abc" "abc"))
+  (is-equal 1 (levenshtein-distance "abc" "abd"))
+  (is-equal 1 (levenshtein-distance "abc" "abb"))
+  (is-equal 3 (levenshtein-distance "abc" "cde"))
+  (is-equal 3 (levenshtein-distance "abc" "def"))
+  (is-equal 2 (levenshtein-distance "stop" "tops"))
+  (is-equal 3 (levenshtein-distance "kitten" "sitting"))
+  (is-equal 8 (levenshtein-distance "rosettacode" "raisethysword"))
+  )

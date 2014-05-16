@@ -246,6 +246,21 @@
   ((n k acc)
     (factors n (+ k 1) acc)))
 
+(defun levenshtein-distance
+  (('() str)
+    (length str))
+  ((str '())
+    (length str))
+  (((cons a str1) (cons b str2)) (when (== a b))
+    (levenshtein-distance str1 str2))
+  (((= (cons _ str1-tail) str1) (= (cons _ str2-tail) str2))
+    ;[ld(S,TT), ld(ST,T), ld(ST,TT)]
+    (+ 1 (lists:min
+          (list
+           (levenshtein-distance str1 str2-tail)
+           (levenshtein-distance str1-tail str2)
+           (levenshtein-distance str1-tail str2-tail))))))
+
 ;;;;;;;;;
 ;;; files
 (defun dump-data (filename data)
