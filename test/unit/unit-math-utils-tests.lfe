@@ -14,7 +14,8 @@
       (uuid4 0) (uuid4 1)
       (partition-list 1)
       (pair-dict 1)
-      (levenshtein-distance 2))
+      (levenshtein-distance 2)
+      (levenshtein-sort 2))
     (from lists
       (map 2)
       (seq 2)
@@ -117,5 +118,14 @@
   (is-equal 3 (levenshtein-distance "abc" "def"))
   (is-equal 2 (levenshtein-distance "stop" "tops"))
   (is-equal 3 (levenshtein-distance "kitten" "sitting"))
-  (is-equal 8 (levenshtein-distance "rosettacode" "raisethysword"))
+  (is-equal 8 (levenshtein-distance "rosettacode" "raisethysword")))
+
+(deftest levenshtein-sort
+  (is-equal
+    #("aaaa"
+      ((1 "aaab") (1 "aaac") (1 "aaba")
+       (2 "abab") (3 "abbb") (4 "bbbb")))
+    (levenshtein-sort
+      "aaaa"
+      '("bbbb" "aaac" "abab" "aaba" "aaab" "abbb")))
   )
