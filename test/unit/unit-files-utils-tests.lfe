@@ -23,23 +23,23 @@
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 
 (deftest is-home-dir?
-  (is-not (: lfe-utils is-home-dir? '"~"))
-  (is-not (: lfe-utils is-home-dir? '"/"))
-  (is-not (: lfe-utils is-home-dir? '"~home/"))
-  (is-not (: lfe-utils is-home-dir? '"/home"))
-  (is (: lfe-utils is-home-dir? '"~/"))
-  (is (: lfe-utils is-home-dir? '"~/user"))
-  (is (: lfe-utils is-home-dir? '"~/user/more/path")))
+  (is-not (lfe-utils:is-home-dir? "~"))
+  (is-not (lfe-utils:is-home-dir? "/"))
+  (is-not (lfe-utils:is-home-dir? "~home/"))
+  (is-not (lfe-utils:is-home-dir? "/home"))
+  (is (lfe-utils:is-home-dir? "~/"))
+  (is (lfe-utils:is-home-dir? "~/user"))
+  (is (lfe-utils:is-home-dir? "~/user/more/path")))
 
 (deftest expand-home-dir
-  (is-equal '"/usr/local/bin"
-            (: lfe-utils expand-home-dir '"/usr/local/bin"))
-  (is-equal '"/home/oubiwann"
-            (: lfe-utils expand-home-dir '"/home/oubiwann"))
-  (let* ((tilde-dir '"~/my-data")
-         (expanded (: lfe-utils expand-home-dir tilde-dir)))
-    (is (: lfe-utils is-home-dir? tilde-dir))
-    (is-not (: lfe-utils is-home-dir? expanded))))
+  (is-equal "/usr/local/bin"
+            (lfe-utils:expand-home-dir "/usr/local/bin"))
+  (is-equal "/home/oubiwann"
+            (lfe-utils:expand-home-dir "/home/oubiwann"))
+  (let* ((tilde-dir "~/my-data")
+         (expanded (lfe-utils:expand-home-dir tilde-dir)))
+    (is (lfe-utils:is-home-dir? tilde-dir))
+    (is-not (lfe-utils:is-home-dir? expanded))))
 
 (defun get-test-subdirs ()
   '("../exemplar/deps/.DS_Store"
