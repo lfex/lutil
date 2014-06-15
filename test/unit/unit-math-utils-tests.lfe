@@ -74,16 +74,16 @@
   (is-equal 255 (color-scale 1.0 #(0.0 1.0))))
 
 (deftest odd?
-  (is (: lfe-utils odd? 1))
-  (is-not (: lfe-utils odd? 2))
-  (is (: lfe-utils odd? 3))
-  (is-not (: lfe-utils odd? 4)))
+  (is (lfe-utils:odd? 1))
+  (is-not (lfe-utils:odd? 2))
+  (is (lfe-utils:odd? 3))
+  (is-not (lfe-utils:odd? 4)))
 
 (deftest even?
-  (is-not (: lfe-utils even? 1))
-  (is (: lfe-utils even? 2))
-  (is-not (: lfe-utils even? 3))
-  (is (: lfe-utils even? 4)))
+  (is-not (lfe-utils:even? 1))
+  (is (lfe-utils:even? 2))
+  (is-not (lfe-utils:even? 3))
+  (is (lfe-utils:even? 4)))
 
 (deftest factorial
   (is-equal 1 (factorial 0))
