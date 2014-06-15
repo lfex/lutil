@@ -14,6 +14,7 @@
       (uuid4 0) (uuid4 1)
       (partition-list 1)
       (pair-dict 1)
+      (levenshtein-simple 2)
       (levenshtein-distance 2)
       (levenshtein-sort 2))
     (from lists
@@ -106,6 +107,20 @@
   (is-equal '(5 5 2 2 1) (factors 100))
   (is-equal '(333667 37 3 3 3 1) (factors 333333333)))
 
+(deftest levenshtein-simple
+  (is-equal 0 (levenshtein-simple "a" "a"))
+  (is-equal 1 (levenshtein-simple "a" ""))
+  (is-equal 1 (levenshtein-simple "" "b"))
+  (is-equal 0 (levenshtein-simple "" ""))
+  (is-equal 0 (levenshtein-simple "abc" "abc"))
+  (is-equal 1 (levenshtein-simple "abc" "abd"))
+  (is-equal 1 (levenshtein-simple "abc" "abb"))
+  (is-equal 3 (levenshtein-simple "abc" "cde"))
+  (is-equal 3 (levenshtein-simple "abc" "def"))
+  (is-equal 2 (levenshtein-simple "stop" "tops"))
+  (is-equal 3 (levenshtein-simple "kitten" "sitting"))
+  (is-equal 8 (levenshtein-simple "rosettacode" "raisethysword")))
+
 (deftest levenshtein-distance
   (is-equal 0 (levenshtein-distance "a" "a"))
   (is-equal 1 (levenshtein-distance "a" ""))
@@ -127,5 +142,4 @@
        (2 "abab") (3 "abbb") (4 "bbbb")))
     (levenshtein-sort
       "aaaa"
-      '("bbbb" "aaac" "abab" "aaba" "aaab" "abbb")))
-  )
+      '("bbbb" "aaac" "abab" "aaba" "aaab" "abbb"))))
