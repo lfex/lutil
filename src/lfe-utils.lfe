@@ -25,7 +25,7 @@
   "This function takes lists of even length with an implicit key (atom) value
   pairing and generates a list of two lists: one with all the keys, and the
   other with all the values."
-  (: lists partition #'is_atom/1 list-data))
+  (lists:partition #'is_atom/1 list-data))
 
 (defun pair-dict (data)
   "'data' is a list of implicit pairs:
@@ -34,11 +34,11 @@
 
   This list is partitioned. zipped to tuples, and then converted to a dict."
   (let (((tuple keys values) (partition-list data)))
-    (: dict from_list
-       (: lists zip keys values))))
+    (dict:from_list
+       (lists:zip keys values))))
 
 (defun list->tuple (list-data)
-  (let ((quoted (: lists map (lambda (x) `',x) list-data)))
+  (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
 
 (defun atom-cat (atom-1 atom-2)
@@ -46,7 +46,7 @@
   (list_to_atom (++ (atom_to_list atom-1) (atom_to_list atom-2))))
 
 (defun strip (string)
-  (: re replace
+  (re:replace
      string
      '"(^\\s+)|(\\s+$)"
       ""
@@ -60,10 +60,10 @@
   (lists:member (car string) (lists:seq 65 90)))
 
 (defun string? (data)
-  (: io_lib printable_list data))
+  (io_lib:printable_list data))
 
 (defun unicode? (data)
-  (: io_lib printable_unicode_list data))
+  (io_lib:printable_unicode_list data))
 
 (defun list? (data)
   (and (is_list data) (not (string? data))))
@@ -119,11 +119,11 @@
   ;; > (set odd6': (set odd6? (lambda (x) (if (== 1 (band x 1)) 'true 'false)))
   ;;
   ;; benchmarks were done with the following:
-  ;; (set numbers (lambda (x) (: lists seq 1 x))
-  ;; (set testit (lambda (func calls) (: lists map (lambda (x) (funcall func x)) (funcall numbers calls))))
-  ;; (set raw-benchmark (lambda (func calls runs) (: lists map (lambda (_) (let (((tuple micro _) (: timer tc (lambda () (funcall testit func calls))))) (* micro 1.0e-6))) (: lists seq 1 runs))))
-  ;; (set process-results (lambda (x) (let ((min (: lists min x)) (max (: lists max x)) (med (: lists nth (round (/ (length x) 2)) (: lists sort x))) (avg (/ (: lists foldl (lambda (y acc) (+ y acc)) 0 x) (length x)))) (list min max med avg))))
-  ;; (set format-results (lambda (x) (: io format '"Range: ~p - ~p mics~nMedian: ~p mics~nAverage: ~p mics~n" (funcall process-results x))))
+  ;; (set numbers (lambda (x) (lists:seq 1 x))
+  ;; (set testit (lambda (func calls) (lists:map (lambda (x) (funcall func x)) (funcall numbers calls))))
+  ;; (set raw-benchmark (lambda (func calls runs) (lists:map (lambda (_) (let (((tuple micro _) (timer:tc (lambda () (funcall testit func calls))))) (* micro 1.0e-6))) (lists:seq 1 runs))))
+  ;; (set process-results (lambda (x) (let ((min (lists:min x)) (max (lists:max x)) (med (lists:nth (round (/ (length x) 2)) (lists:sort x))) (avg (/ (lists:foldl (lambda (y acc) (+ y acc)) 0 x) (length x)))) (list min max med avg))))
+  ;; (set format-results (lambda (x) (io:format '"Range: ~p - ~p mics~nMedian: ~p mics~nAverage: ~p mics~n" (funcall process-results x))))
   ;; (set benchmark (lambda (func calls runs) (funcall format-results (funcall raw-benchmark func calls runs))))
   ;;
   ;; results:
@@ -274,24 +274,24 @@
 ;;; files
 (defun dump-data (filename data)
   "A convenience function for writing Erlang data to disk."
-  (: file write_file filename
-     (: io_lib fwrite '"~p.~n" (list data))))
+  (file:write_file filename
+     (io_lib:fwrite '"~p.~n" (list data))))
 
 (defun get-home-dir ()
   (let (((list (tuple 'home (list home)))
-         (: lists sublist (: init get_arguments) 3 1)))
+         (lists:sublist (init:get_arguments) 3 1)))
     home))
 
 (defun is-home-dir? (path)
-  (cond ((=:= '"~/" (: string substr path 1 2))
+  (cond ((=:= '"~/" (string:substr path 1 2))
          'true)
         ('true 'false)))
 
 (defun expand-home-dir (path-with-home)
   (cond ((is-home-dir? path-with-home)
-         (: filename join
+         (filename:join
             (list (get-home-dir)
-                  (: string substr path-with-home 3))))
+                  (string:substr path-with-home 3))))
         ('true path-with-home)))
 
 (defun get-deps ()
@@ -393,10 +393,10 @@
             (b (size 16))
             (c (size 16))
             (d (size 16))
-            (e (size 48))) (: crypto rand_bytes 16))
+            (e (size 48))) (crypto:rand_bytes 16))
         (format-template '"~8.16.0b-~4.16.0b-4~3.16.0b-~4.16.0b-~12.16.0b")
         (uuid-data (list a b (band c #x0fff) (band d #x3fff) (bor #x8000 e)))
-        (string (: io_lib format format-template uuid-data)))
+        (string (io_lib:format format-template uuid-data)))
     (list_to_binary string)))
 
 
