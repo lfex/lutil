@@ -352,6 +352,18 @@
       (lfe_comp:file x `(verbose report #(outdir ,out-dir))))
     lfe-files))
 
+(defun compile-src ()
+  (compile-src "./ebin"))
+
+(defun compile-src (out-dir)
+  (compile (filelib:wildcard "./src/*.lfe") (get-deps) out-dir))
+
+(defun compile-test ()
+  (compile-test "./.eunit"))
+
+(defun compile-test (out-dir)
+  (compile (filelib:wildcard "./test/**/*.lfe") (get-deps) out-dir))
+
 ;;;;;;;;;;;
 ;;; records
 (defun record-info (record-list-data)
