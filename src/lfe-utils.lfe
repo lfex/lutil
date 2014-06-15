@@ -294,6 +294,65 @@
                   (: string substr path-with-home 3))))
         ('true path-with-home)))
 
+(defun get-deps ()
+  "Get the default dependency directories for the current directory."
+  (get-deps '("./deps")))
+
+(defun get-deps (deps-dirs)
+  "This function supports multiple dependency directories.
+
+  Given a list of directories, each of which contains dependencies,
+  return the full list of dependency directories, from all of the combined
+  directories provided."
+  (filter-deps deps-dirs))
+
+(defun combine-deps (deps-dirs)
+  "Given a set of dependency directories, get a list of lists, where each
+  of the lists is the list of directories in one of the passed deps dirs.
+  Once the list of lists is obtained, collapse these into a single list."
+  (lists:merge
+    (lists:map
+      ;; XXX move this out to it's own function, then update combine-deps
+      ;; to take deps-sub-dirs ... actually, this should be done even sooner
+      (lambda (x)
+        (filelib:wildcard (++ x "/*")))
+      deps-dirs)))
+
+(defun check-deps (deps-dirs)
+  "Given a list of dependency directories, check to see which subdirectories
+  we actually care about. Those we don't want, return false."
+  (lists:map
+    (lambda (x)
+      (if (and
+            ;; only keep it if it's a dir and
+            (filelib:is_dir x)
+            ;; it doesn't begin with a "."
+            (not (== (car ".")
+                     (car (filename:basename x)))))
+        x))
+    (combine-deps deps-dirs)))
+
+(defun filter-deps (deps-dirs)
+  "Filter the dependencies subdirectories to return only the ones that pass
+  the check-deps criteria."
+  (lists:filter
+    (lambda (x)
+      (not (== 'false x)))
+    (check-deps deps-dirs)))
+
+(defun compile (lfe-files)
+  (compile lfe-files (get-deps) "."))
+
+(defun compile (lfe-files deps-dirs out-dir)
+  ;; update code paths
+  (code:set_path (++ (get-deps deps-dirs)
+                     (code:get_path)))
+  ;; do actual compile
+  (lists:map
+    (lambda (x)
+      (lfe_comp:file x `(verbose report #(outdir ,out-dir))))
+    lfe-files))
+
 ;;;;;;;;;;;
 ;;; records
 (defun record-info (record-list-data)
