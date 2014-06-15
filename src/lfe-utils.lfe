@@ -246,19 +246,78 @@
   ((n k acc)
     (factors n (+ k 1) acc)))
 
-(defun levenshtein-distance
+; ld([],T) ->
+;     length(T);
+; ld(S,[]) ->
+;     length(S);
+; ld([X|S],[X|T]) ->
+;     io:format("Got matching 'X's: ~p~n", [X]),
+;     ld(S,T);
+; ld([_SH|ST]=S,[_TH|TT]=T) ->
+;     1 + lists:min([ld(S,TT),ld(ST,T),ld(ST,TT)]).
+
+(defun levenshtein-simple
   (('() str)
     (length str))
   ((str '())
     (length str))
   (((cons a str1) (cons b str2)) (when (== a b))
-    (levenshtein-distance str1 str2))
+    (levenshtein-simple str1 str2))
   (((= (cons _ str1-tail) str1) (= (cons _ str2-tail) str2))
     (+ 1 (lists:min
           (list
-           (levenshtein-distance str1 str2-tail)
-           (levenshtein-distance str1-tail str2)
-           (levenshtein-distance str1-tail str2-tail))))))
+           (levenshtein-simple str1 str2-tail)
+           (levenshtein-simple str1-tail str2)
+           (levenshtein-simple str1-tail str2-tail))))))
+
+; distance_cached(S,T) ->
+;     {L,_} = ld(S,T,dict:new()),
+;     L.
+
+(defun levenshtein-distance (str1 str2)
+  (let (((tuple distance _) (levenshtein-distance
+                               str1 str2 (dict:new))))
+  distance))
+
+; ld([]=S,T,Cache) ->
+;     {length(T),dict:store({S,T},length(T),Cache)};
+; ld(S,[]=T,Cache) ->
+;     {length(S),dict:store({S,T},length(S),Cache)};
+; ld([X|S],[X|T],Cache) ->
+;     ld(S,T,Cache);
+; ld([_SH|ST]=S,[_TH|TT]=T,Cache) ->
+;     case dict:is_key({S,T},Cache) of
+;         true -> {dict:fetch({S,T},Cache),Cache};
+;         false ->
+;             {L1,C1} = ld(S,TT,Cache),
+;             {L2,C2} = ld(ST,T,C1),
+;             {L3,C3} = ld(ST,TT,C2),
+;             L = 1+lists:min([L1,L2,L3]),
+;             {L,dict:store({S,T},L,C3)}
+;     end.
+
+(defun levenshtein-distance
+  (((= '() str1) str2 cache)
+    (tuple (length str2)
+           (dict:store (tuple str1 str2)
+                       (length str2)
+                       cache)))
+  ((str1 (= '() str2) cache)
+    (tuple (length str2)
+           (dict:store (tuple str1 str2)
+                       (length str1)
+                       cache)))
+  (((cons a str1) (cons b str2) cache) (when (== a b))
+    (levenshtein-distance str1 str2 cache))
+  (((= (cons _ str1-tail) str1) (= (cons _ str2-tail) str2) cache)
+     (case (dict:is_key (tuple str1 str2) cache)
+       ('true (tuple (dict:fetch (tuple str1 str2) cache) cache))
+       ('false (let* (((tuple l1 c1) (levenshtein-distance str1 str2-tail cache))
+                      ((tuple l2 c2) (levenshtein-distance str1-tail str2 c1))
+                      ((tuple l3 c3) (levenshtein-distance str1-tail str2-tail c2))
+                      (len (+ 1 (lists:min (list l1 l2 l3)))))
+
+                (tuple len (dict:store (tuple str1 str2) len c3)))))))
 
 (defun levenshtein-sort (str1 str-list)
   (tuple str1
