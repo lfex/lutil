@@ -40,3 +40,64 @@
          (expanded (: lfe-utils expand-home-dir tilde-dir)))
     (is (: lfe-utils is-home-dir? tilde-dir))
     (is-not (: lfe-utils is-home-dir? expanded))))
+
+(defun get-test-subdirs ()
+  '("../exemplar/deps/.DS_Store"
+    "../exemplar/deps/.eunit"
+    "../exemplar/deps/lfe"
+    "../exemplar/deps/lfe-sample-rebar-plugin"
+    "../exemplar/deps/lfe-utils"
+    "../exemplar/deps/lfeunit"
+    "../exemplar/deps/rebar"
+    "../lfe-reveal-js/deps/exemplar"
+    "../lfe-reveal-js/deps/ibrowse"
+    "../lfe-reveal-js/deps/lfe"
+    "../lfe-reveal-js/deps/lfe-utils"
+    "../lfe-reveal-js/deps/lfeunit"
+    "../lfe-reveal-js/deps/yaws"
+    "deps/.DS_Store"
+    "deps/lfe"
+    "deps/lfeunit"))
+
+(defun expected-checked-subdirs ()
+  '(false
+    false
+    "../exemplar/deps/lfe"
+    "../exemplar/deps/lfe-sample-rebar-plugin"
+    "../exemplar/deps/lfe-utils"
+    "../exemplar/deps/lfeunit"
+    "../exemplar/deps/rebar"
+    "../lfe-reveal-js/deps/exemplar"
+    "../lfe-reveal-js/deps/ibrowse"
+    "../lfe-reveal-js/deps/lfe"
+    "../lfe-reveal-js/deps/lfe-utils"
+    "../lfe-reveal-js/deps/lfeunit"
+    "../lfe-reveal-js/deps/yaws"
+    false
+    "deps/lfe"
+    "deps/lfeunit"))
+
+(defun expected-filtered-subdirs ()
+  '("../exemplar/deps/lfe"
+    "../exemplar/deps/lfe-sample-rebar-plugin"
+    "../exemplar/deps/lfe-utils"
+    "../exemplar/deps/lfeunit"
+    "../exemplar/deps/rebar"
+    "../lfe-reveal-js/deps/exemplar"
+    "../lfe-reveal-js/deps/ibrowse"
+    "../lfe-reveal-js/deps/lfe"
+    "../lfe-reveal-js/deps/lfe-utils"
+    "../lfe-reveal-js/deps/lfeunit"
+    "../lfe-reveal-js/deps/yaws"
+    "deps/lfe"
+    "deps/lfeunit"))
+
+(deftest check-deps
+  (is-equal
+    (expected-checked-subdirs)
+    (lfe-utils:check-deps (get-test-subdirs))))
+
+(deftest filtered-deps
+  (is-equal
+    (expected-filtered-subdirs)
+    (lfe-utils:filter-deps (get-test-subdirs))))
