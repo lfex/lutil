@@ -32,18 +32,18 @@
 
 (defun test-dict-data-1 ()
   (list
-    'key-1 '"value 1"))
+    'key-1 "value 1"))
 
 (defun test-dict-data-2 ()
   (list
-    'key-1 '"value 1"
-    'key-2 '"value 2"))
+    'key-1 "value 1"
+    'key-2 "value 2"))
 
 (defun test-dict-data-3 ()
   (list
-    'key-1 '"value 1"
-    'key-2 '"value 2"
-    'key-3 '"value 3"))
+    'key-1 "value 1"
+    'key-2 "value 2"
+    'key-3 "value 3"))
 
 (defun test-dict-2 ()
   (pair-dict (test-dict-data-2)))
@@ -53,43 +53,43 @@
     (is-equal #((key-1 key-2) ("value 1" "value 2")) result)))
 
 (deftest pair-dict
-  (is-equal '"value 1" (: dict fetch 'key-1 (test-dict-2)))
-  (is-equal '"value 2" (: dict fetch 'key-2 (test-dict-2))))
+  (is-equal "value 1" (dict:fetch 'key-1 (test-dict-2)))
+  (is-equal "value 2" (dict:fetch 'key-2 (test-dict-2))))
 
 (deftest list->tuple
-  (is-equal #(a b c 1 2 3) (: lfe-utils list->tuple '(a b c 1 2 3))))
+  (is-equal #(a b c 1 2 3) (lfe-utils:list->tuple '(a b c 1 2 3))))
 
 (deftest atom-cat
-  (is-equal 'ab (: lfe-utils atom-cat 'a 'b)))
+  (is-equal 'ab (lfe-utils:atom-cat 'a 'b)))
 
 (deftest strip
-  (is-equal '"data" (: lfe-utils strip '"data\n"))
-  (is-equal '"data" (: lfe-utils strip '"data\n\n"))
-  (is-equal '"data" (: lfe-utils strip '"data   "))
-  (is-equal '"data" (: lfe-utils strip '"data   \n   "))
-  (is-equal '"data" (: lfe-utils strip '"data   \n   \n")))
+  (is-equal "data" (lfe-utils:strip "data\n"))
+  (is-equal "data" (lfe-utils:strip "data\n\n"))
+  (is-equal "data" (lfe-utils:strip "data   "))
+  (is-equal "data" (lfe-utils:strip "data   \n   "))
+  (is-equal "data" (lfe-utils:strip "data   \n   \n")))
 
 (deftest capitalized?
-  (is (capitalized? '"Apple"))
-  (is-not (capitalized? '"apple"))
-  (is (capitalized? '"APPLE"))
-  (is-not (capitalized? '"aPPLE")))
+  (is (capitalized? "Apple"))
+  (is-not (capitalized? "apple"))
+  (is (capitalized? "APPLE"))
+  (is-not (capitalized? "aPPLE")))
 
 (deftest stinrg?
-  (is (: lfe-utils string? '"string data! yaya!"))
-  (is-not (: lfe-utils string? (list '"my" '"string" '"data"))))
+  (is (lfe-utils:string? "string data! yaya!"))
+  (is-not (lfe-utils:string? (list "my" "string" "data"))))
 
 ;; XXX add a unit test for (unicode? ...)
 
 (deftest list?
-  (is-not (: lfe-utils list? '"string data! yaya!"))
-  (is (: lfe-utils list? (list '"my" '"string" '"data"))))
+  (is-not (lfe-utils:list? "string data! yaya!"))
+  (is (lfe-utils:list? (list "my" "string" "data"))))
 
 (deftest tuple?
-  (is-not (: lfe-utils tuple? '"string data! yaya!"))
-  (is (: lfe-utils tuple? (tuple '"my" '"string" '"data"))))
+  (is-not (lfe-utils:tuple? "string data! yaya!"))
+  (is (lfe-utils:tuple? (tuple "my" "string" "data"))))
 
 (deftest atom?
-  (is-not (: lfe-utils atom? '"string data! yaya!"))
-  (is (: lfe-utils atom? 'my-atom))
-  (is (: lfe-utils atom? '|more atom data|)))
+  (is-not (lfe-utils:atom? "string data! yaya!"))
+  (is (lfe-utils:atom? 'my-atom))
+  (is (lfe-utils:atom? '|more atom data|)))
