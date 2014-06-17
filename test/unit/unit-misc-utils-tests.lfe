@@ -14,11 +14,7 @@
       (pair-dict 1))
     (from lfeunit-util
       (check-failed-is 2)
-      (check-wrong-is-exception 2))
-    (from lists
-      (map 2)
-      (seq 2)
-      (zipwith 3))))
+      (check-wrong-is-exception 2))))
 
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 
