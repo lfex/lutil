@@ -423,3 +423,10 @@
     #(emulator ,(erlang:system_info 'version))
     #(driver-version ,(erlang:system_info 'driver_version))
     #(lfe ,(get-lfe-version))))
+
+(defun get-lfe-utils-version ()
+  (get-app-src-version "src/lfe-utils.app.src"))
+
+(defun get-versions ()
+  (++ (get-version)
+      `(#(lfe-utils ,(get-lfe-utils-version)))))
