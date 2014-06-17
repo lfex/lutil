@@ -1,13 +1,5 @@
 (defmodule lfe-utils
-  (export all)
-  (import
-    (from lists
-      (flatten 1)
-      (foldl 3)
-      (map 2)
-      (zipwith 3))
-    (from math
-      (pow 2))))
+  (export all))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; data types and type ops
@@ -18,8 +10,8 @@
 (defun add-tuples (a)
   "Given a list of any number of tuples, add them all together."
   (list_to_tuple
-    (flatten
-      (map (lambda (x) (tuple_to_list x)) a))))
+    (lists:flatten
+      (lists:map (lambda (x) (tuple_to_list x)) a))))
 
 (defun partition-list (list-data)
   "This function takes lists of even length with an implicit key (atom) value
@@ -191,14 +183,14 @@
 
 (defun round (number precision)
   "Round a floating point number to the given number of decimal places."
-  (let ((p (pow 10 precision)))
+  (let ((p (math:pow 10 precision)))
     (/ (erlang:round (* number p)) p)))
 
 (defun dot-product (a b)
   "This doesn't appear to be needed for this particular library, but it was fun
   to write, and is quite pretty, so it's staying ;-)"
-  (foldl #'+/2 0
-    (zipwith #'*/2 a b)))
+  (lists:foldl #'+/2 0
+    (lists:zipwith #'*/2 a b)))
 
 (defun scale
   "Given a value and a range that value belongs to, calculate a new value based

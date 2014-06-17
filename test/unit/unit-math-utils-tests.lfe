@@ -15,11 +15,7 @@
       (partition-list 1)
       (pair-dict 1)
       (levenshtein-distance 2)
-      (levenshtein-sort 2))
-    (from lists
-      (map 2)
-      (seq 2)
-      (zipwith 3))))
+      (levenshtein-sort 2))))
 
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 
@@ -38,11 +34,11 @@
   (is-equal 2.11 (round 2.111 2))
   (is-equal 2.12 (round 2.115 2))
   (is-equal 2.99985 (round 2.999849 5))
-  (let* ((inputs (seq 1 10))
-         (results (map (lambda (x) (round (/ x 11) 3)) inputs))
+  (let* ((inputs (lists:seq 1 10))
+         (results (lists:map (lambda (x) (round (/ x 11) 3)) inputs))
          (expected (list 0.091 0.182 0.273 0.364 0.455
                          0.545 0.636 0.727 0.818 0.909)))
-    (zipwith (lambda (a b) (is-equal a b)) expected results)))
+    (lists:zipwith (lambda (a b) (is-equal a b)) expected results)))
 
 (deftest dot-product
   (is-equal 32 (dot-product '(1 2 3) '(4 5 6)) )
