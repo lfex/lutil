@@ -391,7 +391,7 @@
                                            max-len
                                            word
                                            rest)))
-      (lists:reverse (++ (list last-line) lines)))))
+      (lists:reverse (cons last-line lines)))))
 
 (defun assemble-lines (max-len word rest)
   (lists:foldl
@@ -401,7 +401,7 @@
 (defun assemble-line
   ((word (tuple max line-len line acc))
     (when (> (+ (length word) line-len) max))
-    (tuple max (length word) word (++ (list line) acc)))
+    (tuple max (length word) word (cons line acc)))
   ((word (tuple max line-len line acc))
     (tuple max (+ line-len 1 (length word)) (++ line " " word) acc)))
 
