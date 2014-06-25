@@ -238,16 +238,6 @@
   ((n k acc)
     (factors n (+ k 1) acc)))
 
-; ld([],T) ->
-;     length(T);
-; ld(S,[]) ->
-;     length(S);
-; ld([X|S],[X|T]) ->
-;     io:format("Got matching 'X's: ~p~n", [X]),
-;     ld(S,T);
-; ld([_SH|ST]=S,[_TH|TT]=T) ->
-;     1 + lists:min([ld(S,TT),ld(ST,T),ld(ST,TT)]).
-
 (defun levenshtein-simple
   (('() str)
     (length str))
@@ -262,31 +252,10 @@
            (levenshtein-simple str1-tail str2)
            (levenshtein-simple str1-tail str2-tail))))))
 
-; distance_cached(S,T) ->
-;     {L,_} = ld(S,T,dict:new()),
-;     L.
-
 (defun levenshtein-distance (str1 str2)
   (let (((tuple distance _) (levenshtein-distance
                                str1 str2 (dict:new))))
     distance))
-
-; ld([]=S,T,Cache) ->
-;     {length(T),dict:store({S,T},length(T),Cache)};
-; ld(S,[]=T,Cache) ->
-;     {length(S),dict:store({S,T},length(S),Cache)};
-; ld([X|S],[X|T],Cache) ->
-;     ld(S,T,Cache);
-; ld([_SH|ST]=S,[_TH|TT]=T,Cache) ->
-;     case dict:is_key({S,T},Cache) of
-;         true -> {dict:fetch({S,T},Cache),Cache};
-;         false ->
-;             {L1,C1} = ld(S,TT,Cache),
-;             {L2,C2} = ld(ST,T,C1),
-;             {L3,C3} = ld(ST,TT,C2),
-;             L = 1+lists:min([L1,L2,L3]),
-;             {L,dict:store({S,T},L,C3)}
-;     end.
 
 (defun levenshtein-distance
   (((= '() str1) str2 cache)
