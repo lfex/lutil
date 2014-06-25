@@ -295,7 +295,7 @@
                        (length str2)
                        cache)))
   ((str1 (= '() str2) cache)
-    (tuple (length str2)
+    (tuple (length str1)
            (dict:store (tuple str1 str2)
                        (length str1)
                        cache)))
