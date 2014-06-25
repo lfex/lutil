@@ -374,6 +374,37 @@
   deprecated."
   'ok)
 
+;;;;;;;;;
+;;; text
+(defun wrap-text (text)
+  (wrap-text text 78))
+
+(defun wrap-text (text max-len)
+  (string:join
+    (make-wrapped-lines
+      (string:tokens text " ") max-len)
+    "\n"))
+
+(defun make-wrapped-lines
+  (((cons word rest) max-len)
+    (let (((tuple _ len last-line lines) (assemble-lines
+                                           max-len
+                                           word
+                                           rest)))
+      (lists:reverse (++ (list last-line) lines)))))
+
+(defun assemble-lines (max-len word rest)
+  (lists:foldl
+    #'assemble-line/2
+    (tuple max-len (length word) word '()) rest))
+
+(defun assemble-line
+  ((word (tuple max line-len line acc))
+    (when (> (+ (length word) line-len) max))
+    (tuple max (length word) word (++ (list line) acc)))
+  ((word (tuple max line-len line acc))
+    (tuple max (+ line-len 1 (length word)) (++ line " " word) acc)))
+
 ;;;;;;;;
 ;;; misc
 (defun uuid4 ()
