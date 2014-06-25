@@ -269,7 +269,7 @@
 (defun levenshtein-distance (str1 str2)
   (let (((tuple distance _) (levenshtein-distance
                                str1 str2 (dict:new))))
-  distance))
+    distance))
 
 ; ld([]=S,T,Cache) ->
 ;     {length(T),dict:store({S,T},length(T),Cache)};
@@ -308,17 +308,14 @@
                       ((tuple l2 c2) (levenshtein-distance str1-tail str2 c1))
                       ((tuple l3 c3) (levenshtein-distance str1-tail str2-tail c2))
                       (len (+ 1 (lists:min (list l1 l2 l3)))))
-
-                (tuple len (dict:store (tuple str1 str2) len c3)))))))
+                 (tuple len (dict:store (tuple str1 str2) len c3)))))))
 
 (defun levenshtein-sort (str1 str-list)
   (tuple str1
     (lists:sort
       (lists:map
         (lambda (str2)
-          (list
-            (levenshtein-distance str1 str2)
-            str2))
+          (list (levenshtein-distance str1 str2) str2))
         str-list))))
 
 ;;;;;;;;;
