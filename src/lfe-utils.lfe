@@ -428,7 +428,7 @@
   (compile-test "./.eunit"))
 
 (defun compile-test (out-dir)
-  (compile (filelib:wildcard "./test/**/*.lfe") (get-deps) out-dir))
+  (compile (filelib:wildcard "./test/*.lfe") (get-deps) out-dir))
 
 (defun files->beams (file-data)
   "This function handles two cases:
