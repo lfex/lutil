@@ -568,15 +568,29 @@
         (filename:rootname (code:which x)))
       module-list)))
 
-(defun get-beam-behaviours (beam)
+(defun get-beam-attrs (beam)
   "Given an atom representing a plugin's name, return its module
   attributes."
   (let (((tuple 'ok (tuple _ (list (tuple 'attributes attrs))))
          (beam_lib:chunks beam '(attributes))))
-    (get-behaviour attrs)))
+    attrs))
+
+(defun get-module-attrs (module)
+  (get-beam-attrs (code:which module)))
+
+(defun get-beam-behaviours (beam)
+  "Given an atom representing a plugin's name, return its module
+  attributes."
+  (get-behaviour (get-beam-attrs beam)))
+
+(defun get-beam-behaviors (beam)
+  (get-beam-behaviours beam))
 
 (defun get-module-behaviours (module)
   (get-beam-behaviours (code:which module)))
+
+(defun get-module-behaviors (module)
+  (get-module-behaviours module))
 
 (defun get-behaviour (attrs)
   (proplists:get_value
