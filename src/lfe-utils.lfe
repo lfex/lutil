@@ -430,6 +430,81 @@
 (defun compile-test (out-dir)
   (compile (filelib:wildcard "./test/**/*.lfe") (get-deps) out-dir))
 
+(defun files->beams (file-data)
+  "This function handles two cases:
+
+    * Given a list of 2-tuples #(module-name filename), with the filenames
+      ending in '.beam', return a list of tuples with no '.beam' extension,
+      e.g.: #(module-name rootname).
+    * Given a list of filenames, return a list of beams (i.e., no file
+      extensions)."
+  (lists:map
+    (match-lambda
+      (((tuple mod filename))
+        `#(,mod ,(filename:rootname filename)))
+      ((filename)
+        (filename:rootname filename)))
+    file-data))
+
+(defun beams->modules (beams-list)
+  (lists:map
+    #'beam->module/1
+    beams-list))
+
+(defun modules->beams (module-list)
+  (lists:usort
+    (lists:map
+      (lambda (x)
+        (filename:rootname (code:which x)))
+      module-list)))
+
+(defun get-beam-attrs (beam)
+  "Given an atom representing a plugin's name, return its module
+  attributes."
+  (let (((tuple 'ok (tuple _ (list (tuple 'attributes attrs))))
+         (beam_lib:chunks beam '(attributes))))
+    attrs))
+
+(defun get-beam-attrs (beam)
+  "Given an atom representing a plugin's name, return its module
+  attributes."
+  (let (((tuple 'ok (tuple _ (list (tuple 'attributes attrs))))
+         (beam_lib:chunks beam '(attributes))))
+    attrs))
+
+(defun module->beam (module)
+  (code:which module))
+
+(defun beam->module (beam)
+  (let (((tuple 'ok (tuple module _))
+         (beam_lib:chunks beam '())))
+    module))
+
+(defun get-module-attrs (module)
+  (get-beam-attrs (code:which module)))
+
+(defun get-beam-behaviours (beam)
+  "Given an atom representing a plugin's name, return its module
+  attributes."
+  (get-behaviour (get-beam-attrs beam)))
+
+;; provided for the spelling-impaired
+(defun get-beam-behaviors (beam)
+  (get-beam-behaviours beam))
+
+(defun get-module-behaviours (module)
+  (get-beam-behaviours (code:which module)))
+
+;; provided for the spelling-impaired
+(defun get-module-behaviors (module)
+  (get-module-behaviours module))
+
+(defun get-behaviour (attrs)
+  (proplists:get_value
+    'behaviour
+    attrs
+    (proplists:get_value 'behavior attrs)))
+
 ;;;;;;;;;;;
 ;;; records
 (defun record-info (record-list-data)
@@ -535,67 +610,3 @@
 (defun get-versions ()
   (++ (get-version)
       `(#(lfe-utils ,(get-lfe-utils-version)))))
-
-(defun files->beams (file-data)
-  "This function handles two cases:
-
-    * Given a list of 2-tuples #(module-name filename), with the filenames
-      ending in '.beam', return a list of tuples with no '.beam' extension,
-      e.g.: #(module-name rootname).
-    * Given a list of filenames, return a list of beams (i.e., no file
-      extensions)."
-  (lists:map
-    (match-lambda
-      (((tuple mod filename))
-        `#(,mod ,(filename:rootname filename)))
-      ((filename)
-        (filename:rootname filename)))
-    file-data))
-
-(defun beams->modules (beams-list)
-  (lists:map
-    (lambda (x)
-      (list_to_atom
-        (car
-          (lists:reverse
-            (string:tokens x "/")))))
-    beams-list))
-
-(defun modules->beams (module-list)
-  (lists:usort
-    (lists:map
-      (lambda (x)
-        (filename:rootname (code:which x)))
-      module-list)))
-
-(defun get-beam-attrs (beam)
-  "Given an atom representing a plugin's name, return its module
-  attributes."
-  (let (((tuple 'ok (tuple _ (list (tuple 'attributes attrs))))
-         (beam_lib:chunks beam '(attributes))))
-    attrs))
-
-(defun get-module-attrs (module)
-  (get-beam-attrs (code:which module)))
-
-(defun get-beam-behaviours (beam)
-  "Given an atom representing a plugin's name, return its module
-  attributes."
-  (get-behaviour (get-beam-attrs beam)))
-
-;; provided for the spelling-impaired
-(defun get-beam-behaviors (beam)
-  (get-beam-behaviours beam))
-
-(defun get-module-behaviours (module)
-  (get-beam-behaviours (code:which module)))
-
-;; provided for the spelling-impaired
-(defun get-module-behaviors (module)
-  (get-module-behaviours module))
-
-(defun get-behaviour (attrs)
-  (proplists:get_value
-    'behaviour
-    attrs
-    (proplists:get_value 'behavior attrs)))
