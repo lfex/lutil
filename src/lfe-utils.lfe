@@ -225,6 +225,20 @@
   ((n acc) (when (> n 0))
     (factorial (- n 1) (* n acc))))
 
+(defun get-next-prime (x)
+  "Get the next prime in ascending order."
+  (flet ((f (y) 
+            (cond ((is-prime? y) y)
+                  ('true (get-next-prime (+ x 1))))))
+    (f (+ x 1))))
+
+(defun is-prime? (x)
+  "If a number consists of more than two factors,
+  it is not a prime number."
+  (let ((factors (lfe-utils:factors x)))
+    (cond ((== 2 (length (lists:usort factors))) 'true)
+          ('true 'false))))
+
 (defun factors (n)
   "Tail-recursive prime factors function."
   (factors n 2 '()))
