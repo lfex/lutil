@@ -536,15 +536,21 @@
   (++ (get-version)
       `(#(lfe-utils ,(get-lfe-utils-version)))))
 
-(defun files->beams (tuple-list)
-  "Given a list of 2-tuples #(module-name filename), with the filenames ending
-  in '.beam', return a list of tuples with no '.beam' extension, e.g.:
-  #(module-name rootname)."
+(defun files->beams (file-data)
+  "This function handles two cases:
+
+    * Given a list of 2-tuples #(module-name filename), with the filenames
+      ending in '.beam', return a list of tuples with no '.beam' extension,
+      e.g.: #(module-name rootname).
+    * Given a list of filenames, return a list of beams (i.e., no file
+      extensions)."
   (lists:map
     (match-lambda
       (((tuple mod filename))
-        `#(,mod ,(filename:rootname filename))))
-    tuple-list))
+        `#(,mod ,(filename:rootname filename)))
+      ((filename)
+        (filename:rootname filename)))
+    file-data))
 
 (defun beams->modules (beams-list)
   (lists:map
