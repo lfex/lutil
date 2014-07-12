@@ -227,14 +227,13 @@
 
 (defun get-next-prime (x)
   "Get the next prime in ascending order."
-  (flet ((f (y) 
+  (flet ((f (y)
             (cond ((is-prime? y) y)
                   ('true (get-next-prime (+ x 1))))))
     (f (+ x 1))))
 
-(defun is-prime? (x)
-  "If a number consists of more than two factors,
-  it is not a prime number."
+(defun prime? (x)
+  "If a number consists of more than two factors, it is not a prime number."
   (let ((factors (lfe-utils:factors x)))
     (cond ((== 2 (length (lists:usort factors))) 'true)
           ('true 'false))))
@@ -536,3 +535,22 @@
 (defun get-versions ()
   (++ (get-version)
       `(#(lfe-utils ,(get-lfe-utils-version)))))
+
+(defun files->beams (tuple-list)
+  "Given a list of 2-tuples #(module-name filename), with the filenames ending
+  in '.beam', return a list of tuples with no '.beam' extension, e.g.:
+  #(module-name rootname)."
+  (lists:map
+    (match-lambda
+      (((tuple mod filename))
+        `#(,mod ,(filename:rootname filename))))
+    tuple-list))
+
+(defun beams->modules (beams-list)
+  (lists:map
+    (lambda (x)
+      (list_to_atom
+        (car
+          (lists:reverse
+            (string:tokens x "/")))))
+    beams-list))
