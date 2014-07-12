@@ -228,7 +228,7 @@
 (defun get-next-prime (x)
   "Get the next prime in ascending order."
   (flet ((f (y)
-            (cond ((is-prime? y) y)
+            (cond ((prime? y) y)
                   ('true (get-next-prime (+ x 1))))))
     (f (+ x 1))))
 
