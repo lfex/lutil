@@ -560,3 +560,10 @@
           (lists:reverse
             (string:tokens x "/")))))
     beams-list))
+
+(defun modules->beams (module-list)
+  (lists:usort
+    (lists:map
+      (lambda (x)
+        (filename:rootname (code:which x)))
+      module-list)))
