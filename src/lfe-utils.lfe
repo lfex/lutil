@@ -583,12 +583,14 @@
   attributes."
   (get-behaviour (get-beam-attrs beam)))
 
+;; provided for the spelling-impaired
 (defun get-beam-behaviors (beam)
   (get-beam-behaviours beam))
 
 (defun get-module-behaviours (module)
   (get-beam-behaviours (code:which module)))
 
+;; provided for the spelling-impaired
 (defun get-module-behaviors (module)
   (get-module-behaviours module))
 
