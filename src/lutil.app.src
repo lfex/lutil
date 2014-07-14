@@ -1,5 +1,5 @@
 %% -*- erlang -*-
-{application, 'lfe-utils',
+{application, lutil,
  [
   %% A quick description of the application.
   {description, "LFE Utility Functions."},
@@ -10,7 +10,7 @@
   %% All modules used by the application.
   {modules,
    [
-    'lfe-utils'
+    lutil
    ]},
 
   %% All of the registered names the application uses. This can be ignored.

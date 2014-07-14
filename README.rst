@@ -2,6 +2,7 @@
 lutil
 #####
 
+
 Introduction
 ============
 
@@ -21,26 +22,28 @@ This project depends upon the following, which installed to the ``deps``
 directory of this project when you run ``make deps``:
 
 * `LFE`_ (Lisp Flavored Erlang; needed only to compile)
-* `lfeunit`_ (needed only to run the unit tests)
+* `lunit`_ (needed only to run the unit tests)
 
-lfeunit is not included in the rebar.config file, in order to avoid the circular
-dependency problem of rebar. If you wish to run the unit tests, the ``make check``
-target will download and compile lfeunit to avoid the issue with rebar.
+lunit is not included in the rebar.config file, in order to avoid the
+circular dependency problem of rebar. If you wish to run the unit tests,
+the ``make check`` target will download and compile lunit to avoid the
+issue with rebar.
 
 
 Installation
 ============
 
 In your ``rebar.config`` file, update your ``deps`` section to include
-``lfe-utils``:
+``lutil``:
 
 .. code:: erlang
 
     {deps, [
       {lfe, ".*", {git, "git://github.com/rvirding/lfe.git"}},
-      {lfeunit, ".*", {git, "git://github.com/lfe/lfeunit.git"}},
+      {lunit, ".*", {git, "git://github.com/lfex/lunit.git"}},
       {lutil, ".*", {git, "git://github.com/lfex/lutil.git"}}
     ]}
+
 
 Usage
 =====
@@ -66,9 +69,10 @@ Usage is the same as any other Erlang or LFE library :-)
     > (lutil:uuid4)
     #B(99 101 102 102 54 53 97 50 45 48 57 55 49 45 52 50 49 49 45 50 52 ...)
 
+
 .. Links
 .. -----
 .. _rebar: https://github.com/rebar/rebar
 .. _LFE: https://github.com/rvirding/lfe
-.. _lfeunit: https://github.com/lfe/lfeunit
+.. _lunit: https://github.com/lfex/lunit
 .. _lfe-utils: https://github.com/lfe/lfe-utils
