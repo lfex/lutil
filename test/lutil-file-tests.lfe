@@ -1,5 +1,5 @@
 (defmodule lutil-file-tests
-  (behaviour lunit-unit)
+  (behaviour lunit-system)
   (export all)
   (import
     (from lutil
@@ -43,14 +43,14 @@
     "../exemplar/deps/.eunit"
     "../exemplar/deps/lfe"
     "../exemplar/deps/lfe-sample-rebar-plugin"
-    "../exemplar/deps/lutil"
-    "../exemplar/deps/lunit"
+    "../exemplar/deps/lfe-utils"
+    "../exemplar/deps/lfeunit"
     "../exemplar/deps/rebar"
     "../lfe-reveal-js/deps/exemplar"
     "../lfe-reveal-js/deps/ibrowse"
     "../lfe-reveal-js/deps/lfe"
-    "../lfe-reveal-js/deps/lutil"
-    "../lfe-reveal-js/deps/lunit"
+    "../lfe-reveal-js/deps/lfe-utils"
+    "../lfe-reveal-js/deps/lfeunit"
     "../lfe-reveal-js/deps/yaws"
     "deps/.DS_Store"
     "deps/lfe"
@@ -61,14 +61,14 @@
     false
     "../exemplar/deps/lfe"
     "../exemplar/deps/lfe-sample-rebar-plugin"
-    "../exemplar/deps/lutil"
-    "../exemplar/deps/lunit"
+    "../exemplar/deps/lfe-utils"
+    "../exemplar/deps/lfeunit"
     "../exemplar/deps/rebar"
     "../lfe-reveal-js/deps/exemplar"
     "../lfe-reveal-js/deps/ibrowse"
     "../lfe-reveal-js/deps/lfe"
-    "../lfe-reveal-js/deps/lutil"
-    "../lfe-reveal-js/deps/lunit"
+    "../lfe-reveal-js/deps/lfe-utils"
+    "../lfe-reveal-js/deps/lfeunit"
     "../lfe-reveal-js/deps/yaws"
     false
     "deps/lfe"
@@ -77,14 +77,14 @@
 (defun expected-filtered-subdirs ()
   '("../exemplar/deps/lfe"
     "../exemplar/deps/lfe-sample-rebar-plugin"
-    "../exemplar/deps/lutil"
-    "../exemplar/deps/lunit"
+    "../exemplar/deps/lfe-utils"
+    "../exemplar/deps/lfeunit"
     "../exemplar/deps/rebar"
     "../lfe-reveal-js/deps/exemplar"
     "../lfe-reveal-js/deps/ibrowse"
     "../lfe-reveal-js/deps/lfe"
-    "../lfe-reveal-js/deps/lutil"
-    "../lfe-reveal-js/deps/lunit"
+    "../lfe-reveal-js/deps/lfe-utils"
+    "../lfe-reveal-js/deps/lfeunit"
     "../lfe-reveal-js/deps/yaws"
     "deps/lfe"
     "deps/lunit"))
