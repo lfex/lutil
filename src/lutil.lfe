@@ -1,4 +1,4 @@
-(defmodule lfe-utils
+(defmodule lutil
   (export all))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -234,7 +234,7 @@
 
 (defun prime? (x)
   "If a number consists of more than two factors, it is not a prime number."
-  (let ((factors (lfe-utils:factors x)))
+  (let ((factors (lutil:factors x)))
     (cond ((== 2 (length (lists:usort factors))) 'true)
           ('true 'false))))
 
@@ -576,13 +576,13 @@
   "A wrapper for uuid4/0."
   ;; Example usage:
   ;;
-  ;;   > (lfe-utils:uuid4 (tuple 'type 'binary))
+  ;;   > (lutil:uuid4 (tuple 'type 'binary))
   ;;   #B(50 101 51 53 49 99 48 97 45 50 100 100 52 45 52 54 56 55 45 50 ...)
   ;;
-  ;;   > (lfe-utils:uuid4 (tuple 'type 'list))
+  ;;   > (lutil:uuid4 (tuple 'type 'list))
   ;;   "65c0aff3-421e-40bf-0f64-3ac0d1e0b72d"
   ;;
-  ;;   > (lfe-utils:uuid4 (tuple 'type 'atom))
+  ;;   > (lutil:uuid4 (tuple 'type 'atom))
   ;;  '
   (((tuple 'type 'binary))
     (uuid4))
@@ -604,9 +604,9 @@
     #(driver-version ,(erlang:system_info 'driver_version))
     #(lfe ,(get-lfe-version))))
 
-(defun get-lfe-utils-version ()
-  (get-app-src-version "src/lfe-utils.app.src"))
+(defun get-lutil-version ()
+  (get-app-src-version "src/lutil.app.src"))
 
 (defun get-versions ()
   (++ (get-version)
-      `(#(lfe-utils ,(get-lfe-utils-version)))))
+      `(#(lutil ,(get-lutil-version)))))

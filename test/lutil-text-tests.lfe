@@ -1,13 +1,11 @@
-(defmodule unit-text-utils-tests
+(defmodule lutil-text-tests
+  (behaviour lunit-unit)
   (export all)
   (import
-    (from lfe-utils
-      (wrap-text 2))
-    (from lfeunit-util
-      (check-failed-is 2)
-      (check-wrong-is-exception 2))))
+    (from lutil
+      (wrap-text 2))))
 
-(include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
+(include-lib "deps/lunit/include/lunit-macros.lfe")
 
 (deftest wrap-text
   (is-equal

@@ -1,7 +1,8 @@
-(defmodule unit-math-utils-tests
+(defmodule lutil-math-tests
+  (behaviour lunit-unit)
   (export all)
   (import
-    (from lfe-utils
+    (from lutil
       (add-tuples 1) (add-tuples 2)
       (color-scale 2)
       (dot-product 2)
@@ -18,7 +19,7 @@
       (levenshtein-distance 2)
       (levenshtein-sort 2))))
 
-(include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
+(include-lib "deps/lunit/include/lunit-macros.lfe")
 
 (deftest fast-floor
   (is-equal 0 (fast-floor 0.0))
@@ -71,16 +72,16 @@
   (is-equal 255 (color-scale 1.0 #(0.0 1.0))))
 
 (deftest odd?
-  (is (lfe-utils:odd? 1))
-  (is-not (lfe-utils:odd? 2))
-  (is (lfe-utils:odd? 3))
-  (is-not (lfe-utils:odd? 4)))
+  (is (lutil:odd? 1))
+  (is-not (lutil:odd? 2))
+  (is (lutil:odd? 3))
+  (is-not (lutil:odd? 4)))
 
 (deftest even?
-  (is-not (lfe-utils:even? 1))
-  (is (lfe-utils:even? 2))
-  (is-not (lfe-utils:even? 3))
-  (is (lfe-utils:even? 4)))
+  (is-not (lutil:even? 1))
+  (is (lutil:even? 2))
+  (is-not (lutil:even? 3))
+  (is (lutil:even? 4)))
 
 (deftest factorial
   (is-equal 1 (factorial 0))
