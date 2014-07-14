@@ -1,7 +1,8 @@
-(defmodule unit-misc-utils-tests
+(defmodule lutil-misc-tests
+  (behaviour lunit-unit)
   (export all)
   (import
-    (from lfe-utils
+    (from lutil
       (add-tuples 1) (add-tuples 2)
       (color-scale 2)
       (dot-product 2)
@@ -11,12 +12,9 @@
       (unit-scale 2)
       (uuid4 0) (uuid4 1)
       (partition-list 1)
-      (pair-dict 1))
-    (from lfeunit-util
-      (check-failed-is 2)
-      (check-wrong-is-exception 2))))
+      (pair-dict 1))))
 
-(include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
+(include-lib "deps/lunit/include/lunit-macros.lfe")
 
 (deftest uuid4
   (is-equal 36 (byte_size (uuid4)))

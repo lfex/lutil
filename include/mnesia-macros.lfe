@@ -26,7 +26,7 @@
   ((record-table-name '())
     `(create-table ,record-table-name (#(type set))))
   ((record-table-name table-defs)
-    (let* ((record-fields-macro-name (lfe-utils:atom-cat
+    (let* ((record-fields-macro-name (lutil:atom-cat
                                        'fields- record-table-name))
            (computed-record-fields `(,record-fields-macro-name)))
       `(mnesia:create_table
