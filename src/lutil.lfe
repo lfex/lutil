@@ -465,13 +465,6 @@
          (beam_lib:chunks beam '(attributes))))
     attrs))
 
-(defun get-beam-attrs (beam)
-  "Given an atom representing a plugin's name, return its module
-  attributes."
-  (let (((tuple 'ok (tuple _ (list (tuple 'attributes attrs))))
-         (beam_lib:chunks beam '(attributes))))
-    attrs))
-
 (defun module->beam (module)
   (code:which module))
 
