@@ -1,4 +1,4 @@
-;;; misc
+;;; misc utility functions
 
 (defmodule lutil
   (export all))
@@ -17,7 +17,6 @@
         (uuid-data (list a b (band c #x0fff) (band d #x3fff) (bor #x8000 e)))
         (string (io_lib:format format-template uuid-data)))
     (list_to_binary string)))
-
 
 (defun uuid4
   "A wrapper for uuid4/0."

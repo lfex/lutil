@@ -2,17 +2,6 @@
   (behaviour lunit-system)
   (export all)
   (import
-    (from lutil
-      (add-tuples 1) (add-tuples 2)
-      (color-scale 2)
-      (dot-product 2)
-      (fast-floor 1)
-      (round 2)
-      (scale 3)
-      (unit-scale 2)
-      (uuid4 0) (uuid4 1)
-      (partition-list 1)
-      (pair-dict 1))
     (from lunit
       (check-failed-is 2)
       (check-wrong-is-exception 2))))
@@ -20,23 +9,23 @@
 (include-lib "deps/lunit/include/lunit-macros.lfe")
 
 (deftest is-home-dir?
-  (is-not (lutil:is-home-dir? "~"))
-  (is-not (lutil:is-home-dir? "/"))
-  (is-not (lutil:is-home-dir? "~home/"))
-  (is-not (lutil:is-home-dir? "/home"))
-  (is (lutil:is-home-dir? "~/"))
-  (is (lutil:is-home-dir? "~/user"))
-  (is (lutil:is-home-dir? "~/user/more/path")))
+  (is-not (lutil-file:is-home-dir? "~"))
+  (is-not (lutil-file:is-home-dir? "/"))
+  (is-not (lutil-file:is-home-dir? "~home/"))
+  (is-not (lutil-file:is-home-dir? "/home"))
+  (is (lutil-file:is-home-dir? "~/"))
+  (is (lutil-file:is-home-dir? "~/user"))
+  (is (lutil-file:is-home-dir? "~/user/more/path")))
 
 (deftest expand-home-dir
   (is-equal "/usr/local/bin"
-            (lutil:expand-home-dir "/usr/local/bin"))
+            (lutil-file:expand-home-dir "/usr/local/bin"))
   (is-equal "/home/oubiwann"
-            (lutil:expand-home-dir "/home/oubiwann"))
+            (lutil-file:expand-home-dir "/home/oubiwann"))
   (let* ((tilde-dir "~/my-data")
-         (expanded (lutil:expand-home-dir tilde-dir)))
-    (is (lutil:is-home-dir? tilde-dir))
-    (is-not (lutil:is-home-dir? expanded))))
+         (expanded (lutil-file:expand-home-dir tilde-dir)))
+    (is (lutil-file:is-home-dir? tilde-dir))
+    (is-not (lutil-file:is-home-dir? expanded))))
 
 (defun get-test-subdirs ()
   '("../exemplar/deps/.DS_Store"
@@ -92,9 +81,9 @@
 (deftest check-deps
   (is-equal
     (expected-checked-subdirs)
-    (lutil:check-deps (get-test-subdirs))))
+    (lutil-file:check-deps (get-test-subdirs))))
 
 (deftest filtered-deps
   (is-equal
     (expected-filtered-subdirs)
-    (lutil:filter-deps (get-test-subdirs))))
+    (lutil-file:filter-deps (get-test-subdirs))))
