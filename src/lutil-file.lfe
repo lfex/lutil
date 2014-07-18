@@ -183,6 +183,16 @@
   (files->beams
     (filtered-loaded-modules substring)))
 
+(defun get-beam-exports (beam)
+  "Given a beam path, return its exported functions."
+  (let (((tuple 'ok (tuple _ (list (tuple 'exports exports))))
+         (beam_lib:chunks beam '(exports))))
+    exports))
+
+(defun get-module-exports (module)
+  "Given an atom representing a module's name, return its exported functions."
+  (get-beam-exports (code:which module)))
+
 (defun filtered (func beams)
   (lists:filter
     #'check/1
