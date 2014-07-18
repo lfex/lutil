@@ -56,3 +56,6 @@
 (defun get-versions ()
   (++ (get-version)
       `(#(lutil ,(get-lutil-version)))))
+
+(defun check (x)
+  (=/= x 'false))

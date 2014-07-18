@@ -195,9 +195,5 @@
 
 (defun filtered (func beams)
   (lists:filter
-    #'check/1
+    #'lutil:check/1
     (funcall func beams)))
-
-(defun check (x)
-  (=/= x 'false))
-
