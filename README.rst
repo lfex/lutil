@@ -52,12 +52,12 @@ Usage is the same as any other Erlang or LFE library :-)
 
 .. code:: lisp
 
-    > (lutil:dot-product '(1 2 3) '(4 5 6))
+    > (lutil-math:dot-product '(1 2 3) '(4 5 6))
     32
 
-    > (lutil:add-tuples (tuple 1 2) (tuple 3 4))
+    > (lutil-type:add-tuples (tuple 1 2) (tuple 3 4))
     #(1 2 3 4)
-    > (lutil:add-tuples (list (tuple 1 2) (tuple 3 4) (tuple 5 6)))
+    > (lutil-type:add-tuples (list (tuple 1 2) (tuple 3 4) (tuple 5 6)))
     #(1 2 3 4 5 6)
 
     > (lutil:uuid4 (tuple 'type '"list"))
