@@ -22,11 +22,11 @@ This project depends upon the following, which installed to the ``deps``
 directory of this project when you run ``make deps``:
 
 * `LFE`_ (Lisp Flavored Erlang; needed only to compile)
-* `lunit`_ (needed only to run the unit tests)
+* `ltest`_ (needed only to run the unit tests)
 
-lunit is not included in the rebar.config file, in order to avoid the
+ltest is not included in the rebar.config file, in order to avoid the
 circular dependency problem of rebar. If you wish to run the unit tests,
-the ``make check`` target will download and compile lunit to avoid the
+the ``make check`` target will download and compile ltest to avoid the
 issue with rebar.
 
 
@@ -40,7 +40,7 @@ In your ``rebar.config`` file, update your ``deps`` section to include
 
     {deps, [
       {lfe, ".*", {git, "git://github.com/rvirding/lfe.git"}},
-      {lunit, ".*", {git, "git://github.com/lfex/lunit.git"}},
+      {ltest, ".*", {git, "git://github.com/lfex/ltest.git"}},
       {lutil, ".*", {git, "git://github.com/lfex/lutil.git"}}
     ]}
 
@@ -74,5 +74,5 @@ Usage is the same as any other Erlang or LFE library :-)
 .. -----
 .. _rebar: https://github.com/rebar/rebar
 .. _LFE: https://github.com/rvirding/lfe
-.. _lunit: https://github.com/lfex/lunit
+.. _ltest: https://github.com/lfex/ltest
 .. _lfe-utils: https://github.com/lfe/lfe-utils
