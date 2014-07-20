@@ -1,12 +1,12 @@
 (defmodule lutil-file-tests
-  (behaviour lunit-system)
+  (behaviour ltest-system)
   (export all)
   (import
-    (from lunit
+    (from ltest
       (check-failed-is 2)
       (check-wrong-is-exception 2))))
 
-(include-lib "deps/lunit/include/lunit-macros.lfe")
+(include-lib "deps/ltest/include/ltest-macros.lfe")
 
 (deftest is-home-dir?
   (is-not (lutil-file:is-home-dir? "~"))

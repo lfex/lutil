@@ -1,8 +1,8 @@
 (defmodule lutil-math-tests
-  (behaviour lunit-unit)
+  (behaviour ltest-unit)
   (export all))
 
-(include-lib "deps/lunit/include/lunit-macros.lfe")
+(include-lib "deps/ltest/include/ltest-macros.lfe")
 
 (deftest fast-floor
   (is-equal 0 (lutil-math:fast-floor 0.0))

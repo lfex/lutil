@@ -1,8 +1,8 @@
 (defmodule lutil-text-tests
-  (behaviour lunit-unit)
+  (behaviour ltest-unit)
   (export all))
 
-(include-lib "deps/lunit/include/lunit-macros.lfe")
+(include-lib "deps/ltest/include/ltest-macros.lfe")
 
 (deftest strip
   (is-equal "data" (lutil-text:strip "data\n"))
