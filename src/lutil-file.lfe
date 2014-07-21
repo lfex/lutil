@@ -112,6 +112,17 @@
         (filename:rootname filename)))
     file-data))
 
+(defun beams->files (beam-data)
+  "Given a list of beams (no .beam extension), return a list of files (with
+  the .beam extension)."
+  (lists:map
+    (match-lambda
+      (((tuple mod beam))
+        `#(,mod ,(++ beam ".beam")))
+      ((beam)
+        (++ beam ".beam")))
+    beam-data))
+
 (defun beams->modules (beams-list)
   (lists:map
     #'beam->module/1
