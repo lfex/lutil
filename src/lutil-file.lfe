@@ -80,7 +80,8 @@
   ;; do actual compile
   (lists:map
     (lambda (x)
-      (lfe_comp:file x `(verbose report #(outdir ,out-dir))))
+      (lfe_comp:file x `(verbose report #(outdir ,out-dir)
+                                        #(i "include"))))
     lfe-files))
 
 (defun compile-src ()
@@ -197,3 +198,19 @@
   (lists:filter
     #'lutil:check/1
     (funcall func beams)))
+
+(defun get-arg (arg-name default)
+  (let ((arg-value (init:get_argument arg-name)))
+    (case arg-value
+      ('error
+        `#(default ((,default))))
+      (_ arg-value))))
+
+(defun get-cwd ()
+  "The current workding directory in this case is the directory that the user
+  executed lfetool *from*. Shortly after it starts up, the lfetool script
+  switches from this dir to the actual directory where the lfetool code/library
+  lives. To preserve the original cwd, it is passed as a parameter to erl
+  during start up. That value is accessed with this function."
+  (caar
+    (element 2 (get-arg 'cwd "."))))
