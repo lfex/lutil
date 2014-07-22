@@ -113,11 +113,13 @@
   (compile-src (get-ebin-dir)))
 
 (defun compile-src (out-dir)
-  (compile
-    (filelib:wildcard
-      (filename:join (get-src-dir) "*.lfe"))
-    (get-deps)
-    out-dir))
+  (lists:merge
+    (compile
+      (filelib:wildcard
+        (filename:join (get-src-dir) "*.lfe"))
+      (get-deps)
+      out-dir)
+    (list (compile-app-src))))
 
 (defun compile-test ()
   (compile-test (get-eunit-dir)))
@@ -128,6 +130,19 @@
       (filename:join (get-test-dir) "*.lfe"))
     (get-deps)
     out-dir))
+
+(defun compile-app-src ()
+  (let* ((app-src (car (filelib:wildcard
+                         (filename:join
+                           "src"
+                           "*.app.src"))))
+         (app-dst (filename:join "ebin"
+                             (filename:basename
+                               (filename:rootname app-src)))))
+    (case (file:copy app-src app-dst)
+      ((tuple 'ok _)
+        `#(ok #(app-src ,app-src)
+              #(app-dst ,app-dst))))))
 
 (defun compile-deps ()
   (let (((tuple 'ok orig-cwd) (file:get_cwd)))
