@@ -104,10 +104,17 @@
   ;; do actual compile
   (lists:map
     (lambda (x)
-      (lfe_comp:file x `(verbose report
-                                 #(outdir ,out-dir)
-                                 #(i "include"))))
+      (case (compile-file x out-dir)
+        ((= (tuple 'ok mod) result)
+          result)
+        ('error
+          `#(error ,x))))
     lfe-files))
+
+(defun compile-file (filename out-dir)
+  (lfe_comp:file filename `(verbose report
+                                    #(outdir ,out-dir)
+                                    #(i "include"))))
 
 (defun compile-src ()
   (compile-src (get-ebin-dir)))
