@@ -20,9 +20,32 @@
                   (string:substr path-with-home 3))))
         ('true path-with-home)))
 
-(defun get-deps ()
+(defun get-local-dir (dir)
+  "Get the local path to a given dir, using (get-cwd)."
+  (filename:join `(,(get-cwd) ,dir)))
+
+(defun get-deps-dir ()
   "Get the default dependency directories for the current directory."
-  (get-deps '("./deps")))
+  (get-deps `(,(get-local-dir "deps"))))
+
+(defun get-ebin-dir ()
+  "Get the ebin directory for the current directory."
+  (get-deps `(,(get-local-dir "ebin"))))
+
+(defun get-src-dir ()
+  "Get the src directory for the current directory."
+  (get-deps `(,(get-local-dir "src"))))
+
+(defun get-test-dir ()
+  "Get the test directory for the current directory."
+  (get-deps `(,(get-local-dir "test"))))
+
+(defun get-eunit-dir ()
+  "Get the .eunit directory for the current directory."
+  (get-deps `(,(get-local-dir ".eunit"))))
+
+(defun get-deps ()
+  (get-deps `(,(get-deps-dir))))
 
 (defun get-deps (deps-dirs)
   "This function supports multiple dependency directories.
@@ -40,7 +63,7 @@
   (lists:merge
     (lists:map
       (lambda (x)
-        (filelib:wildcard (++ x "/*")))
+        (filelib:wildcard (filename:join x "*")))
       deps-dirs)))
 
 (defun check-deps (deps-subdirs)
@@ -66,10 +89,9 @@
     (check-deps deps-subdirs)))
 
 (defun compile (lfe-files)
-  (compile lfe-files (get-deps) "."))
+  (compile lfe-files (get-deps) (get-ebin-dir)))
 
 (defun compile (lfe-files out-dir)
-  ;; update code paths
   (compile lfe-files (get-deps) out-dir))
 
 (defun compile (lfe-files deps-dirs out-dir)
@@ -79,21 +101,30 @@
   ;; do actual compile
   (lists:map
     (lambda (x)
-      (lfe_comp:file x `(verbose report #(outdir ,out-dir)
-                                        #(i "include"))))
+      (lfe_comp:file x `(verbose report
+                                 #(outdir ,out-dir)
+                                 #(i "include"))))
     lfe-files))
 
 (defun compile-src ()
-  (compile-src "./ebin"))
+  (compile-src (get-ebin-dir)))
 
 (defun compile-src (out-dir)
-  (compile (filelib:wildcard "./src/*.lfe") (get-deps) out-dir))
+  (compile
+    (filelib:wildcard
+      (filename:join (get-src-dir) "*.lfe"))
+    (get-deps)
+    out-dir))
 
 (defun compile-test ()
-  (compile-test "./.eunit"))
+  (compile-test (get-eunit-dir)))
 
 (defun compile-test (out-dir)
-  (compile (filelib:wildcard "./test/*.lfe") (get-deps) out-dir))
+  (compile
+    (filelib:wildcard
+      (filename:join (get-test-dir) "*.lfe"))
+    (get-deps)
+    out-dir))
 
 (defun files->beams (file-data)
   "This function handles two cases:
