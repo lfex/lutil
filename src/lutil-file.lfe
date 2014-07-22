@@ -73,6 +73,10 @@
 (defun compile (lfe-files)
   (compile lfe-files (get-deps) "."))
 
+(defun compile (lfe-files out-dir)
+  ;; update code paths
+  (compile lfe-files (get-deps) out-dir))
+
 (defun compile (lfe-files deps-dirs out-dir)
   ;; update code paths
   (code:set_path (++ (get-deps deps-dirs)
