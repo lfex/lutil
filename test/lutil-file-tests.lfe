@@ -43,7 +43,7 @@
     "../lfe-reveal-js/deps/yaws"
     "deps/.DS_Store"
     "deps/lfe"
-    "deps/lunit"))
+    "deps/lfeunit"))
 
 (defun expected-checked-subdirs ()
   '(false
@@ -61,7 +61,7 @@
     "../lfe-reveal-js/deps/yaws"
     false
     "deps/lfe"
-    "deps/lunit"))
+    false))
 
 (defun expected-filtered-subdirs ()
   '("../exemplar/deps/lfe"
@@ -75,8 +75,7 @@
     "../lfe-reveal-js/deps/lfe-utils"
     "../lfe-reveal-js/deps/lfeunit"
     "../lfe-reveal-js/deps/yaws"
-    "deps/lfe"
-    "deps/lunit"))
+    "deps/lfe"))
 
 (deftest check-deps
   (is-equal
