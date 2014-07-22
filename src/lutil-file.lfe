@@ -26,23 +26,23 @@
 
 (defun get-deps-dir ()
   "Get the default dependency directories for the current directory."
-  (get-deps `(,(get-local-dir "deps"))))
+  (get-local-dir "deps"))
 
 (defun get-ebin-dir ()
   "Get the ebin directory for the current directory."
-  (get-deps `(,(get-local-dir "ebin"))))
+  (get-local-dir "ebin"))
 
 (defun get-src-dir ()
   "Get the src directory for the current directory."
-  (get-deps `(,(get-local-dir "src"))))
+  (get-local-dir "src"))
 
 (defun get-test-dir ()
   "Get the test directory for the current directory."
-  (get-deps `(,(get-local-dir "test"))))
+  (get-local-dir "test"))
 
 (defun get-eunit-dir ()
   "Get the .eunit directory for the current directory."
-  (get-deps `(,(get-local-dir ".eunit"))))
+  (get-local-dir ".eunit"))
 
 (defun get-deps ()
   (get-deps `(,(get-deps-dir))))
@@ -55,6 +55,9 @@
   directories provided."
   (filter-deps
     (get-deps-subdirs deps-dirs)))
+
+(defun get-deps-subdirs ()
+  (get-deps-subdirs `(,(get-deps-dir))))
 
 (defun get-deps-subdirs (deps-dirs)
   "Given a set of dependency directories, get a list of lists, where each
@@ -125,6 +128,17 @@
       (filename:join (get-test-dir) "*.lfe"))
     (get-deps)
     out-dir))
+
+(defun compile-deps ()
+  (let (((tuple 'ok orig-cwd) (file:get_cwd)))
+    (lists:map
+      (lambda (x)
+        (file:set_cwd x)
+        (compile
+          (filelib:wildcard (filename:join '("src" "*.lfe")))
+          "ebin"))
+      (get-deps))
+    (file:set_cwd orig-cwd)))
 
 (defun files->beams (file-data)
   "This function handles two cases:
