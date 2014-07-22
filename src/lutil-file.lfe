@@ -8,11 +8,6 @@
   (file:write_file filename
      (io_lib:fwrite '"~p.~n" (list data))))
 
-(defun get-home-dir ()
-  (let (((list (tuple 'home (list home)))
-         (lists:sublist (init:get_arguments) 3 1)))
-    home))
-
 (defun is-home-dir? (path)
   (cond ((=:= '"~/" (string:substr path 1 2))
          'true)
@@ -229,3 +224,7 @@
   during start up. That value is accessed with this function."
   (caar
     (element 2 (get-arg 'cwd "."))))
+
+(defun get-home-dir ()
+  (caar
+    (element 2 (lutil-file:get-arg 'home #(ok (("/tmp")))))))
