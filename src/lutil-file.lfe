@@ -8,6 +8,10 @@
   (file:write_file filename
      (io_lib:fwrite '"~p.~n" (list data))))
 
+(defun mkdirs (path)
+  (filelib:ensure_dir path)
+  (file:make_dir path))
+
 (defun is-home-dir? (path)
   (cond ((=:= '"~/" (string:substr path 1 2))
          'true)
