@@ -29,6 +29,14 @@
     (dict:from_list
        (lists:zip keys values))))
 
+(defun rename-key (old-key new-key old-proplist)
+  "Given an old key, a new key, and an proplist to operate upon, rename the
+  keys. This is essentially a create-new-k/v followed by a delete-old-k/v
+  set of operations."
+  (let ((new-proplist (++ old-proplist
+                     `(#(,new-key ,(get_value old-key old-proplist))))))
+    (delete old-key new-proplist)))
+
 (defun list->tuple (list-data)
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
