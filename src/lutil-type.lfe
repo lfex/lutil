@@ -34,8 +34,10 @@
   keys. This is essentially a create-new-k/v followed by a delete-old-k/v
   set of operations."
   (let ((new-proplist (++ old-proplist
-                     `(#(,new-key ,(get_value old-key old-proplist))))))
-    (delete old-key new-proplist)))
+                     `(#(,new-key ,(proplists:get_value
+                                     old-key
+                                     old-proplist))))))
+    (proplists:delete old-key new-proplist)))
 
 (defun list->tuple (list-data)
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
