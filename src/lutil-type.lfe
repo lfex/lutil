@@ -39,6 +39,10 @@
                                      old-proplist))))))
     (proplists:delete old-key new-proplist)))
 
+(defun host->tuple (host)
+  (let ((`#(ok ,tuple) (inet:getaddr host 'inet)))
+    tuple))
+
 (defun list->tuple (list-data)
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
