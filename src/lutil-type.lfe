@@ -56,6 +56,12 @@
   (let ((`#(ok ,tuple) (inet:getaddr host 'inet)))
     tuple))
 
+(defun tuple->host (data)
+  (string:join
+    (lists:map
+      #'integer_to_list/1 (tuple_to_list data))
+    "."))
+
 (defun list->tuple (list-data)
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
