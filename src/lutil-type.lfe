@@ -1,5 +1,5 @@
-;;; data types and type ops
-
+;;;; data types and type ops
+;;;;
 (defmodule lutil-type
   (export all))
 

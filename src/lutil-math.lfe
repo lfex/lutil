@@ -1,5 +1,3 @@
-;;; math
-
 (defmodule lutil-math
   (export all))
 

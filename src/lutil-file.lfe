@@ -1,5 +1,3 @@
-;;; files
-
 (defmodule lutil-file
   (export all))
 
