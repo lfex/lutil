@@ -17,3 +17,7 @@
   (is-not (is_list (lutil:uuid4 (tuple 'type 'binary))))
   (is (is_atom (lutil:uuid4 (tuple 'type 'atom))))
   (is-not (is_atom (lutil:uuid4 (tuple 'type 'list)))))
+
+(deftest check
+  (is (lutil:check 'true))
+  (is-not (lutil:check 'false)))
