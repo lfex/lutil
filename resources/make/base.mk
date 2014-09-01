@@ -1,37 +1,39 @@
+ifeq ($(shell which erl),)
+$(error Can't find Erlang executable 'erl')
+exit 1
+endif
 PROJECT = lutil
 LIB = $(PROJECT)
 DEPS = ./deps
 BIN_DIR = ./bin
 EXPM = $(BIN_DIR)/expm
-LFETOOL=/usr/local/bin/lfetool
+
 SOURCE_DIR = ./src
 OUT_DIR = ./ebin
 TEST_DIR = ./test
 TEST_OUT_DIR = ./.eunit
-SCRIPT_PATH=.:./bin:$(PATH)
-ERL_LIBS=$(shell $(LFETOOL) info erllibs):~/.lfetool/ebin
+SCRIPT_PATH=$(DEPS)/lfe/bin:.:./bin:"$(PATH)":/usr/local/bin
+ERL_LIBS=$(shell $(LFETOOL) info erllibs):.:..
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 $(LFETOOL): $(BIN_DIR)
-	curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/master/lfetool
-	chmod 755 ./lfetool
-	mv ./lfetool ./bin/
+	@[ -f $(LFETOOL) ] || \
+	curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/master/lfetool && \
+	chmod 755 ./lfetool && \
+	mv ./lfetool $(BIN_DIR)
 
 get-version:
 	@PATH=$(SCRIPT_PATH) lfetool info version
-	@echo "Erlang/OTP, LFE, & library versions:"
-	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
-	-eval "lfe_io:format(\"~p~n\",[lutil:'get-versions'()])." \
-	-noshell -s erlang halt
 
 $(EXPM): $(BIN_DIR)
-	@#@PATH=$(SCRIPT_PATH) lfetool install expm
+	@[ -f $(EXPM) ] || \
+	PATH=$(SCRIPT_PATH) lfetool install expm $(BIN_DIR)
 
 get-deps:
 	@echo "Getting dependencies ..."
-	@rebar get-deps
+	@which rebar.cmd >/dev/null 2>&1 && rebar.cmd get-deps || rebar get-deps
 	@PATH=$(SCRIPT_PATH) lfetool update deps
 
 clean-ebin:
@@ -43,36 +45,40 @@ clean-eunit:
 
 compile: get-deps clean-ebin
 	@echo "Compiling project code and dependencies ..."
-	@rebar compile
+	@which rebar.cmd >/dev/null 2>&1 &&
+	ERL_LIBS=$(ERL_LIBS) rebar.cmd compile || \
+	ERL_LIBS=$(ERL_LIBS) rebar compile
 
 compile-no-deps: clean-ebin
 	@echo "Compiling only project code ..."
-	@rebar compile skip_deps=true
+	@which rebar.cmd >/dev/null 2>&1 && \
+	ERL_LIBS=$(ERL_LIBS) rebar.cmd compile skip_deps=true || \
+	ERL_LIBS=$(ERL_LIBS) rebar compile skip_deps=true
 
 compile-tests:
-	@PATH=$(SCRIPT_PATH) lfetool tests build
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool tests build
 
-shell: compile
-	@clear
+repl: compile
+	@which clear >/dev/null 2>&1 && clear || printf "\033c"
 	@echo "Starting shell ..."
-	@PATH=$(SCRIPT_PATH) lfetool repl
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool repl
 
-shell-no-deps: compile-no-deps
-	@clear
+repl-no-deps: compile-no-deps
+	@which clear >/dev/null 2>&1 && clear || printf "\033c"
 	@echo "Starting shell ..."
-	@PATH=$(SCRIPT_PATH) lfetool repl
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool repl
 
 clean: clean-ebin clean-eunit
-	@rebar clean
+	@which rebar.cmd >/dev/null 2>&1 && rebar.cmd clean || rebar clean
 
 check-unit-only:
-	@PATH=$(SCRIPT_PATH) lfetool tests unit
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool tests unit
 
 check-integration-only:
-	@PATH=$(SCRIPT_PATH) lfetool tests integration
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool tests integration
 
 check-system-only:
-	@PATH=$(SCRIPT_PATH) lfetool tests system
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool tests system
 
 check-unit-with-deps: get-deps compile compile-tests check-unit-only
 check-unit: compile-no-deps check-unit-only
@@ -81,7 +87,7 @@ check-system: compile check-system-only
 check-all-with-deps: compile check-unit-only check-integration-only \
 	check-system-only
 check-all: get-deps compile-no-deps
-	@PATH=$(SCRIPT_PATH) lfetool tests all
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfetool tests all
 
 check: check-unit-with-deps
 
@@ -90,16 +96,16 @@ check-travis: $(LFETOOL) check
 push-all:
 	@echo "Pusing code to github ..."
 	git push --all
-	#git push upstream --all
+	git push upstream --all
 	git push --tags
-	#git push upstream --tags
+	git push upstream --tags
 
 install: compile
-	@echo "Installing $(PROJCET) ..."
+	@echo "Installing lmug-yaws ..."
 	@PATH=$(SCRIPT_PATH) lfetool install lfe
 
 upload: $(EXPM) get-version
-	@echo "Preparing to upload $(PROJECT) ..."
+	@echo "Preparing to upload lmug-yaws ..."
 	@echo
 	@echo "Package file:"
 	@echo
