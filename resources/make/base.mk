@@ -13,9 +13,9 @@ TEST_DIR = ./test
 TEST_OUT_DIR = ./.eunit
 SCRIPT_PATH=$(DEPS)/lfe/bin:.:./bin:"$(PATH)":/usr/local/bin
 ifeq ($(shell which lfetool),)
-	LFETOOL=$(BIN_DIR)/lfetool
+LFETOOL=$(BIN_DIR)/lfetool
 else
-	LFETOOL=lfetool
+LFETOOL=lfetool
 endif
 ERL_LIBS=$(shell $(LFETOOL) info erllibs):.:..
 OS := $(shell uname -s)
@@ -59,7 +59,7 @@ clean-eunit:
 
 compile: get-deps clean-ebin
 	@echo "Compiling project code and dependencies ..."
-	@which rebar.cmd >/dev/null 2>&1 &&
+	@which rebar.cmd >/dev/null 2>&1 && \
 	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar.cmd compile || \
 	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile
 
