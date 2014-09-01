@@ -12,7 +12,7 @@ OUT_DIR = ./ebin
 TEST_DIR = ./test
 TEST_OUT_DIR = ./.eunit
 SCRIPT_PATH=$(DEPS)/lfe/bin:.:./bin:"$(PATH)":/usr/local/bin
-ifeq ($(shell which lfetool),$EMPTY)
+ifeq ($(shell which lfetool),)
 	LFETOOL=$(BIN_DIR)/lfetool
 else
 	LFETOOL=lfetool
