@@ -1,5 +1,3 @@
-;;; text
-
 (defmodule lutil-text
   (export all))
 

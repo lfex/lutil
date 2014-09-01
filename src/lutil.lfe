@@ -1,4 +1,5 @@
-;;; misc utility functions
+;;;; misc utility functions
+;;;;
 (defmodule lutil
   (export all))
 
