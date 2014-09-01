@@ -235,3 +235,47 @@
         (lambda (str2)
           (list (levenshtein-distance str1 str2) str2))
         str-list))))
+
+(defun get-closest (number numbers)
+  "Given a number and a list of numbers, the number in the list that is closest
+  to the given number will be returned."
+  (cadr
+    (lists:min
+      (lists:map
+        (lambda (x)
+          `(,(abs (- x number)) ,x))
+      (lists:reverse numbers)))))
+
+(defun get-gradations (start inc count)
+  "Given a starting number, a number to add at each iteration, and a number of
+  times to iterate, return a list of these incrementated gradations."
+  (lists:reverse
+    (lists:foldl
+      (lambda (_ acc)
+        (cons (+ inc (car acc)) acc))
+      `(,start)
+      (lists:seq 1 count))))
+
+(defun xform-numbers
+  "Given a list of numbers, transform them into the number of groups
+  represented by 'divisions'.
+
+  Keep in mind that 1 division results in two groups; 9 divisions gives 10
+  groups."
+  ((divisions _ _) (when (< divisions 0))
+    (error "The number of divisions must be positive."))
+  ((0 numbers _)
+    (lists:duplicate (length numbers) (float (lists:min numbers))))
+  ((divisions numbers precision)
+    (let* ((min (lists:min numbers))
+           (max (lists:max numbers))
+           (dist (- max min))
+           (inc (/ dist divisions))
+           (grades (get-gradations min inc divisions)))
+      (lists:map
+        (lambda (x)
+          (round (get-closest x grades) precision)) numbers))))
+
+(defun xform-numbers (divisions numbers)
+  "The default precision for rounding decimals is two places."
+  (xform-numbers divisions numbers 2))

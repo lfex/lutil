@@ -123,3 +123,43 @@
     (lutil-math:levenshtein-sort
       "aaaa"
       '("bbbb" "aaac" "abab" "aaba" "aaab" "abbb"))))
+
+(deftest get-closest
+  (let ((range '(1.0 3.25 5.5 7.75 10.0)))
+    (is-equal 1.0 (lutil-math:get-closest 1 range))
+    (is-equal 1.0 (lutil-math:get-closest 2 range))
+    (is-equal 3.25 (lutil-math:get-closest 3 range))
+    (is-equal 3.25 (lutil-math:get-closest 4 range))
+    (is-equal 5.5 (lutil-math:get-closest 5 range))
+    (is-equal 5.5 (lutil-math:get-closest 6 range))
+    (is-equal 7.75 (lutil-math:get-closest 7 range))
+    (is-equal 7.75 (lutil-math:get-closest 8 range))
+    (is-equal 10.0 (lutil-math:get-closest 9 range))
+    (is-equal 10.0 (lutil-math:get-closest 10 range))))
+
+(deftest get-gradations
+  (is-equal '(1.0 3.25 5.5 7.75 10.0) (lutil-math:get-gradations 1.0 2.25 4)))
+
+(deftest xform-numbers
+  (is-equal '(1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0)
+            (lutil-math:xform-numbers 0 (lists:seq 1 10)))
+  (is-equal '(1.0 1.0 1.0 1.0 1.0 10.0 10.0 10.0 10.0 10.0)
+            (lutil-math:xform-numbers 1 (lists:seq 1 10)))
+  (is-equal '(1.0 1.0 1.0 5.5 5.5 5.5 5.5 10.0 10.0 10.0)
+            (lutil-math:xform-numbers 2 (lists:seq 1 10)))
+  (is-equal '(1.0 1.0 4.0 4.0 4.0 7.0 7.0 7.0 10.0 10.0)
+            (lutil-math:xform-numbers 3 (lists:seq 1 10)))
+  (is-equal '(1.0 1.0 3.25 3.25 5.5 5.5 7.75 7.75 10.0 10.0)
+            (lutil-math:xform-numbers 4 (lists:seq 1 10)))
+  (is-equal '(1.0 2.8 2.8 4.6 4.6 6.4 6.4 8.2 8.2 10.0)
+            (lutil-math:xform-numbers 5 (lists:seq 1 10)))
+  (is-equal '(1.0 2.5 2.5 4.0 5.5 5.5 7.0 8.5 8.5 10.0)
+            (lutil-math:xform-numbers 6 (lists:seq 1 10)))
+  (is-equal '(1.0 2.29 3.57 3.57 4.86 6.14 7.43 7.43 8.71 10.0)
+            (lutil-math:xform-numbers 7 (lists:seq 1 10)))
+  (is-equal '(1.0 2.13 3.25 4.38 5.5 5.5 6.63 7.75 8.88 10.0)
+            (lutil-math:xform-numbers 8 (lists:seq 1 10)))
+  (is-equal '(1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0)
+            (lutil-math:xform-numbers 9 (lists:seq 1 10)))
+  (is-equal '(1 1 1 5.5 5.5 5.5 5.5 10.0 10.0 10.0)
+            (lutil-math:xform-numbers 10 (lists:seq 1 10))))
