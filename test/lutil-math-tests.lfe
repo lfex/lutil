@@ -160,6 +160,4 @@
   (is-equal '(1.0 2.13 3.25 4.38 5.5 5.5 6.63 7.75 8.88 10.0)
             (lutil-math:xform-numbers 8 (lists:seq 1 10)))
   (is-equal '(1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0)
-            (lutil-math:xform-numbers 9 (lists:seq 1 10)))
-  (is-equal '(1 1 1 5.5 5.5 5.5 5.5 10.0 10.0 10.0)
-            (lutil-math:xform-numbers 10 (lists:seq 1 10))))
+            (lutil-math:xform-numbers 9 (lists:seq 1 10))))
