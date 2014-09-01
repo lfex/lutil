@@ -29,8 +29,7 @@ endif
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-$(BIN_DIR)/lfetool: $(BIN_DIR)
-	@[ -f $(LFETOOL) ] || \
+get-lfetool: $(BIN_DIR)
 	curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/master/lfetool && \
 	chmod 755 ./lfetool && \
 	mv ./lfetool $(BIN_DIR)
@@ -61,14 +60,15 @@ clean-eunit:
 compile: get-deps clean-ebin
 	@echo "Compiling project code and dependencies ..."
 	@which rebar.cmd >/dev/null 2>&1 &&
-	ERL_LIBS=$(ERL_LIBS) rebar.cmd compile || \
-	ERL_LIBS=$(ERL_LIBS) rebar compile
+	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar.cmd compile || \
+	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile
 
 compile-no-deps: clean-ebin
 	@echo "Compiling only project code ..."
 	@which rebar.cmd >/dev/null 2>&1 && \
-	ERL_LIBS=$(ERL_LIBS) rebar.cmd compile skip_deps=true || \
-	ERL_LIBS=$(ERL_LIBS) rebar compile skip_deps=true
+	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) \
+	rebar.cmd compile skip_deps=true || \
+	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile skip_deps=true
 
 compile-tests:
 	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests build
@@ -105,8 +105,6 @@ check-all: get-deps compile-no-deps
 	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests all
 
 check: check-unit-with-deps
-
-check-travis: $(BIN_DIR)/lfetool check
 
 push-all:
 	@echo "Pusing code to github ..."
