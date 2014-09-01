@@ -1,6 +1,6 @@
 Expm.Package.new(name: "lutil",
                  description: "Utility functions for LFE",
-                 version: "0.2.4",
+                 version: "0.2.5",
                  keywords: ["LFE", "Lisp", "Utility", "Library"],
                  maintainers: [[name: "Duncan McGreggor",
                                 email: "oubiwann@cogitat.io"]],
