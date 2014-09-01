@@ -29,7 +29,7 @@ endif
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-$(LFETOOL): $(BIN_DIR)
+$(BIN_DIR)/lfetool: $(BIN_DIR)
 	@[ -f $(LFETOOL) ] || \
 	curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/master/lfetool && \
 	chmod 755 ./lfetool && \
