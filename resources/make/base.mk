@@ -7,13 +7,24 @@ LIB = $(PROJECT)
 DEPS = ./deps
 BIN_DIR = ./bin
 EXPM = $(BIN_DIR)/expm
-
 SOURCE_DIR = ./src
 OUT_DIR = ./ebin
 TEST_DIR = ./test
 TEST_OUT_DIR = ./.eunit
 SCRIPT_PATH=$(DEPS)/lfe/bin:.:./bin:"$(PATH)":/usr/local/bin
+ifeq ($(shell which lfetool),$EMPTY)
+	LFETOOL=$(BIN_DIR)/lfetool
+else
+	LFETOOL=lfetool
+endif
 ERL_LIBS=$(shell $(LFETOOL) info erllibs):.:..
+OS := $(shell uname -s)
+ifeq ($(OS),Linux)
+        HOST=$(HOSTNAME)
+endif
+ifeq ($(OS),Darwin)
+        HOST = $(shell scutil --get ComputerName)
+endif
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
