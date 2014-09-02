@@ -256,6 +256,12 @@
       `(,start)
       (lists:seq 1 count))))
 
+(defun get-gradations
+  ((`(,min ,max) divisions)
+    (let* ((dist (- max min))
+           (inc (/ dist divisions)))
+      (get-gradations min inc divisions))))
+
 (defun xform-numbers
   "Given a list of numbers, transform them into the number of groups
   represented by 'divisions'.
