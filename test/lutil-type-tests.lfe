@@ -61,3 +61,44 @@
   (is-not (lutil-type:atom? "string data! yaya!"))
   (is (lutil-type:atom? 'my-atom))
   (is (lutil-type:atom? '|more atom data|)))
+
+(deftest zip-1
+  (is-equal
+    '((1 4 7 10 13 16)
+      (2 5 8 11 14 17)
+      (3 6 9 12 15 18))
+    (lutil-type:zip   '((1  2  3)
+                        (4  5  6)
+                        (7  8  9)
+                        (10 11 12)
+                        (13 14 15)
+                        (16 17 18)))))
+
+(deftest zip-2
+  (is-equal
+    '((1 2)
+      (2 3)
+      (3 4)
+      (4 5))
+    (lutil-type:zip '(1 2 3 4) '(2 3 4 5))))
+
+(deftest zip-3
+  (is-equal
+    '((1 2 3)
+      (2 3 4)
+      (3 4 5)
+      (4 5 6))
+    (lutil-type:zip '(1 2 3 4)
+                    '(2 3 4 5)
+                    '(3 4 5 6))))
+
+(deftest zip-4
+  (is-equal
+    '((1 5 8 4)
+      (2 6 7 3)
+      (3 7 6 2)
+      (4 8 5 1))
+    (lutil-type:zip '(1 2 3 4)
+                    '(5 6 7 8)
+                    '(8 7 6 5)
+                    '(4 3 2 1))))
