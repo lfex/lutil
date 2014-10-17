@@ -2,10 +2,10 @@
 {application, lutil,
  [
   %% A quick description of the application.
-  {description, "LFE Utility Functions."},
+  {description, "LFE Utility Functions and macros."},
 
   %% The version of the application
-  {vsn, "0.2.9"},
+  {vsn, "0.3.0"},
 
   %% All modules used by the application.
   {modules,
