@@ -296,4 +296,4 @@
 
 (defun get-home-dir ()
   (caar
-    (element 2 (lutil-file:get-arg 'home #(ok (("/tmp")))))))
+    (element 2 (get-arg 'home #(ok (("/tmp")))))))
