@@ -118,6 +118,12 @@
 (defun reference? (data)
   (is_reference data))
 
+(defun dict?
+  ((data) (when (andalso (is_tuple data) (== 'dict (element 1 data))))
+    'true)
+  ((_)
+    'false))
+
 ;; The zip/2, zip/3, and zip/4 implementations are for kicks; probably *much*
 ;; better to use Erlang's lists:zip/2 and lists:zip3/3. There's no zip/4, so
 ;; hey -- have fun. The zip/1 function is what's most interesting: it can be

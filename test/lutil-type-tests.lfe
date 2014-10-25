@@ -62,6 +62,14 @@
   (is (lutil-type:atom? 'my-atom))
   (is (lutil-type:atom? '|more atom data|)))
 
+(deftest dict?
+  (is-not (lutil-type:dict? "a string"))
+  (is-not (lutil-type:dict? '("a" "list")))
+  (is-not (lutil-type:dict? #b("a binary")))
+  (is-not (lutil-type:dict? #("a" "tuple")))
+  (is-not (lutil-type:dict? '(#("a" "tuple"))))
+  (is (lutil-type:dict? (dict:from_list '(#("a" "tuple"))))))
+
 (deftest zip-1
   (is-equal
     '((1 4 7 10 13 16)
