@@ -119,7 +119,7 @@
   (is_reference data))
 
 (defun dict?
-  ((data) (when (andalso (is_tuple data) (== 'dict (element 1 data))))
+  ((data) (when (== 'dict (element 1 data)))
     'true)
   ((_)
     'false))
