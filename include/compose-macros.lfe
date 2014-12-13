@@ -17,6 +17,7 @@
 ;;
 ;; Note that usage of this macro with this examples results in each successive
 ;; value being APPENDED to the input list.
+;;
 (defmacro ->
   ((x) x)
   ((x sexp) (when (is_list sexp))
@@ -45,6 +46,7 @@
 ;;
 ;; Note that usage of this macro with this examples results in each successive
 ;; value being PREPENDED to the input list.
+;;
 (defmacro ->>
   ((x) x)
   ((x sexp) (when (is_list sexp))
@@ -53,3 +55,32 @@
    `(list ,sexp ,x))
   ((x sexp . sexps)
    `(->> (->> ,x ,sexp) ,@sexps)))
+
+;; The following 'compose' functions aren't macros but are conceptual
+;; companions to the thrushing macros above.
+;;
+;; Example usage:
+;;
+;; > (include-file "include/compose-macros.lfe")
+;; compose
+;; > (funcall (compose #'math:sin/1 #'math:asin/1)
+;;            0.5)
+;; 0.49999999999999994
+;; > (funcall (compose `(,#'math:sin/1
+;;                       ,#'math:asin/1
+;;                       ,(lambda (x) (+ x 1))))
+;;            0.5)
+;; 1.5
+;; > (compose #'math:sin/1 #'math:asin/1 0.5)
+;; 0.49999999999999994
+;;
+(defun compose (func-1 func-2)
+  (lambda (x)
+    (funcall func-1
+      (funcall func-2 x))))
+
+(defun compose (f g x)
+  (funcall (compose f g) x))
+
+(defun compose (funcs)
+  (lists:foldl #'compose/2 (lambda (x) x) funcs))
