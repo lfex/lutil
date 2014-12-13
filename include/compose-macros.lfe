@@ -71,13 +71,25 @@
 ;;                       ,(lambda (x) (+ x 1))))
 ;;            0.5)
 ;; 1.5
+;;
+;; One may also call compose in the following manner, best suited for direct
+;; usage; the usage above is best when 'compose' will be called from in
+;; functions like '(lists:foldl ...)' or '(lists:filter ...)', etc.
+;;
 ;; > (compose #'math:sin/1 #'math:asin/1 0.5)
 ;; 0.49999999999999994
+;; > (compose `(,#'math:sin/1
+;;              ,#'math:asin/1
+;;              ,(lambda (x) (+ x 1))) 0.5)
+;; 1.5
 ;;
-(defun compose (func-1 func-2)
-  (lambda (x)
-    (funcall func-1
-      (funcall func-2 x))))
+(defun compose
+  ((func-1 func-2) (when (is_function func-2))
+    (lambda (x)
+      (funcall func-1
+        (funcall func-2 x))))
+  ((funcs x)
+    (funcall (compose funcs) x)))
 
 (defun compose (f g x)
   (funcall (compose f g) x))
