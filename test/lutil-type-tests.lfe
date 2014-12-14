@@ -71,6 +71,13 @@
   (is-not (lutil-type:dict? '(#("a" "tuple"))))
   (is (lutil-type:dict? (dict:from_list '(#("a" "tuple"))))))
 
+(deftest set?
+  (is-not (set? '(c a b)))
+  (is (set? '(a b c)))
+  (is (set? '()))
+  (is (set? (sets:new)))
+  (is (set? (ordsets:new))))
+
 (deftest undef?
   (is-not (undef? 42))
   (is-not (undef? 'undef))
@@ -127,6 +134,34 @@
   (is-equal (test-not-in-with-guard 'j) 'found)
   (is-equal (test-not-in-with-guard 'k) 'found)
   (is-equal (test-not-in-with-guard 'a) 'not-found))
+
+(deftest identical?
+  (is (identical? '(a b c) '(a b c)))
+  (is-not (identical? '(a b c) '(a b d))))
+
+(deftest empty?
+  (is (empty? '()))
+  (is-not (empty? '(1 2 3))))
+
+(deftest every?
+  (is (every? #'zero?/1 '(0 0 0 0 0)))
+  (is-not (every? #'zero?/1 '(0 0 0 0 1))))
+
+(deftest any?
+  (is (any? #'zero?/1 '(0 1 1 1 1)))
+  (is-not (any? #'zero?/1 '(1 1 1 1 1))))
+
+(deftest not-any?
+  (is-not (not-any? #'zero?/1 '(0 1 1 1 1)))
+  (is (not-any? #'zero?/1 '(1 1 1 1 1))))
+
+(deftest element?
+  (is (element? 'a '(a b c)))
+  (is-not (element? 'z '(a b c)))
+  (is (element? 'a (sets:from_list '(a b c))))
+  (is-not (element? 'z (sets:from_list '(a b c))))
+  (is (element? 'a (ordsets:from_list '(a b c))))
+  (is-not (element? 'z (ordsets:from_list '(a b c)))))
 
 (deftest zip-1
   (is-equal
