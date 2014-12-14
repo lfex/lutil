@@ -63,3 +63,10 @@
 
 (defun check (x)
   (=/= x 'false))
+
+(defun get-env-funcs (env)
+  (lists:sort
+    (lists:map
+      (lambda (x)
+        (element 1 x))
+      (element 3 env))))
