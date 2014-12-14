@@ -3,6 +3,7 @@
   (export all))
 
 (include-lib "deps/ltest/include/ltest-macros.lfe")
+(include-lib "lutil/include/predicates.lfe")
 
 (deftest add-tuples
   (let ((data1 (list (tuple 1 2 3) (tuple 2 3 4)))
@@ -69,6 +70,25 @@
   (is-not (lutil-type:dict? #("a" "tuple")))
   (is-not (lutil-type:dict? '(#("a" "tuple"))))
   (is (lutil-type:dict? (dict:from_list '(#("a" "tuple"))))))
+
+(deftest undef?
+  (is-not (undef? 42))
+  (is-not (undef? 'undef))
+  (is (undef? 'undefined)))
+
+(deftest nil?
+  (is-not (nil? 32))
+  (is-not (nil? 'undefined))
+  (is (nil? 'nil))
+  (is (nil? '())))
+
+(deftest true?
+  (is-not (true? 'false))
+  (is (true? 'true)))
+
+(deftest false?
+  (is-not (false? 'true))
+  (is (false? 'false)))
 
 (deftest zip-1
   (is-equal
