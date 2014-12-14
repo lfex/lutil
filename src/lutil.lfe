@@ -5,7 +5,7 @@
 
 ;; The compose macros are included here to allow for easy use in the REPL when
 ;; one slurps this module.
-(include-lib "include/compose-macros.lfe")
+(include-lib "include/compose.lfe")
 
 (defun uuid4 ()
   "Adapted from the implementation given here:
