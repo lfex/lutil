@@ -90,6 +90,44 @@
   (is-not (false? 'true))
   (is (false? 'false)))
 
+(deftest in?
+  (is-not (in? 0 (1 2 3 4 5 6)))
+  (is (in? 6 (1 2 3 4 5 6)))
+  (is-not (in? "z" ("a" "b" "c" "d" "e")))
+  (is (in? "e" ("a" "b" "c" "d" "e")))
+  (is-not (in? 'z ('a 'b 'c 'd 'e)))
+  (is (in? 'e ('a 'b 'c 'd 'e))))
+
+(deftest not-in?
+  (is (not-in? 0 (1 2 3 4 5 6)))
+  (is-not (not-in? 6 (1 2 3 4 5 6)))
+  (is (not-in? "z" ("a" "b" "c" "d" "e")))
+  (is-not (not-in? "e" ("a" "b" "c" "d" "e")))
+  (is (not-in? 'z ('a 'b 'c 'd 'e)))
+  (is-not (not-in? 'e ('a 'b 'c 'd 'e))))
+
+(defun test-in-with-guard
+  ((arg) (when (in? arg ('a 'b 'c)))
+   'found)
+  ((_) 'not-found))
+
+(deftest in?-guard
+  (is-equal (test-in-with-guard 'a) 'found)
+  (is-equal (test-in-with-guard 'b) 'found)
+  (is-equal (test-in-with-guard 'c) 'found)
+  (is-equal (test-in-with-guard 'd) 'not-found))
+
+(defun test-not-in-with-guard
+  ((arg) (when (not-in? arg ('i 'j 'k)))
+   'not-found)
+  ((_) 'found))
+
+(deftest not-in?-guard
+  (is-equal (test-not-in-with-guard 'i) 'found)
+  (is-equal (test-not-in-with-guard 'j) 'found)
+  (is-equal (test-not-in-with-guard 'k) 'found)
+  (is-equal (test-not-in-with-guard 'a) 'not-found))
+
 (deftest zip-1
   (is-equal
     '((1 4 7 10 13 16)
