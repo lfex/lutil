@@ -3,6 +3,7 @@
   (export all))
 
 (include-lib "deps/ltest/include/ltest-macros.lfe")
+(include-lib "lutil/include/predicates.lfe")
 
 (deftest fast-floor
   (is-equal 0 (lutil-math:fast-floor 0.0))
@@ -65,6 +66,20 @@
   (is (lutil-math:even? 2))
   (is-not (lutil-math:even? 3))
   (is (lutil-math:even? 4)))
+
+(deftest zero?
+  (is-not (zero? 1))
+  (is (zero? 0)))
+
+(deftest pos?
+  (is-not (pos? -1))
+  (is (pos? 1))
+  (is (pos? +1)))
+
+(deftest neg?
+  (is-not (neg? 1))
+  (is-not (neg? +1))
+  (is (neg? -1)))
 
 (deftest factorial
   (is-equal 1 (lutil-math:factorial 0))
