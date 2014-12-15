@@ -129,9 +129,9 @@
   function and the second parameter may either be a single item or a list of
   items.
 
-  When funcall is called against the result of partial, a second parameter is
-  applied to the partial function. This parameter too may be either a single
-  item or a list of items."
+  When funcall is called against the result of the partial call, a second
+  parameter is applied to the partial function. This parameter too may be
+  either a single item or a list of items."
   ((func args-1) (when (is_list args-1))
     (match-lambda
       ((args-2) (when (is_list args-2))
