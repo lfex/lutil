@@ -1,4 +1,10 @@
 ;; List sequence wrapper functions
+;;
+;; Usage:
+;;
+;; > (seq 10)
+;; (1 2 3 4 5 6 7 8 9 10)
+;;
 (defun seq (end)
   (lists:seq 1 end))
 
@@ -9,6 +15,24 @@
   (lists:seq start end step))
 
 ;; Infinite series functions
+;;
+;; The following are identical:
+;; > (take 21 (range))
+;; (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21)
+;; > (take 21 (next #'+/2 1 1))
+;; (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21)
+;; > (take 21 (next (lambda (x y) (+ x y)) 1 1))
+;; (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21)
+;;
+;; More usage:
+;;
+;; > (take 10 (next (lambda (x y) (* 3 (+ x y))) 1 1))
+;; (1 6 21 66 201 606 1821 5466 16401 49206)
+;; > (take 17 (next (lambda (x _) (* 2 x)) 1 1))
+;; (1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536)
+;; > (take 7 (next (lambda (x _) (math:pow (+ x 1) 2)) 1 1))
+;; (1 4.0 25.0 676.0 458329.0 210066388900.0 4.4127887745906175e22)
+;;
 (defun next (func)
   (next func 1 1))
 
@@ -22,6 +46,27 @@
                       step))))
 
 ;; Range functions
+;;
+;; Usage:
+;;
+;; > (range)
+;; #Fun<lfe_eval.23.86468545>
+;; > (funcall (range))
+;; (1 . #Fun<lfe_eval.23.86468545>)
+;; > (funcall (range 100))
+;; (100 . #Fun<lfe_eval.23.86468545>)
+;;
+;; Some more:
+;;
+;; > (funcall (range))
+;; (1 . #Fun<lfe_eval.23.86468545>)
+;; > (funcall (cdr (funcall (range))))
+;; (2 . #Fun<lfe_eval.23.86468545>)
+;; > (funcall (cdr (funcall (cdr (funcall (range))))))
+;; (3 . #Fun<lfe_eval.23.86468545>)
+;; > (funcall (cdr (funcall (cdr (funcall (cdr (funcall (range))))))))
+;; (4 . #Fun<lfe_eval.23.86468545>)
+;;
 (defun range ()
   (range 1 1))
 
@@ -32,6 +77,16 @@
   (next #'+/2 start step))
 
 ;; Take functions
+;;
+;; Usage:
+;;
+;; > (take 4 (range))
+;; (1 2 3 4 5)
+;; > (take 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; (1 2 3 4 5)
+;; > (take 'all '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; (1 2 3 4 5 6 7 8 9 10 11 12)
+;;
 (defun take
   (('all data) (when (is_list data))
     data)
