@@ -151,3 +151,20 @@
 
   This function needs to be the last one in this include."
   'ok)
+
+;;;; Interleave
+;;;;
+;;;; Usage:
+;;;;
+;;;; > (set l1 '(a b c d e f g))
+;;;; (a b c d e f g)
+;;;; > (set l2 '(1 2 3 4 5 6 7))
+;;;; (1 2 3 4 5 6 7)
+;;;; > (interleave l1 l2)
+;;;; (a 1 b 2 c 3 d 4 e 5 f 6 g 7)
+(defun interleave (list-1 list-2)
+  (lists:flatten
+    (lists:map
+      #'tuple_to_list/1
+      (lists:zip list-1 list-2))))
+
