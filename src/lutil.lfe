@@ -46,7 +46,7 @@
     (proplists:get_value 'vsn (element 3 app))))
 
 (defun get-lfe-version ()
-  (get-app-src-version '"deps/lfe/src/lfe.app.src"))
+  (get-app-src-version (code:where_is_file "lfe.app")))
 
 (defun get-version ()
   `(#(erlang ,(erlang:system_info 'otp_release))
