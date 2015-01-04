@@ -55,7 +55,7 @@
     #(lfe ,(get-lfe-version))))
 
 (defun get-lutil-version ()
-  (get-app-src-version "src/lutil.app.src"))
+  (get-app-src-version (code:where_is_file "lutil.app"))
 
 (defun get-versions ()
   (++ (get-version)
