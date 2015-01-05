@@ -2,7 +2,7 @@
   (behaviour ltest-unit)
   (export all))
 
-(include-lib "deps/ltest/include/ltest-macros.lfe")
+(include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest uuid4
   (is-equal 36 (byte_size (lutil:uuid4)))
