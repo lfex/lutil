@@ -6,7 +6,7 @@
       (check-failed-is 2)
       (check-wrong-is-exception 2))))
 
-(include-lib "deps/ltest/include/ltest-macros.lfe")
+(include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest is-home-dir?
   (is-not (lutil-file:is-home-dir? "~"))
