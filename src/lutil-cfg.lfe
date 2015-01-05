@@ -59,7 +59,7 @@
   (('())
     '())
   ((config)
-    (orddict:fetch 'project config)))
+    (orddict:find 'project config)))
 
 (defun get-project-deps ()
   (lists:map
@@ -67,10 +67,10 @@
     (get-project-deps (get-project))))
 
 (defun get-project-deps
-  (('())
-    '())
-  ((project)
+  ((`#(ok ,project)
     (proplists:get_value 'deps project)))
+  ((_)
+    '())
 
 (defun parse-dep
   "Parse an element of the deps list.
