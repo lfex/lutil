@@ -46,6 +46,19 @@
   "Get the .eunit directory for the current directory."
   (get-local-dir ".eunit"))
 
+(defun get-cwd ()
+  "The current workding directory in this case is the directory that the user
+  executed lfetool *from*. Shortly after it starts up, the lfetool script
+  switches from this dir to the actual directory where the lfetool code/library
+  lives. To preserve the original cwd, it is passed as a parameter to erl
+  during start up. That value is accessed with this function."
+  (caar
+    (element 2 (get-arg 'cwd "."))))
+
+(defun get-home-dir ()
+  (caar
+    (element 2 (get-arg 'home #(ok (("/tmp")))))))
+
 (defun get-deps ()
   (get-deps `(,(get-deps-dir))))
 
@@ -284,16 +297,3 @@
       ('error
         `#(default ((,default))))
       (_ arg-value))))
-
-(defun get-cwd ()
-  "The current workding directory in this case is the directory that the user
-  executed lfetool *from*. Shortly after it starts up, the lfetool script
-  switches from this dir to the actual directory where the lfetool code/library
-  lives. To preserve the original cwd, it is passed as a parameter to erl
-  during start up. That value is accessed with this function."
-  (caar
-    (element 2 (get-arg 'cwd "."))))
-
-(defun get-home-dir ()
-  (caar
-    (element 2 (get-arg 'home #(ok (("/tmp")))))))
