@@ -110,9 +110,13 @@
     (++ " -b " branch)))
 
 (defun do-clone-deps ()
-  (lists:map
-    #'os:cmd/1
-    (get-clone-cmds)))
+  (do-clone-deps (get-clone-cmds)))
+
+(defun do-clone-deps
+  (('())
+    '(no-deps))
+  ((commands)
+    (lists:map #'os:cmd/1 commands)))
 
 (defun clone-deps ()
   (lists:foreach
