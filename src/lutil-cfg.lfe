@@ -1,11 +1,21 @@
 (defmodule lutil-cfg
   (export all))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Constants
+;;;
+
 (defun config-file () "lfe.config")
 (defun global-config () (filename:join "~/.lfe" (config-file)))
 (defun local-config () (config-file))
 (defun deps-dir () "deps")
 (defun github () "https://github.com/")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Configuration
+;;;
 
 (defun read-config ()
   (lutil-type:orddict-merge
@@ -37,24 +47,53 @@
   (let ((`#(ok ,cwd) (file:get_cwd)))
     cwd))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Project Dependencies
+;;;
+
 (defun get-project ()
   (orddict:fetch 'project (read-config)))
 
 (defun get-project-deps ()
   (lists:map
-    (lambda (x)
-      (string:tokens x "/"))
+    #'parse-dep/1
     (proplists:get_value 'deps (get-project))))
+
+(defun parse-dep
+  "Parse an element of the deps list.
+
+  Returns a list of '(user-or-org repo branch). If no branch was given,
+  branch gets the value of 'false."
+  ;; suport the dep format of '#("user-or-org/repo" "branch")
+  ((`#(,dep-element ,branch))
+    (parse-dep dep-element branch))
+  ;; suport the dep format of '("user-or-org/repo")
+  ((dep-element)
+    (parse-dep dep-element 'false)))
+
+(defun parse-dep (dep-element branch)
+  (++ (string:tokens dep-element "/") `(,branch)))
 
 (defun get-clone-cmds ()
   (lists:map
-    (match-lambda ((`(,org ,name))
-      (++ "git clone "
-          (github)
-          (filename:join (list org name))
-          ".git "
-          (filename:join (deps-dir) name))))
+    #'get-clone-cmd/1
     (get-project-deps)))
+
+(defun get-clone-cmd
+  ((`(,org ,name ,branch))
+    (++ "git clone "
+        (get-branch-option branch)
+        (github)
+        (filename:join (list org name))
+        ".git "
+        (filename:join (deps-dir) name))))
+
+(defun get-branch-option
+  (('false)
+    "")
+  ((branch)
+    ""))
 
 (defun do-clone-deps ()
   (lists:map
