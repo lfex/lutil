@@ -93,7 +93,7 @@
   (('false)
     "")
   ((branch)
-    ""))
+    (++ "-b " branch)))
 
 (defun do-clone-deps ()
   (lists:map
