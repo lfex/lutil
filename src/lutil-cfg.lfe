@@ -67,8 +67,8 @@
     (get-project-deps (get-project))))
 
 (defun get-project-deps
-  ((`#(ok ,project)
-    (proplists:get_value 'deps project)))
+  ((`#(ok ,project))
+    (proplists:get_value 'deps project))
   ((_)
     '()))
 
