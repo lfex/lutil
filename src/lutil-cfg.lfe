@@ -115,6 +115,8 @@
 (defun do-clone-deps
   (('())
     '(no-deps))
+  (('no-repo)
+    '(no-deps))
   ((commands)
     (lists:map #'os:cmd/1 commands)))
 
