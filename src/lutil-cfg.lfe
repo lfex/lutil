@@ -34,3 +34,9 @@
 (defun get-cwd ()
   (let ((`#(ok ,cwd) (file:get_cwd)))
     cwd))
+
+(defun get-project ()
+  (orddict:fetch 'project (read-config)))
+
+(defun get-project-deps ()
+  (proplists:get_value 'deps (get-project)))
