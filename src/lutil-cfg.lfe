@@ -53,12 +53,24 @@
 ;;;
 
 (defun get-project ()
-  (orddict:fetch 'project (read-config)))
+  (get-project (read-config)))
+
+(defun get-project
+  (('())
+    '())
+  ((config)
+    (orddict:fetch 'project config)))
 
 (defun get-project-deps ()
   (lists:map
     #'parse-dep/1
-    (proplists:get_value 'deps (get-project))))
+    (get-project-deps (get-project))))
+
+(defun get-project-deps
+  (('())
+    '())
+  ((project)
+    (proplists:get_value 'deps )))
 
 (defun parse-dep
   "Parse an element of the deps list.
@@ -87,7 +99,9 @@
         (github)
         (filename:join (list org name))
         ".git "
-        (filename:join (deps-dir) name))))
+        (filename:join (deps-dir) name)))
+  ((_)
+    'no-repo))
 
 (defun get-branch-option
   (('false)
