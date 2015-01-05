@@ -70,7 +70,7 @@
   (('())
     '())
   ((project)
-    (proplists:get_value 'deps )))
+    (proplists:get_value 'deps project)))
 
 (defun parse-dep
   "Parse an element of the deps list.
