@@ -70,7 +70,7 @@
   ((`#(ok ,project)
     (proplists:get_value 'deps project)))
   ((_)
-    '())
+    '()))
 
 (defun parse-dep
   "Parse an element of the deps list.
