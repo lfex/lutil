@@ -121,7 +121,7 @@
   (('false)
     "")
   ((branch)
-    (++ " -b " branch)))
+    (++ "-b " branch " ")))
 
 (defun get-projects-deps ()
   (lists:map
