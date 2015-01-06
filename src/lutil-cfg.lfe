@@ -26,7 +26,7 @@
 
 (defun read-config
   ((`#(ok ,config-data))
-    (orddict:from_list (check-contents config-data)))
+    (list->orddict config-data))
   ;; If the file doesn't exist, let's just return an empty orddict
   ((`#(error #(none file enoent)))
     (orddict:new))
@@ -59,6 +59,10 @@
 (defun get-cwd ()
   (let ((`#(ok ,cwd) (file:get_cwd)))
     cwd))
+
+(defun list->orddict (config-data)
+  (orddict:from_list
+    (check-contents config-data)))
 
 (defun check-contents (contents)
   "This function should be called immediately before the config data is
