@@ -93,7 +93,7 @@
   ((`#(ok ()))
     '())
   ((`#(ok ,project))
-    (proplists:get_value 'deps project))
+    (proplists:get_value 'deps project '()))
   ((_)
     '()))
 
