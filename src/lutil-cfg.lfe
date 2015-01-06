@@ -53,7 +53,7 @@
     (lfe_io:read_file filename)
     (catch
       ;; Handle zero-byte files
-      (`#(error #(,_ #(eof 1)) ,_)
+      (`#(error #(,_ #(eof ,_)) ,_)
         '()))))
 
 (defun get-cwd ()
