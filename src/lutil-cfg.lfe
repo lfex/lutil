@@ -1,6 +1,8 @@
 (defmodule lutil-cfg
   (export all))
 
+(include-lib "lutil/include/compose.lfe")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Constants
@@ -24,28 +26,49 @@
 
 (defun read-config
   ((`#(ok ,config-data))
-    (orddict:from_list config-data))
+    (orddict:from_list (check-contents config-data)))
+  ;; If the file doesn't exist, let's just return an empty orddict
   ((`#(error #(none file enoent)))
     (orddict:new))
+  ;; For other errors, let's see what they are
   (((= `#(error ,_) error))
     error)
   ((_)
     (orddict:new)))
 
 (defun read-global ()
-  (read-config
-    (lfe_io:read_file
-      (lutil-file:expand-home-dir (global-config)))))
+  (->> (global-config)
+       (lutil-file:expand-home-dir)
+       (read-file)
+       (read-config)))
 
 (defun read-local ()
-  (read-config
-    (lfe_io:read_file
-      (filename:join (get-cwd)
-                     (local-config)))))
+  (->> (local-config)
+       (filename:join (get-cwd))
+       (read-file)
+       (read-config)))
+
+(defun read-file (filename)
+  (try
+    (lfe_io:read_file filename)
+    (catch
+      ;; Handle zero-byte files
+      (`#(error #(,_ #(eof 1)) ,_)
+        '()))))
 
 (defun get-cwd ()
   (let ((`#(ok ,cwd) (file:get_cwd)))
     cwd))
+
+(defun check-contents (contents)
+  "This function should be called immediately before the config data is
+  passed to (orddict:from_list ...), as it will ensure that each top-level
+  item that was parsed is a tuple. This allows the config loaders to render
+  a non-gibberish error message to the user."
+  (if (lists:all #'is_tuple/1 contents)
+      contents
+      (error (++ "Every top-level item in an lfe.config file needs "
+                 "to be a tuple."))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
