@@ -118,7 +118,13 @@
   (('no-repo)
     '(no-deps))
   ((commands)
-    (lists:map #'os:cmd/1 commands)))
+    (lists:map #'do-cmd/1 commands)))
+
+(defun do-cmd (command)
+  (clean-cmd (os:cmd command)))
+
+(defun clean-cmd (result)
+  (re:replace result "^fatal:" "git:" '(#(return list))))
 
 (defun clone-deps ()
   (lists:foreach
