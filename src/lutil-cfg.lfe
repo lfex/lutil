@@ -79,64 +79,10 @@
 ;;; Project Dependencies
 ;;;
 
-(defun get-project ()
-  (get-project (read-config)))
-
-(defun get-project
-  (('())
-    '())
-  ((config)
-    (orddict:find 'project config)))
-
-(defun get-project-deps ()
-  (lists:map
-    #'parse-dep/1
-    (get-project-deps (get-project))))
-
-(defun get-project-deps
-  ((`#(ok ()))
-    '())
-  ((`#(ok ,project))
-    (proplists:get_value 'deps project '()))
-  ((_)
-    '()))
-
-(defun parse-dep
-  "Parse an element of the deps list.
-
-  Returns a list of '(user-or-org repo branch). If no branch was given,
-  branch gets the value of 'false."
-  ;; suport the dep format of '#("user-or-org/repo" "branch")
-  ((`#(,dep-element ,branch))
-    (parse-dep dep-element branch))
-  ;; suport the dep format of '("user-or-org/repo")
-  ((dep-element)
-    (parse-dep dep-element 'false)))
-
-(defun parse-dep (dep-element branch)
-  (++ (string:tokens dep-element "/") `(,branch)))
-
-(defun get-clone-cmds ()
-  (lists:map
-    #'get-clone-cmd/1
-    (get-project-deps)))
-
-(defun get-clone-cmd
-  ((`(,org ,name ,branch))
-    (++ "git clone "
-        (get-branch-option branch)
-        (github)
-        (filename:join (list org name))
-        ".git "
-        (filename:join (deps-dir) name)))
-  ((_)
-    'no-repo))
-
-(defun get-branch-option
-  (('false)
-    "")
-  ((branch)
-    (++ " -b " branch)))
+(defun clone-deps ()
+  (lists:foreach
+    #'io:format/1
+    (do-clone-deps)))
 
 (defun do-clone-deps ()
   (do-clone-deps (get-clone-cmds)))
@@ -155,7 +101,86 @@
 (defun clean-cmd (result)
   (re:replace result "^fatal:" "git:" '(#(return list))))
 
-(defun clone-deps ()
-  (lists:foreach
-    #'io:format/1
-    (do-clone-deps)))
+(defun get-clone-cmds ()
+  (lists:map
+    #'get-clone-cmd/1
+    (get-projects-deps)))
+
+(defun get-clone-cmd
+  ((`(,org ,name ,branch))
+    (++ "git clone "
+        (get-branch-option branch)
+        (github)
+        (filename:join (list org name))
+        ".git "
+        (filename:join (deps-dir) name)))
+  ((_)
+    'no-repo))
+
+(defun get-branch-option
+  (('false)
+    "")
+  ((branch)
+    (++ " -b " branch)))
+
+(defun get-projects-deps ()
+  (lists:map
+    #'parse-dep/1
+    (merge-project-deps)))
+
+(defun parse-dep
+  "Parse an element of the deps list.
+
+  Returns a list of '(user-or-org repo branch). If no branch was given,
+  branch gets the value of 'false."
+  ;; suport the dep format of '#("user-or-org/repo" "branch")
+  ((`#(,dep-element ,branch))
+    (parse-dep dep-element branch))
+  ;; suport the dep format of '("user-or-org/repo")
+  ((dep-element)
+    (parse-dep dep-element 'false)))
+
+(defun parse-dep (dep-element branch)
+  (++ (string:tokens dep-element "/") `(,branch)))
+
+(defun merge-project-deps ()
+  (merge-project-deps (read-global) (read-local)))
+
+(defun merge-project-deps (config-1 config-2)
+  (select-deps
+    (get-project-deps (get-project config-1))
+    (get-project-deps (get-project config-2))))
+
+(defun select-deps (deps-1 deps-2)
+  "This function takes two lists of dependencies where each dependency may be
+  either a list, e.g. 'rvirding/lfe' or a tuple, e.g. #('rvirding/lfe' 'master')
+  The deps are compared at the org/repo level only, not at the branch level.
+
+  The convention here is that secondary additions override initial additions.
+  As such, if you want one particular set of deps to take precedence over
+  another, be sure to pass them second."
+  (++ (lists:filter
+        (lambda (x)
+          (let ((repo (get-repo x)))
+            (not (or (lists:keymember repo 1 deps-2)
+                     (lists:member repo deps-2)))))
+        deps-1)
+      deps-2))
+
+(defun get-repo
+  ((dep) (when (is_tuple dep))
+    (element 1 dep))
+  ((dep)
+    dep))
+
+(defun get-project-deps
+  (('())
+    '())
+  ((project)
+    (proplists:get_value 'deps project '())))
+
+(defun get-project
+  (('())
+    '())
+  ((config)
+    (proplists:get_value 'project config '())))
