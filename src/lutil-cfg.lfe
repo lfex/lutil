@@ -15,6 +15,7 @@
 (defun github () "https://github.com/")
 (defun no-deps () "no dep overrides found in lfe.config")
 (defun out-prompt () "lfetool »—> ")
+(defun newline () 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -84,7 +85,7 @@
 (defun clone-deps ()
   (lists:foreach
     (lambda (x)
-      (io:format "~s~s~n" (list (out-prompt) (string:strip x))))
+      (io:format "~s~s~n" (list (out-prompt) x)))
     (do-clone-deps)))
 
 (defun do-clone-deps ()
@@ -102,7 +103,10 @@
   (clean-cmd (os:cmd command)))
 
 (defun clean-cmd (result)
-  (re:replace result "^fatal:" "git:" '(#(return list))))
+  (string:strip
+    (re:replace result "^fatal:" "git:" '(#(return list)))
+    'right
+    (newline)))
 
 (defun get-clone-cmds ()
   (lists:map
