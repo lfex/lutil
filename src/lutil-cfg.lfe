@@ -13,8 +13,8 @@
 (defun local-config () (config-file))
 (defun deps-dir () "deps")
 (defun github () "https://github.com/")
-(defun no-deps () 'lfe.config:no-deps-found)
-(defun out-prompt () "lfetool => ")
+(defun no-deps () "no dep overrides found in lfe.config")
+(defun out-prompt () "lfetool ~> ")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
