@@ -14,6 +14,7 @@
 (defun deps-dir () "deps")
 (defun github () "https://github.com/")
 (defun no-deps () 'lfe.config:no-deps-found)
+(defun out-prompt () "lfetool => ")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -82,8 +83,11 @@
 
 (defun clone-deps ()
   (lists:foreach
-    (lambda (x)
-      (io:format "~p~n" (list x)))
+    (match-lambda
+      ((x) (when (is_atom x))
+        (io:format "~s~p~n" (list (out-prompt) x)))
+      ((x) (when (is_list x))
+        (io:format "~s~s~n" (list (out-prompt) x))))
     (do-clone-deps)))
 
 (defun do-clone-deps ()
