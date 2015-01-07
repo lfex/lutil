@@ -80,7 +80,6 @@
     (do-clone-deps)))
 
 (defun do-clone-deps ()
-  (io:format "In do-clone-deps, got: ~p~n" (list (get-clone-cmds)))
   (do-clone-deps (get-clone-cmds)))
 
 (defun do-clone-deps
@@ -101,7 +100,6 @@
     (newline)))
 
 (defun get-clone-cmds ()
-  (io:format "In get-clone-cmds, got: ~p~n" (list (get-projects-deps)))
   (lists:map
     #'get-clone-cmd/1
     (get-projects-deps)))
@@ -114,8 +112,7 @@
         (filename:join (list org name))
         ".git "
         (filename:join (deps-dir) name)))
-  ((x)
-    (io:format "no match in get-clone-cmd: x = ~p~n" (list x))
+  ((_)
     'no-repo))
 
 (defun get-branch-option
@@ -125,7 +122,6 @@
     (++ "-b " branch " ")))
 
 (defun get-projects-deps ()
-  (io:format "In get-projects-deps, got: ~p~n" (list (merge-project-deps)))
   (lists:map
     #'parse-dep/1
     (merge-project-deps)))
@@ -146,8 +142,6 @@
   (++ (string:tokens dep-element "/") `(,branch)))
 
 (defun merge-project-deps ()
-  (io:format "In merge-project-deps, got: ~p~n" (list (read-global)))
-  (io:format "In merge-project-deps, got: ~p~n" (list (read-local)))
   (merge-project-deps (read-global) (read-local)))
 
 (defun merge-project-deps (config-1 config-2)
