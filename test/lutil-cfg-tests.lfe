@@ -25,13 +25,13 @@
 ;;; Configuration
 ;;;
 
-(deftest list->orddict
-  (is-equal '(#(a 1) #(b 2)) (lutil-cfg:list->orddict '(#(a 1) #(b 2)))))
+(deftest check-contents
+  (is-equal '(#(a 1) #(b 2)) (lutil-cfg:check-contents '(#(a 1) #(b 2)))))
 
-(deftest list->orddict-fail-content-check
+(deftest check-contents-fail-content-check
   (try
     (progn
-      (lutil-cfg:list->orddict '(1 #(b 2)))
+      (lutil-cfg:check-contents '(1 #(b 2)))
       (error 'unexpected-test-success))
     (catch (`#(,type ,value ,_)
       (is-equal 'error type)

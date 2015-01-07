@@ -22,22 +22,17 @@
 ;;; Configuration
 ;;;
 
-(defun read-config ()
-  (lutil-type:orddict-merge
-    (read-global)
-    (read-local)))
-
 (defun read-config
   ((`#(ok ,config-data))
-    (list->orddict config-data))
-  ;; If the file doesn't exist, let's just return an empty orddict
+    (check-contents config-data))
+  ;; If the file doesn't exist, let's just return an empty list
   ((`#(error #(none file enoent)))
-    (orddict:new))
+    '())
   ;; For other errors, let's see what they are
   (((= `#(error ,_) error))
     error)
   ((_)
-    (orddict:new)))
+    '()))
 
 (defun read-global ()
   (->> (global-config)
@@ -62,10 +57,6 @@
 (defun get-cwd ()
   (let ((`#(ok ,cwd) (file:get_cwd)))
     cwd))
-
-(defun list->orddict (config-data)
-  (orddict:from_list
-    (check-contents config-data)))
 
 (defun check-contents (contents)
   "This function should be called immediately before the config data is
