@@ -112,7 +112,8 @@
         (filename:join (list org name))
         ".git "
         (filename:join (deps-dir) name)))
-  ((_)
+  ((x)
+    (io:format "no match in get-clone-cmd: x = ~p~n" (list x))
     'no-repo))
 
 (defun get-branch-option
