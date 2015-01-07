@@ -83,11 +83,8 @@
 
 (defun clone-deps ()
   (lists:foreach
-    (match-lambda
-      ((x) (when (is_atom x))
-        (io:format "~s~p~n" (list (out-prompt) x)))
-      ((x) (when (is_list x))
-        (io:format "~s~s~n" (list (out-prompt) x))))
+    (lambda (x)
+      (io:format "~s~s~n" (list (out-prompt) (string:strip x))))
     (do-clone-deps)))
 
 (defun do-clone-deps ()
