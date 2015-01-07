@@ -13,6 +13,7 @@
 (defun local-config () (config-file))
 (defun deps-dir () "deps")
 (defun github () "https://github.com/")
+(defun no-deps () 'lfe.config:no-deps-found)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -81,7 +82,8 @@
 
 (defun clone-deps ()
   (lists:foreach
-    #'io:format/1
+    (lambda (x)
+      (io:format "~p~n" (list x)))
     (do-clone-deps)))
 
 (defun do-clone-deps ()
@@ -89,9 +91,9 @@
 
 (defun do-clone-deps
   (('())
-    '(no-deps))
+    `(,(no-deps)))
   (('no-repo)
-    '(no-deps))
+    `(,(no-deps)))
   ((commands)
     (lists:map #'do-cmd/1 commands)))
 
