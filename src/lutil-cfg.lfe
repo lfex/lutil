@@ -14,7 +14,7 @@
 (defun deps-dir () "deps")
 (defun github () "https://github.com/")
 (defun no-deps () "no dep overrides found in lfe.config")
-(defun out-prompt () "lfetool ~> ")
+(defun out-prompt () "lfetool »—> ")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
