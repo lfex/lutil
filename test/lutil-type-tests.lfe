@@ -109,18 +109,20 @@
     (is-equal 'undefined (lutil-type:get-in data '(key-3 key-6 key-8 key-9)))))
 
 (deftest get-in-map
-  (let ((data (maps:from_list (nested-test-proplists))))
-    (is-equal 'val-1 (lutil-type:get-in-map data '(key-1)))
-    (is-equal 'val-2 (lutil-type:get-in-map data '(key-2)))
-    (is-equal 'val-4 (lutil-type:get-in-map data '(key-3 key-4)))
-    (is-equal 'val-8 (lutil-type:get-in-map data '(key-3 key-6 key-8)))
-    (is-equal 'val-1 (lutil-type:get-in data '(key-1)))
-    (is-equal 'val-2 (lutil-type:get-in data '(key-2)))
-    (is-equal 'val-4 (lutil-type:get-in data '(key-3 key-4)))
-    (is-equal 'val-8 (lutil-type:get-in data '(key-3 key-6 key-8)))
-    (is-equal 'undefined (lutil-type:get-in data '(key-10)))
-    (is-equal 'undefined (lutil-type:get-in data '(key-10 key-11)))
-    (is-equal 'undefined (lutil-type:get-in data '(key-3 key-6 key-8 key-9)))))
+  (if (erl_internal:bif 'is_map 1)
+    (let ((data (maps:from_list (nested-test-proplists))))
+      (is-equal 'val-1 (lutil-type:get-in-map data '(key-1)))
+      (is-equal 'val-2 (lutil-type:get-in-map data '(key-2)))
+      (is-equal 'val-4 (lutil-type:get-in-map data '(key-3 key-4)))
+      (is-equal 'val-8 (lutil-type:get-in-map data '(key-3 key-6 key-8)))
+      (is-equal 'val-1 (lutil-type:get-in data '(key-1)))
+      (is-equal 'val-2 (lutil-type:get-in data '(key-2)))
+      (is-equal 'val-4 (lutil-type:get-in data '(key-3 key-4)))
+      (is-equal 'val-8 (lutil-type:get-in data '(key-3 key-6 key-8)))
+      (is-equal 'undefined (lutil-type:get-in data '(key-10)))
+      (is-equal 'undefined (lutil-type:get-in data '(key-10 key-11)))
+      (is-equal 'undefined
+                (lutil-type:get-in data '(key-3 key-6 key-8 key-9))))))
 
 (deftest list->tuple
   (is-equal #(a b c 1 2 3) (lutil-type:list->tuple '(a b c 1 2 3))))
