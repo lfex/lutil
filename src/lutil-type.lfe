@@ -54,6 +54,41 @@
 (defun second-wins (key val1 val2)
   val2)
 
+(defun get-in (data keys)
+  "This function is not intended to be used directly (though one certainly may)
+  but rather to be used via the macro defined in include/core.lfe."
+  ;; XXX We'll take the cheap way out right now and assume (uh-oh ...) that
+  ;; any error here will be keys or indices not found, and thus return
+  ;; undefined. Might be better to only do this for function_clause errors ...
+  (try
+    (cond ((proplist? data) (get-in-proplist data keys))
+          ((dict? data) (get-in-dict data keys))
+          ((list? data) (get-in-list data keys))
+          ((map? data) (get-in-map data keys)))
+    (catch (_
+      'undefined))))
+
+(defun get-in-list (data indices)
+  (lists:foldl #'lists:nth/2 data indices))
+
+(defun get-in-proplist (data keys)
+  (lists:foldl #'proplists:get_value/2 data keys))
+
+(defun get-in-dict (data keys)
+  (get-in-kv #'dict:fetch/2 data keys))
+
+(defun get-in-map (data keys)
+  (get-in-kv #'maps:get/2 data keys))
+
+(defun get-in-kv
+  ((func data (cons key keys))
+    (let ((value (funcall func key data)))
+      (if (orelse (proplist? value)
+                  (dict? value)
+                  (map? value))
+          (get-in value keys)
+          value))))
+
 (defun host->tuple (host)
   (let ((`#(ok ,tuple) (inet:getaddr host 'inet)))
     tuple))

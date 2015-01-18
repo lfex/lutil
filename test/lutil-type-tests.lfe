@@ -38,6 +38,90 @@
   (is-equal "value 1" (dict:fetch 'key-1 (test-dict-2)))
   (is-equal "value 2" (dict:fetch 'key-2 (test-dict-2))))
 
+(defun nested-test-lists ()
+  '((1)
+    (1 2 3)
+    (1 2 (3 4 (5 6 (7 8 9))))))
+
+(deftest get-in-indices
+  (let ((data (nested-test-lists)))
+    (is-equal '(1) (lutil-type:get-in-list data '(1)))
+    (is-equal 1 (lutil-type:get-in-list data '(1 1)))
+    (is-equal 2 (lutil-type:get-in-list data '(2 2)))
+    (is-equal 3 (lutil-type:get-in-list data '(3 3 1)))
+    (is-equal 9 (lutil-type:get-in-list data '(3 3 3 3 3)))
+    (is-equal '(1) (lutil-type:get-in data '(1)))
+    (is-equal 1 (lutil-type:get-in data '(1 1)))
+    (is-equal 2 (lutil-type:get-in data '(2 2)))
+    (is-equal 3 (lutil-type:get-in data '(3 3 1)))
+    (is-equal 9 (lutil-type:get-in data '(3 3 3 3 3)))
+    (is-equal 'undefined (lutil-type:get-in data '(4 4)))
+    (is-equal 'undefined (lutil-type:get-in data '(3 3 3 3 4 4 4)))))
+
+(defun nested-test-proplists ()
+  '(#(key-1 val-1)
+    #(key-2 val-2)
+    #(key-3 (#(key-4 val-4)
+             #(key-5 val-5)
+             #(key-6 (#(key-7 val-7)
+                      #(key-8 val-8)))))))
+
+(deftest get-in-proplist
+  (let ((data (nested-test-proplists)))
+    (is-equal 'val-1 (lutil-type:get-in-proplist data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in-proplist data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in-proplist data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in-proplist data '(key-3 key-6 key-8)))
+    (is-equal 'val-1 (lutil-type:get-in data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in data '(key-3 key-6 key-8)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10 key-11)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-3 key-6 key-8 key-9)))))
+
+(deftest get-in-orddict
+  (let ((data (orddict:from_list (nested-test-proplists))))
+    (is-equal 'val-1 (lutil-type:get-in-proplist data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in-proplist data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in-proplist data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in-proplist data '(key-3 key-6 key-8)))
+    (is-equal 'val-1 (lutil-type:get-in data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in data '(key-3 key-6 key-8)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10 key-11)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-3 key-6 key-8 key-9)))))
+
+(deftest get-in-dict
+  (let ((data (dict:from_list (nested-test-proplists))))
+    (is-equal 'val-1 (lutil-type:get-in-dict data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in-dict data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in-dict data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in-dict data '(key-3 key-6 key-8)))
+    (is-equal 'val-1 (lutil-type:get-in data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in data '(key-3 key-6 key-8)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10 key-11)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-3 key-6 key-8 key-9)))))
+
+(deftest get-in-map
+  (let ((data (maps:from_list (nested-test-proplists))))
+    (is-equal 'val-1 (lutil-type:get-in-map data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in-map data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in-map data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in-map data '(key-3 key-6 key-8)))
+    (is-equal 'val-1 (lutil-type:get-in data '(key-1)))
+    (is-equal 'val-2 (lutil-type:get-in data '(key-2)))
+    (is-equal 'val-4 (lutil-type:get-in data '(key-3 key-4)))
+    (is-equal 'val-8 (lutil-type:get-in data '(key-3 key-6 key-8)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-10 key-11)))
+    (is-equal 'undefined (lutil-type:get-in data '(key-3 key-6 key-8 key-9)))))
+
 (deftest list->tuple
   (is-equal #(a b c 1 2 3) (lutil-type:list->tuple '(a b c 1 2 3))))
 
@@ -77,6 +161,26 @@
   (is (set? '()))
   (is (set? (sets:new)))
   (is (set? (ordsets:new))))
+
+(deftest proplist?
+  (is-not (proplist? 1))
+  (is-not (proplist? '(1)))
+  (is-not (proplist? '(1 2)))
+  (is-not (proplist? '((1 2))))
+  (is-not (proplist? '(#(1 2))))
+  (is-not (proplist? '(#(a 1) #(2 b) #(c 3))))
+  (is (proplist? '(a)))
+  (is (proplist? '(a b c)))
+  (is (proplist? '(#(a 1) b c)))
+  (is (proplist? '(#(a 1) #(b 2) c)))
+  (is (proplist? '(#(a 1) #(b 2) #(c 3)))))
+
+(deftest proplist-kv?
+  (is (proplist-kv? 'a))
+  (is-not (proplist-kv? "a"))
+  (is-not (proplist-kv? 1))
+  (is (proplist-kv? '#(a b)))
+  (is-not (proplist-kv? '(a b))))
 
 (deftest undef?
   (is-not (undef? 42))
