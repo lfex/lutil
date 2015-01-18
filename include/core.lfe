@@ -145,13 +145,6 @@
       ((arg-2)
         (funcall func arg-1 arg-2)))))
 
-(defun loaded-core ()
-  "This is just a dummy function for display purposes when including from the
-  REPL (the last function loaded has its name printed in stdout).
-
-  This function needs to be the last one in this include."
-  'ok)
-
 ;;;; Interleave
 ;;;;
 ;;;; Usage:
@@ -168,3 +161,67 @@
       #'tuple_to_list/1
       (lists:zip list-1 list-2))))
 
+;;;; Get-In
+;;;;
+;;;; This macro is inspired by the Clojure function 'get-in'. Unlike the
+;;;; Clojure function, however, the LFE version handles both lists as well
+;;;; as proplists, dicts, orddicts, and maps.
+;;;;
+;;;; List-based usage:
+;;;;
+;;;; Given the following data structure assigned to the variable 'data':
+;;;;
+;;;; '((1)
+;;;;   (1 2 3)
+;;;;   (1 2 (3 4 (5 6 (7 8 9)))))
+;;;;
+;;;; > (include-lib "lutil/include/core.lfe")
+;;;; loaded-core
+;;;;
+;;;; > (get-in data 1 1)
+;;;; 1
+;;;; > (get-in data 2 3)
+;;;; 3
+;;;; > (get-in data 3 3 3 3 3)
+;;;; 9
+;;;; > (get-in data 4)
+;;;; undefined
+;;;; > (get-in data 4 3 3 3)
+;;;; undefined
+;;;;
+;;;; Key-value-based usage:
+;;;;
+;;;; Given the following data structure assigned to the variable 'data':
+;;;;
+;;;; '(#(key-1 val-1)
+;;;;   #(key-2 val-2)
+;;;;   #(key-3 (#(key-4 val-4)
+;;;;            #(key-5 val-5)
+;;;;            #(key-6 (#(key-7 val-7)
+;;;;                     #(key-8 val-8))))))
+;;;;
+;;;; > (include-lib "lutil/include/core.lfe")
+;;;; loaded-core
+;;;; > (get-in data 'key-1)
+;;;; val-1
+;;;; > (get-in data 'key-3 'key-5)
+;;;; val-5
+;;;; > (get-in data 'key-3 'key-6 'key-8)
+;;;; val-8
+;;;; > (get-in data 'key-19)
+;;;; undefined
+;;;; > (get-in data 'key-3 'key-6 'key-89)
+;;;; undefined
+;;;; > (get-in data 'key-3 'key-6 'key-89 'key-100)
+;;;; undefined
+(defmacro get-in args
+  (let ((data (car args))
+        (keys (cdr args)))
+    `(apply 'lutil-type 'get-in (list ,data (list ,@keys)))))
+
+(defun loaded-core ()
+  "This is just a dummy function for display purposes when including from the
+  REPL (the last function loaded has its name printed in stdout).
+
+  This function needs to be the last one in this include."
+  'ok)
