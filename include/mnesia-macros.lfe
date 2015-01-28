@@ -24,10 +24,10 @@
     * The Mnesia 'create_table' function is then called, passing the table name
       as well as the obtained fields."
   ((record-table-name '())
-    `(create-table ,record-table-name (#(type set))))
+    `(create-table ,record-table-name (list (tuple 'type 'set))))
   ((record-table-name table-defs)
-    (let* ((record-fields-macro-name (lutil:atom-cat
-                                       'fields- record-table-name))
+    (let* ((record-fields-macro-name (lutil-type:atom-cat
+                                      'fields- record-table-name))
            (computed-record-fields `(,record-fields-macro-name)))
       `(mnesia:create_table
         ',record-table-name
