@@ -3,16 +3,32 @@
 
 (include-lib "lutil/include/predicates.lfe")
 
+(defun floor (x)
+  (let ((truncated (trunc x)))
+    (case (- x truncated)
+      (neg (when (< neg 0))
+           (- truncated 1))
+      (pos (when (> pos 0))
+           truncated)
+      (_ truncated))))
+
+(defun ceiling (x)
+  (let ((truncated (trunc x)))
+    (case (- x truncated)
+      (neg (when (< neg 0))
+           truncated)
+      (pos (when (> pos 0))
+           (+ truncated 1))
+      (_ truncated))))
+
 (defun fast-floor (num)
   "Sadly, this is named 'fast-floor' only because the Racket version was given
   that name. There is no good floor function in Erlang... so this should
-  probably have been called 'slow-floor'."
-  (let* ((trunc (trunc num))
-         (check (- num trunc)))
-    (cond
-      ((< check 0) (- trunc 1))
-      ((> check 0) trunc)
-      ('true trunc))))
+  probably have been called 'slow-floor'.
+
+  Old implementation has been replced with the code in floor/1. This function
+  is kept for backwards compatibility."
+  (floor num))
 
 (defun round (number precision)
   "Round a floating point number to the given number of decimal places."
