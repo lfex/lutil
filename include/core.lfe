@@ -223,6 +223,21 @@
         (keys (cdr args)))
     `(apply 'lutil-type 'get-in (list ,data (list ,@keys)))))
 
+;; Reduce
+;;
+;; This macro simplifies the usage of lists:foldl when using it as a reduce
+;; operation.
+;;
+;; Before:
+;; (lists:foldl (lambda (n acc) (+ n acc)) 0 '(1 2 3))
+;;
+;; After:
+;; (reduce #'+/2 '(1 2 3))
+;; or:
+;; (reduce (fun + 2) '(1 2 3))
+(defmacro reduce (fun list)
+  `(lists:foldl ,fun (hd ,list) (tl ,list)))
+
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
   REPL (the last function loaded has its name printed in stdout).
