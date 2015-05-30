@@ -85,7 +85,7 @@
 ;; Usage:
 ;;
 ;; > (take 4 (range))
-;; (1 2 3 4 5)
+;; (1 2 3 4)
 ;; > (take 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
 ;; (1 2 3 4 5)
 ;; > (take 'all '(1 2 3 4 5 6 7 8 9 10 11 12))
@@ -235,8 +235,13 @@
 ;; (reduce #'+/2 '(1 2 3))
 ;; or:
 ;; (reduce (fun + 2) '(1 2 3))
-(defmacro reduce (fun list)
-  `(lists:foldl ,fun (hd ,list) (tl ,list)))
+(defun reduce (func data)
+  (lists:foldl func (car data) (cdr data)))
+
+;; An alias for lists:foldl to allow for use of the same name for reduce/2 and
+;; reduce/3.
+(defun reduce (func acc data)
+  (lists:foldl func acc data))
 
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
