@@ -69,6 +69,9 @@
   (is-equal 'undefined (get-in (get-in-data-2) 'key-3 'key-6 'key-89 'key-100)))
 
 (deftest reduce
-  (is-equal 6 (reduce (lambda (x acc) (+ x acc))  '(1 2 3)))
+  (is-equal 6 (reduce (lambda (x acc) (+ x acc)) '(1 2 3)))
   (is-equal 6 (reduce #'+/2 '(1 2 3)))
-  (is-equal 6 (reduce (fun + 2) '(1 2 3))))
+  (is-equal 6 (reduce (fun + 2) '(1 2 3)))
+  (is-equal 6 (reduce (lambda (x acc) (+ x acc)) 0 '(1 2 3)))
+  (is-equal 6 (reduce #'+/2 0 '(1 2 3)))
+  (is-equal 6 (reduce (fun + 2) 0 '(1 2 3))))
