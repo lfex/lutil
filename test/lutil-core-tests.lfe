@@ -10,6 +10,10 @@
   (is-equal '(2 3 4) (seq 2 4))
   (is-equal '(2 4 6 8 10) (seq 2 10 2)))
 
+(deftest drop
+  (is-equal '(6 7 8 9 10 11 12) (drop 5 '(1 2 3 4 5 6 7 8 9 10 11 12)))
+  (is-equal '() (drop 'all '(1 2 3 4 5 6 7 8 9 10 11 12))))
+
 (deftest take
   (is-equal '(1 2 3 4) (take 4 (range)))
   (is-equal '(1 2 3 4 5) (take 5 '(1 2 3 4 5 6 7 8 9 10 11 12)))
@@ -31,6 +35,28 @@
   (is-equal 2 (car (funcall (cdr (funcall (range))))))
   (is-equal 3 (car (funcall (cdr (funcall (cdr (funcall (range))))))))
   (is-equal 4 (car (funcall (cdr (funcall (cdr (funcall (cdr (funcall (range)))))))))))
+
+(deftest split-at
+  (is-equal
+    '((1 2 3) (4 5 6 7 8 9 10 11 12))
+    (split-at 3 '(1 2 3 4 5 6 7 8 9 10 11 12))))
+
+(deftest split-by
+  (is-equal
+    '((1 2) (3 4) (5 6) (7 8) (9 10) (11 12))
+    (split-by 2 '(1 2 3 4 5 6 7 8 9 10 11 12)))
+  (is-equal
+    '((1 2 3 4 5) (6 7 8 9 10) (11 12))
+    (split-by 5 '(1 2 3 4 5 6 7 8 9 10 11 12)))
+  (is-equal
+    '((1 2 3 4 5 6 7) (8 9 10 11 12))
+    (split-by 7 '(1 2 3 4 5 6 7 8 9 10 11 12)))
+  (is-equal
+    '((1 2 3 4 5 6 7 8 9 10 11) (12))
+    (split-by 11 '(1 2 3 4 5 6 7 8 9 10 11 12)))
+  (is-equal
+    '((1 2 3 4 5 6 7 8 9 10 11 12))
+    (split-by 12 '(1 2 3 4 5 6 7 8 9 10 11 12))))
 
 (deftest partial
   (is-equal 3 (funcall (partial #'+/2 1) 2))
