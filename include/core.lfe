@@ -290,8 +290,9 @@
 ;; (reduce #'+/2 '(1 2 3))
 ;; or:
 ;; (reduce (fun + 2) '(1 2 3))
-(defun reduce (func data)
-  (lists:foldl func (car data) (cdr data)))
+(defun reduce
+ ((func `(,head . ,tail))
+  (lists:foldl func head tail)))
 
 ;; An alias for lists:foldl to allow for use of the same name for reduce/2 and
 ;; reduce/3.
