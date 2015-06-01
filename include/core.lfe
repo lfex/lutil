@@ -90,10 +90,12 @@
 ;; ()
 ;;
 (defun drop
+  ((_ '())
+   '())
   (('all data) (when (is_list data))
     '())
   ((x data) (when (is_list data))
-    (lists:nthtail x data))
+    (lists:nthtail x data)))
 
 ;; Take functions
 ;;
@@ -127,7 +129,7 @@
 ;; Usage:
 ;;
 ;; > (split-at 3 '(1 2 3 4 5 6 7 8 9 10 11 12))
-;; #((1 2 3) (4 5 6 7 8 9 10 11 12))
+;; '((1 2 3) (4 5 6 7 8 9 10 11 12))
 ;;
 ;; > (split-by 2 '(1 2 3 4 5 6 7 8 9 10 11 12))
 ;; ((1 2) (3 4) (5 6) (7 8) "\t\n" "\v\f")
@@ -143,10 +145,11 @@
 ;; > (split-into 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
 ;;
 (defun split-at (x data)
-  `(,(lists:sublist data x) ,(lists:nthtail x data)))
+  (list (lists:sublist data x) (lists:nthtail x data)))
 
 (defun split-by
-  ((_ '()) '())
+  ((_ '())
+   '())
   ((x data) (when (> x (length data)))
    (split-by (length data) data))
   ((x data)
