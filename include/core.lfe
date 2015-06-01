@@ -80,6 +80,21 @@
 (defun range (start step)
   (next #'+/2 start step))
 
+;; Drop function
+;;
+;; Usage:
+;;
+;; > (drop 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; (6 7 8 9 10 11 12)
+;; > (drop 'all '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; ()
+;;
+(defun drop
+  (('all data) (when (is_list data))
+    '())
+  ((x data) (when (is_list data))
+    (lists:nthtail x data))
+
 ;; Take functions
 ;;
 ;; Usage:
@@ -106,6 +121,41 @@
     (take x
           (++ acc `(,item))
           (funcall func))))
+
+;; Partitioning functions
+;;
+;; Usage:
+;;
+;; > (split-at 3 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; #((1 2 3) (4 5 6 7 8 9 10 11 12))
+;;
+;; > (split-by 2 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; ((1 2) (3 4) (5 6) (7 8) "\t\n" "\v\f")
+;; > (split-by 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; ((1 2 3 4 5) (6 7 8 9 10) "\v\f")
+;; > (split-by 7 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; ((1 2 3 4 5 6 7) "\b\t\n\v\f")
+;; > (split-by 11 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; ((1 2 3 4 5 6 7 8 9 10 11) "\f")
+;; > (split-by 12 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;; ((1 2 3 4 5 6 7 8 9 10 11 12))
+;;
+;; > (split-into 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
+;;
+(defun split-at (x data)
+  `(,(lists:sublist data x) ,(lists:nthtail x data)))
+
+(defun split-by
+  ((_ '()) '())
+  ((x data) (when (> x (length data)))
+   (split-by (length data) data))
+  ((x data)
+   (cons (lists:sublist data x)
+         (split-by x (lists:nthtail x data)))))
+
+;; XXX finish implementation for this
+;;(defun split-into
+;;  ((_ '()) '())
 
 ;; Partial
 ;;
