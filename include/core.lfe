@@ -148,6 +148,8 @@
   (list (lists:sublist data x) (lists:nthtail x data)))
 
 (defun split-by
+  ((0 data)
+    data)
   ((_ '())
    '())
   ((x data) (when (> x (length data)))
