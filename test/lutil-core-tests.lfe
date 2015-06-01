@@ -73,10 +73,6 @@
     '((1 2 3 4 5 6 7 8 9 10 11 12))
     (split-by 12 '(1 2 3 4 5 6 7 8 9 10 11 12))))
 
-(deftest partial
-  (is-equal 3 (funcall (partial #'+/2 1) 2))
-  (is-equal 6 (funcall (partial #'+/3 1) '(2 3))))
-
 (deftest interleave
   (is-equal '(a 1 b 2 c 3) (interleave '(a b c) '(1 2 3))))
 
