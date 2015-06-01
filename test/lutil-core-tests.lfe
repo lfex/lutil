@@ -117,4 +117,4 @@
   (is-equal '(1 1 1) (repeat 3 1))
   (is-equal '("xo" "xo") (repeat 2 "xo"))
   (is-equal '() (repeat 0 "oh noes"))
-  (is-equal '('ok 'ok 'ok 'ok) (repeat 4 'ok)))
+  (is-equal '(ok ok ok ok) (repeat 4 'ok)))
