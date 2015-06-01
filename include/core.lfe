@@ -257,6 +257,12 @@
 (defun reduce (func acc data)
   (lists:foldl func acc data))
 
+;; Repeat
+;;
+;; Returns a list of n items, where each item is x.
+(defun repeat (n x)
+  (lc ((<- _ (seq n))) x))
+
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
   REPL (the last function loaded has its name printed in stdout).

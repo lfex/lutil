@@ -112,3 +112,9 @@
   (is-equal 6 (reduce (lambda (x acc) (+ x acc)) 0 '(1 2 3)))
   (is-equal 6 (reduce #'+/2 0 '(1 2 3)))
   (is-equal 6 (reduce (fun + 2) 0 '(1 2 3))))
+
+(deftest repeat
+  (is-equal '(1 1 1) (repeat 3 1))
+  (is-equal '("xo" "xo") (repeat 2 "xo"))
+  (is-equal '() (repeat 0 "oh noes"))
+  (is-equal '('ok 'ok 'ok 'ok) (repeat 4 'ok)))
