@@ -100,7 +100,7 @@
 ;; Usage:
 ;;
 ;; > (take 4 (range))
-;; (1 2 3 4 5)
+;; (1 2 3 4)
 ;; > (take 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
 ;; (1 2 3 4 5)
 ;; > (take 'all '(1 2 3 4 5 6 7 8 9 10 11 12))
@@ -272,6 +272,26 @@
   (let ((data (car args))
         (keys (cdr args)))
     `(apply 'lutil-type 'get-in (list ,data (list ,@keys)))))
+
+;; Reduce
+;;
+;; This macro simplifies the usage of lists:foldl when using it as a reduce
+;; operation.
+;;
+;; Before:
+;; (lists:foldl (lambda (n acc) (+ n acc)) 0 '(1 2 3))
+;;
+;; After:
+;; (reduce #'+/2 '(1 2 3))
+;; or:
+;; (reduce (fun + 2) '(1 2 3))
+(defun reduce (func data)
+  (lists:foldl func (car data) (cdr data)))
+
+;; An alias for lists:foldl to allow for use of the same name for reduce/2 and
+;; reduce/3.
+(defun reduce (func acc data)
+  (lists:foldl func acc data))
 
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
