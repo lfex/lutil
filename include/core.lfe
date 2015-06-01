@@ -261,7 +261,7 @@
 ;;
 ;; Returns a list of n items, where each item is x.
 (defun repeat (n x)
-  (lc ((<- _ (seq n))) x))
+  (lists:duplicate n x))
 
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
