@@ -259,7 +259,13 @@
 
 ;; Repeat
 ;;
-;; Returns a list of n items, where each item is x.
+;; Alias for lists:duplicate/2. Returns a list of n items, where each item is x.
+;;
+;; Another way to write this would be to use list comprehensions:
+;;   (lc ((<- _ (seq n))) x))
+;;
+;; but constructing the seq is more costly than using recursion to
+;; directly construct the list.
 (defun repeat (n x)
   (lists:duplicate n x))
 
