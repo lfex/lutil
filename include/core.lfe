@@ -272,7 +272,7 @@
 ;; but constructing the seq is more costly than using recursion to
 ;; directly construct the list. 
 (defun repeat
-  ((n f) (when (is_integer n) (>= n 0) (is_function f))
+  ((n f) (when (is_function f) (is_integer n) (>= n 0))
     (repeat-fun n f '()))
   ((n x)
     (lists:duplicate n x)))
