@@ -259,15 +259,31 @@
 
 ;; Repeat
 ;;
-;; Alias for lists:duplicate/2. Returns a list of n items, where each item is x.
+;; Alias for lists:duplicate/2, but can also take a function as an argument.
+;; In the first form, returns a list of n items, where each item is constructed
+;; by calling f.
+;; In the second form, simply repeats n times the item given as argument x.
+;;
+;; Inspired by Clojure's repeatedly and repeat.
 ;;
 ;; Another way to write this would be to use list comprehensions:
 ;;   (lc ((<- _ (seq n))) x))
 ;;
 ;; but constructing the seq is more costly than using recursion to
-;; directly construct the list.
-(defun repeat (n x)
-  (lists:duplicate n x))
+;; directly construct the list. 
+(defun repeat
+  ((n f) (when (is_function f) (> n 0))
+    (repeat-fun n f '()))
+  ((n x)
+    (lists:duplicate n x)))
+
+;; Helper function for repeat. Shouldn't be exported.
+(defun repeat-fun
+  ((0 _ acc)
+    acc)
+  ((n f acc)
+    (repeat-fun (- n 1) f (cons (funcall f) acc))))
+
 
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
