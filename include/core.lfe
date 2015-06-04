@@ -273,17 +273,14 @@
 ;; directly construct the list. 
 (defun repeat
   ((n f) (when (is_function f) (is_integer n) (>= n 0))
-    (repeat-fun n f '()))
+    (fletrec ((repeat-fun
+                 ((0 acc)
+                   acc) 
+                 ((n acc)
+                   (repeat-fun (- n 1) (cons (funcall f) acc)))))
+      (repeat-fun n '())))
   ((n x)
     (lists:duplicate n x)))
-
-;; Helper function for repeat. Shouldn't be exported.
-(defun repeat-fun
-  ((0 _ acc)
-    acc)
-  ((n f acc)
-    (repeat-fun (- n 1) f (cons (funcall f) acc))))
-
 
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
