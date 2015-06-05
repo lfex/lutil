@@ -257,6 +257,31 @@
 (defun reduce (func acc data)
   (lists:foldl func acc data))
 
+;; Repeat
+;;
+;; Alias for lists:duplicate/2, but can also take a function as an argument.
+;; In the first form, returns a list of n items, where each item is constructed
+;; by calling f.
+;; In the second form, simply repeats n times the item given as argument x.
+;;
+;; Inspired by Clojure's repeatedly and repeat.
+;;
+;; Another way to write this would be to use list comprehensions:
+;;   (lc ((<- _ (seq n))) x))
+;;
+;; but constructing the seq is more costly than using recursion to
+;; directly construct the list. 
+(defun repeat
+  ((n f) (when (is_function f) (is_integer n) (>= n 0))
+    (fletrec ((repeat-fun
+                 ((0 acc)
+                   acc) 
+                 ((n acc)
+                   (repeat-fun (- n 1) (cons (funcall f) acc)))))
+      (repeat-fun n '())))
+  ((n x)
+    (lists:duplicate n x)))
+
 (defun loaded-core ()
   "This is just a dummy function for display purposes when including from the
   REPL (the last function loaded has its name printed in stdout).
