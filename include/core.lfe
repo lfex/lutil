@@ -117,12 +117,10 @@
     (take x '() (funcall func))))
 
 (defun take
-  ((x acc (cons _ func)) (when (>= (length acc) x))
-    acc)
-  ((x acc (cons item func)) (when (< (length acc) x))
-    (take x
-          (++ acc `(,item))
-          (funcall func))))
+  ((0 acc _)
+    (lists:reverse acc))
+  ((x acc (cons item func))
+    (take (- x 1) (cons item acc) (funcall func))))
 
 ;; Partitioning functions
 ;;
