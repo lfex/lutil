@@ -113,7 +113,7 @@
     data)
   ((x data) (when (is_list data))
     (lists:sublist data x))
-  ((x func) (when (is_function func))
+  ((x func) (when (is_function func) (is_integer x) (>= x 0))
     (take x '() (funcall func))))
 
 (defun take

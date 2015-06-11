@@ -17,6 +17,7 @@
 (deftest take
   (is-equal '(1 2 3 4) (take 4 (range)))
   (is-equal '(1 2 3 4 5) (take 5 '(1 2 3 4 5 6 7 8 9 10 11 12)))
+  (is-error function_clause (take -1 (range)))
   (is-equal '(1 2 3 4 5 6 7 8 9 10 11 12) (take 'all '(1 2 3 4 5 6 7 8 9 10 11 12))))
 
 (deftest next-and-take
