@@ -234,3 +234,8 @@
 (defun xform-numbers (divisions numbers)
   "The default precision for rounding decimals is two places."
   (xform-numbers divisions numbers 2))
+
+(defun gcd
+  "Get the greatest common divisor."
+  ((a 0) a)
+  ((a b) gcd b (rem a b)))
