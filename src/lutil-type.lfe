@@ -3,7 +3,7 @@
 (defmodule lutil-type
   (export all))
 
-(include-lib "clj/include/predicates.lfe")
+(include-lib "lutil/include/predicates.lfe")
 
 (defun add-tuples (a b)
   "Given two tuples, add them together."
