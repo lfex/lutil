@@ -106,23 +106,18 @@
 
 (defun proplist?
   ((data) (when (is_list data))
-    (lutil:deprecated "Please use proplist? in the lfex/clj project.")
     (if (lists:all #'proplist-kv?/1 data)
       'true
       'false))
   ((_)
-    (lutil:deprecated "Please use proplist? in the lfex/clj project.")
     'false))
 
 (defun proplist-kv?
   ((`#(,key ,_)) (when (is_atom key))
-    (lutil:deprecated "Please use proplist-kv? in the lfex/clj project.")
     'true)
   ((bool-key) (when (is_atom bool-key))
-    (lutil:deprecated "Please use proplist-kv? in the lfex/clj project.")
     'true)
   ((_)
-    (lutil:deprecated "Please use proplist-kv? in the lfex/clj project.")
     'false))
 
 (defun undefined? (x)
