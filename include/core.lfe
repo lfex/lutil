@@ -10,12 +10,15 @@
 ;; (1 2 3 4 5 6 7 8 9 10)
 ;;
 (defun seq (end)
+  (lutil:deprecated "Please use seq in the lfex/clj project.")
   (lists:seq 1 end))
 
 (defun seq (start end)
+  (lutil:deprecated "Please use seq in the lfex/clj project.")
   (lists:seq start end))
 
 (defun seq (start end step)
+  (lutil:deprecated "Please use seq in the lfex/clj project.")
   (lists:seq start end step))
 
 ;; Infinite series functions
@@ -38,12 +41,15 @@
 ;; (1 4.0 25.0 676.0 458329.0 210066388900.0 4.4127887745906175e22)
 ;;
 (defun next (func)
+  (lutil:deprecated "Please use next in the lfex/clj project.")
   (next func 1 1))
 
 (defun next (func start)
+  (lutil:deprecated "Please use next in the lfex/clj project.")
   (next start 1))
 
 (defun next (func start step)
+  (lutil:deprecated "Please use next in the lfex/clj project.")
   (lambda ()
     (cons start (next func
                       (funcall func start step)
@@ -72,12 +78,15 @@
 ;; (4 . #Fun<lfe_eval.23.86468545>)
 ;;
 (defun range ()
+  (lutil:deprecated "Please use range in the lfex/clj project.")
   (range 1 1))
 
 (defun range (start)
+  (lutil:deprecated "Please use range in the lfex/clj project.")
   (range start 1))
 
 (defun range (start step)
+  (lutil:deprecated "Please use range in the lfex/clj project.")
   (next #'+/2 start step))
 
 ;; Drop function
@@ -91,10 +100,13 @@
 ;;
 (defun drop
   ((_ '())
+   (lutil:deprecated "Please use drop in the lfex/clj project.")
    '())
   (('all data) (when (is_list data))
+   (lutil:deprecated "Please use drop in the lfex/clj project.")
     '())
   ((x data) (when (is_list data))
+   (lutil:deprecated "Please use drop in the lfex/clj project.")
     (lists:nthtail x data)))
 
 ;; Take functions
@@ -110,19 +122,22 @@
 ;;
 (defun take
   (('all data) (when (is_list data))
+   (lutil:deprecated "Please use take in the lfex/clj project.")
     data)
   ((x data) (when (is_list data))
+   (lutil:deprecated "Please use take in the lfex/clj project.")
     (lists:sublist data x))
-  ((x func) (when (is_function func))
+  ((x func) (when (is_function func) (is_integer x) (>= x 0))
+   (lutil:deprecated "Please use take in the lfex/clj project.")
     (take x '() (funcall func))))
 
 (defun take
-  ((x acc (cons _ func)) (when (>= (length acc) x))
-    acc)
-  ((x acc (cons item func)) (when (< (length acc) x))
-    (take x
-          (++ acc `(,item))
-          (funcall func))))
+  ((0 acc _)
+   (lutil:deprecated "Please use take in the lfex/clj project.")
+   (lists:reverse acc))
+  ((x acc (cons item func))
+   (lutil:deprecated "Please use take in the lfex/clj project.")
+   (take (- x 1) (cons item acc) (funcall func))))
 
 ;; Partitioning functions
 ;;
@@ -145,16 +160,21 @@
 ;; > (split-into 5 '(1 2 3 4 5 6 7 8 9 10 11 12))
 ;;
 (defun split-at (x data)
+  (lutil:deprecated "Please use split-at in the lfex/clj project.")
   (list (lists:sublist data x) (lists:nthtail x data)))
 
 (defun split-by
   ((0 data)
+   (lutil:deprecated "Please use split-by in the lfex/clj project.")
     data)
   ((_ '())
+   (lutil:deprecated "Please use split-by in the lfex/clj project.")
    '())
   ((x data) (when (> x (length data)))
+   (lutil:deprecated "Please use split-by in the lfex/clj project.")
    (split-by (length data) data))
   ((x data)
+   (lutil:deprecated "Please use split-by in the lfex/clj project.")
    (cons (lists:sublist data x)
          (split-by x (lists:nthtail x data)))))
 
@@ -173,6 +193,7 @@
 ;; > (interleave l1 l2)
 ;; (a 1 b 2 c 3 d 4 e 5 f 6 g 7)
 (defun interleave (list-1 list-2)
+  (lutil:deprecated "Please use interleave in the lfex/clj project.")
   (lists:flatten
     (lists:map
       #'tuple_to_list/1
@@ -232,6 +253,7 @@
 ;; > (get-in data 'key-3 'key-6 'key-89 'key-100)
 ;; undefined
 (defmacro get-in args
+  (lutil:deprecated "Please use get-in in the lfex/clj project.")
   (let ((data (car args))
         (keys (cdr args)))
     `(apply 'lutil-type 'get-in (list ,data (list ,@keys)))))
@@ -249,12 +271,14 @@
 ;; or:
 ;; (reduce (fun + 2) '(1 2 3))
 (defun reduce
- ((func `(,head . ,tail))
-  (lists:foldl func head tail)))
+  ((func `(,head . ,tail))
+   (lutil:deprecated "Please use reduce in the lfex/clj project.")
+   (lists:foldl func head tail)))
 
 ;; An alias for lists:foldl to allow for use of the same name for reduce/2 and
 ;; reduce/3.
 (defun reduce (func acc data)
+  (lutil:deprecated "Please use reduce in the lfex/clj project.")
   (lists:foldl func acc data))
 
 ;; Repeat
@@ -273,6 +297,7 @@
 ;; directly construct the list. 
 (defun repeat
   ((n f) (when (is_function f) (is_integer n) (>= n 0))
+    (lutil:deprecated "Please use repeat in the lfex/clj project.")
     (fletrec ((repeat-fun
                  ((0 acc)
                    acc) 
@@ -280,6 +305,7 @@
                    (repeat-fun (- n 1) (cons (funcall f) acc)))))
       (repeat-fun n '())))
   ((n x)
+    (lutil:deprecated "Please use repeat in the lfex/clj project.")
     (lists:duplicate n x)))
 
 (defun loaded-core ()

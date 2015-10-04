@@ -44,12 +44,17 @@
 ;; ("L" "F" "E")
 ;;
 (defmacro ->
-  ((x) x)
+  ((x)
+   (lutil:deprecated "Please use -> in the lfex/clj project.")
+   x)
   ((x sexp) (when (is_list sexp))
+   (lutil:deprecated "Please use -> in the lfex/clj project.")
    `(,(car sexp) ,x ,@(cdr sexp)))
   ((x sexp)
+   (lutil:deprecated "Please use -> in the lfex/clj project.")
    `(list ,sexp ,x))
   ((x sexp . sexps)
+   (lutil:deprecated "Please use -> in the lfex/clj project.")
    `(-> (-> ,x ,sexp) ,@sexps)))
 
 ;; Threads the sexp through the sexps. Inserts x as the last item in
@@ -95,12 +100,17 @@
 ;; 1540.0
 ;;
 (defmacro ->>
-  ((x) x)
+  ((x)
+    (lutil:deprecated "Please use ->> in the lfex/clj project.")
+    x)
   ((x sexp) (when (is_list sexp))
+    (lutil:deprecated "Please use ->> in the lfex/clj project.")
    `(,(car sexp) ,@(cdr sexp) ,x))
   ((x sexp)
+   (lutil:deprecated "Please use ->> in the lfex/clj project.")
    `(list ,sexp ,x))
   ((x sexp . sexps)
+   (lutil:deprecated "Please use ->> in the lfex/clj project.")
    `(->> (->> ,x ,sexp) ,@sexps)))
 
 ;; The following 'compose' functions aren't macros but are conceptual
@@ -139,16 +149,20 @@
 ;;
 (defun compose
   ((func-1 func-2) (when (is_function func-2))
+    (lutil:deprecated "Please use clj-comp:compose in the lfex/clj project.")
     (lambda (x)
       (funcall func-1
         (funcall func-2 x))))
   ((funcs x)
+    (lutil:deprecated "Please use clj-comp:compose in the lfex/clj project.")
     (funcall (compose funcs) x)))
 
 (defun compose (f g x)
+  (lutil:deprecated "Please use clj-comp:compose in the lfex/clj project.")
   (funcall (compose f g) x))
 
 (defun compose (funcs)
+  (lutil:deprecated "Please use clj-comp:compose in the lfex/clj project.")
   (lists:foldl #'compose/2 (lambda (x) x) funcs))
 
 ;; Partial
@@ -181,12 +195,14 @@
   parameter is applied to the partial function. This parameter too may be
   either a single item or a list of items."
   ((func args-1) (when (is_list args-1))
+    (lutil:deprecated "Please use clj-comp:partial in the lfex/clj project.")
     (match-lambda
       ((args-2) (when (is_list args-2))
         (apply func (++ args-1 args-2)))
       ((arg-2)
         (apply func (++ args-1 `(,arg-2))))))
   ((func arg-1)
+    (lutil:deprecated "Please use clj-comp:partial in the lfex/clj project.")
     (match-lambda
       ((args-2) (when (is_list args-2))
         (apply func (++ `(,arg-1) args-2)))
