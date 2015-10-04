@@ -74,3 +74,15 @@
       (lambda (x)
         (element 1 x))
       (element 3 env))))
+
+(defun warn (msg)
+  (warn msg '()))
+
+(defun warn (msg args)
+  (lfe_io:format (++ msg "~n") args))
+
+(defun deprecated ()
+  (deprecated "This functionality has been deprecated."))
+
+(defun deprecated (msg)
+  (warn (++ "Deprecated: " msg)))
