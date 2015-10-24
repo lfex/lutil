@@ -2,8 +2,8 @@
   (behaviour ltest-unit)
   (export all))
 
+(include-lib "clj/include/predicates.lfe")
 (include-lib "ltest/include/ltest-macros.lfe")
-(include-lib "lutil/include/predicates.lfe")
 
 (deftest fast-floor
   (is-equal 0 (lutil-math:fast-floor 0.0))
