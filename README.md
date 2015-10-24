@@ -1,7 +1,21 @@
 # lutil
 
+[![][meep-logo]][lutil-logo]
 
-## Introduction
+[lutil-logo]: resources/images/lutil-x250.png
+
+*Utility functions for LFE*
+
+##### Contents
+
+* [Introduction](#introduction-)
+* [Dependencies](#dependencies-)
+* [Installation](#installation-)
+* [Usage](#usage-)
+  * [Modules](#modules-)
+  * [Macros](#macros-)
+
+## Introduction [&#x219F;](#table-of-contents)
 
 lutil offers several modules and macros with convenience functions that can
 be easily incorported into projects without having to re-implement these
@@ -23,32 +37,30 @@ Macros include:
  * ``mnesia-macros.lfe``
  * ``predicates.lfe``
 
-## Dependencies
+## Dependencies [&#x219F;](#table-of-contents)
 
-This project assumes that you have [rebar](https://github.com/rebar/rebar)
-installed somwhere in your ``$PATH``.
+As of version 0.7.0, This project assumes that you have
+[rebar3](https://github.com/rebar/rebar3)installed somwhere in your ``$PATH``.
+And no longer uses the old version of rebar.
 
-This project depends upon the following, which installed to the ``deps``
-directory of this project when you run ``make deps``:
+Note that if you do not wish to use rebar3, you may use the most recent
+rebar2-compatible release of lutil: 0.6.7.
 
-
-## Installation
+## Installation [&#x219F;](#table-of-contents)
 
 In your ``rebar.config`` file, update your ``deps`` section to include
 ``lutil``:
 
 ```erlang
 {deps, [
-  {lfe, ".*", {git, "git://github.com/rvirding/lfe.git"}},
-  {ltest, ".*", {git, "git://github.com/lfex/ltest.git"}},
   {lutil, ".*", {git, "git://github.com/lfex/lutil.git"}}
 ]}
 ```
 
 
-## Usage
+## Usage [&#x219F;](#table-of-contents)
 
-### Modules
+### Modules [&#x219F;](#table-of-contents)
 
 For the modules, usage is the same as any other Erlang or LFE library :-)
 
@@ -71,7 +83,7 @@ For the modules, usage is the same as any other Erlang or LFE library :-)
 #B(99 101 102 102 54 53 97 50 45 48 57 55 49 45 52 50 49 49 45 50 52 ...)
 ```
 
-### Macros
+### Macros [&#x219F;](#table-of-contents)
 
 lutil offers several Clojure-alike macros:
  * ``get-in`` (supports lists, proplists, orddicts, dicts, and maps)
