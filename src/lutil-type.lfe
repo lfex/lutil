@@ -3,7 +3,7 @@
 (defmodule lutil-type
   (export all))
 
-(include-lib "lutil/include/predicates.lfe")
+(include-lib "clj/include/predicates.lfe")
 
 (defun add-tuples (a b)
   "Given two tuples, add them together."
@@ -55,8 +55,15 @@
   val2)
 
 (defun get-in (data keys)
-  "This function is not intended to be used directly (though one certainly may)
-  but rather to be used via the macro defined in include/core.lfe."
+  "DEPRECATED
+
+  This function was not intended to be used directly (though one certainly
+  might have) but rather was to be used via the macro that used to be defined
+  in include/core.lfe.
+
+  That macro is now in the clj library in include/seq.lfe and the get-in
+  function is in the module clj-seq.lfe.
+  "
   ;; XXX We'll take the cheap way out right now and assume (uh-oh ...) that
   ;; any error here will be keys or indices not found, and thus return
   ;; undefined. Might be better to only do this for function_clause errors ...

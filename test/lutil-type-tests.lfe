@@ -2,8 +2,8 @@
   (behaviour ltest-unit)
   (export all))
 
+(include-lib "clj/include/predicates.lfe")
 (include-lib "ltest/include/ltest-macros.lfe")
-(include-lib "lutil/include/predicates.lfe")
 
 (deftest add-tuples
   (let ((data1 (list (tuple 1 2 3) (tuple 2 3 4)))
