@@ -16,7 +16,7 @@
   * [Modules](#modules-)
   * [Macros](#macros-)
 
-## Introduction [&#x219F;](#table-of-contents)
+## Introduction [&#x219F;](#contents)
 
 lutil offers several modules and macros with convenience functions that can
 be easily incorported into projects without having to re-implement these
@@ -38,7 +38,7 @@ Macros include:
  * ``mnesia-macros.lfe``
  * ``predicates.lfe``
 
-## Dependencies [&#x219F;](#table-of-contents)
+## Dependencies [&#x219F;](#contents)
 
 As of version 0.7.0, This project assumes that you have
 [rebar3](https://github.com/rebar/rebar3)installed somwhere in your ``$PATH``.
@@ -47,7 +47,7 @@ And no longer uses the old version of rebar.
 Note that if you do not wish to use rebar3, you may use the most recent
 rebar2-compatible release of lutil: 0.6.7.
 
-## Installation [&#x219F;](#table-of-contents)
+## Installation [&#x219F;](#contents)
 
 In your ``rebar.config`` file, update your ``deps`` section to include
 ``lutil``:
@@ -59,9 +59,9 @@ In your ``rebar.config`` file, update your ``deps`` section to include
 ```
 
 
-## Usage [&#x219F;](#table-of-contents)
+## Usage [&#x219F;](#contents)
 
-### Modules [&#x219F;](#table-of-contents)
+### Modules [&#x219F;](#contents)
 
 For the modules, usage is the same as any other Erlang or LFE library :-)
 
@@ -84,7 +84,7 @@ For the modules, usage is the same as any other Erlang or LFE library :-)
 #B(99 101 102 102 54 53 97 50 45 48 57 55 49 45 52 50 49 49 45 50 52 ...)
 ```
 
-### Macros [&#x219F;](#table-of-contents)
+### Macros [&#x219F;](#contents)
 
 lutil offers several Clojure-alike macros:
  * ``get-in`` (supports lists, proplists, orddicts, dicts, and maps)
