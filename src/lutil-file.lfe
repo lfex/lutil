@@ -93,8 +93,7 @@
             ;; only keep it if it's a dir and
             (filelib:is_dir x)
             ;; it doesn't begin with a "."
-            (not (== (car ".")
-                     (car (filename:basename x)))))
+            (not (== #\. (car (filename:basename x)))))
         x))
     deps-subdirs))
 

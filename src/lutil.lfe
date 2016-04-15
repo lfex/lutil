@@ -1,6 +1,5 @@
-;;;; misc utility functions
-;;;;
 (defmodule lutil
+  (doc "misc utility functions")
   (export all))
 
 ;; The compose macros are included here to allow for easy use in the REPL when
@@ -8,22 +7,21 @@
 (include-lib "clj/include/compose.lfe")
 
 (defun uuid4 ()
-  "Adapted from the implementation given here:
-    https://github.com/afiskon/erlang-uuid-v4/blob/8c03a11524f6bccf984575877b533ef30a009175/src/uuid.erl
-  "
+  "Adapted from the implementation given [here][1].
+  [1]: https://github.com/afiskon/erlang-uuid-v4/blob/8c03a11524f6bccf984575877b533ef30a009175/src/uuid.erl"
   (let* (((binary
             (a (size 32))
             (b (size 16))
             (c (size 16))
             (d (size 16))
             (e (size 48))) (crypto:rand_bytes 16))
-        (format-template '"~8.16.0b-~4.16.0b-4~3.16.0b-~4.16.0b-~12.16.0b")
-        (uuid-data (list a b (band c #x0fff) (band d #x3fff) (bor #x8000 e)))
-        (string (io_lib:format format-template uuid-data)))
+         (format-template '"~8.16.0b-~4.16.0b-4~3.16.0b-~4.16.0b-~12.16.0b")
+         (uuid-data (list a b (band c #x0fff) (band d #x3fff) (bor #x8000 e)))
+         (string (io_lib:format format-template uuid-data)))
     (list_to_binary string)))
 
 (defun uuid4
-  "A wrapper for uuid4/0."
+  "A wrapper for [[uuid4/0]]."
   ;; Example usage:
   ;;
   ;;   > (lutil:uuid4 (tuple 'type 'binary))

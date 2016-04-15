@@ -1,6 +1,5 @@
-;;;; data types and type ops
-;;;;
 (defmodule lutil-type
+  (doc "data types and type ops.")
   (export all))
 
 (include-lib "clj/include/predicates.lfe")
