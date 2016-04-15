@@ -32,6 +32,9 @@
 
   %% configuration parameters similar to those in the config file specified
   %% on the command line. can be fetched with gas:get_env
-  {env, []}
+  {env, []},
+
+  {maintainers, ["Duncan McGreggor"]},
+  {links, [{"GitHub", "https://github.com/lfex/lutil"}]}
  ]
 }.
