@@ -2,8 +2,8 @@
 
 [![][lutil-logo]][lutil-logo-large]
 
-[lutil-logo]: resources/images/lutil-x250.png
-[lutil-logo-large]: resources/images/lutil-x700.png
+[lutil-logo]: priv/images/lutil-x250.png
+[lutil-logo-large]: priv/images/lutil-x700.png
 
 *Utility functions for LFE*
 
