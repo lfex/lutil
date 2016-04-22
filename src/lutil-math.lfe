@@ -1,6 +1,7 @@
 (defmodule lutil-math
   (export all))
 
+;; N.B. This is necessary for lutil-math-tests.
 (include-lib "clj/include/predicates.lfe")
 
 (defun floor (x)
