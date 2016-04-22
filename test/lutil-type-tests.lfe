@@ -2,7 +2,6 @@
   (behaviour ltest-unit)
   (export all))
 
-(include-lib "clj/include/predicates.lfe")
 (include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest add-tuples
