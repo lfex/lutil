@@ -1,3 +1,3 @@
 PROJECT = lutil
 
-include resources/make/common.mk
+include priv/make/common.mk
