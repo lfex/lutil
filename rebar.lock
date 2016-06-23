@@ -1,5 +1,5 @@
 [{<<"clj">>,
-  {git,"git://github.com/lfex/clj.git",
+  {git,"https://github.com/lfex/clj.git",
        {ref,"1ad1ea36bebf25fd6c4f97e9434a19d401583634"}},
   0},
  {<<"kla">>,
