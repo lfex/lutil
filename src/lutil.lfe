@@ -1,5 +1,5 @@
 (defmodule lutil
-  (doc "misc utility functions")
+  "misc utility functions"
   (export all))
 
 ;; The compose macros are included here to allow for easy use in the REPL when

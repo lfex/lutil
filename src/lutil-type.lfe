@@ -1,5 +1,5 @@
 (defmodule lutil-type
-  (doc "data types and type ops.")
+  "data types and type ops."
   (export all))
 
 (include-lib "clj/include/predicates.lfe")
