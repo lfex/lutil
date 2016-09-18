@@ -30,7 +30,7 @@
     (binary_to_atom (uuid4) 'latin1)))
 
 (defun get-app-version (app-name)
-  "DEPLRECATED.
+  "DEPRECATED.
 
   Provided for backwards compatibility."
   (lr3-ver-util:get-app-version app-name))
