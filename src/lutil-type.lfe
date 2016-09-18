@@ -2,7 +2,7 @@
   "data types and type ops."
   (export all))
 
-(include-lib "clj/include/predicates.lfe")
+(include-lib "lfe/include/clj.lfe")
 
 (defun add-tuples (a b)
   "Given two tuples, add them together."
@@ -60,17 +60,16 @@
   might have) but rather was to be used via the macro that used to be defined
   in include/core.lfe.
 
-  That macro is now in the clj library in include/seq.lfe and the get-in
-  function is in the module clj-seq.lfe.
-  "
+  That macro and related functions are now in the clj module, which is
+  distributed as part of LFE."
   ;; XXX We'll take the cheap way out right now and assume (uh-oh ...) that
   ;; any error here will be keys or indices not found, and thus return
   ;; undefined. Might be better to only do this for function_clause errors ...
   (try
-    (cond ((proplist? data) (get-in-proplist data keys))
-          ((dict? data) (get-in-dict data keys))
-          ((list? data) (get-in-list data keys))
-          ((map? data) (get-in-map data keys)))
+    (cond ((clj:proplist? data) (get-in-proplist data keys))
+          ((clj:dict? data) (get-in-dict data keys))
+          ((clj:list? data) (get-in-list data keys))
+          ((clj:map? data) (get-in-map data keys)))
     (catch (_
       'undefined))))
 
@@ -89,9 +88,9 @@
 (defun get-in-kv
   ((func data (cons key keys))
     (let ((value (funcall func key data)))
-      (if (orelse (proplist? value)
-                  (dict? value)
-                  (map? value))
+      (if (orelse (clj:proplist? value)
+                  (clj:dict? value)
+                  (clj:map? value))
           (get-in value keys)
           value))))
 

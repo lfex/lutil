@@ -2,9 +2,9 @@
   "misc utility functions"
   (export all))
 
-;; The compose macros are included here to allow for easy use in the REPL when
-;; one slurps this module.
-(include-lib "clj/include/compose.lfe")
+;; The clj macros are included here to allow for easy use
+;; in the REPL when one slurps this module.
+(include-lib "lfe/include/clj.lfe")
 
 (defun uuid4 ()
   "Adapted from the implementation given [here][1].

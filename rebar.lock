@@ -1,12 +1,4 @@
-[{<<"clj">>,
-  {git,"https://github.com/lfex/clj.git",
-       {ref,"10fec22c8b01055efc26023272251d5d1e1112be"}},
-  0},
- {<<"kla">>,
-  {git,"https://github.com/lfex/kla.git",
-       {ref,"495cfa95682a3962ddd527c935a5afa6b808f848"}},
-  1},
- {<<"lfe-version">>,
-  {git,"https://github.com/lfe-rebar3/version.git",
-       {ref,"94140845563f96d2a6fb356524d867b906088b20"}},
-  2}].
+[{<<"lfe">>,
+  {git,"https://github.com/rvirding/lfe.git",
+       {ref,"ecca274eabf1a6ee60145382aeab9522ba3bce25"}},
+  0}].
