@@ -120,14 +120,6 @@
         ""
         list-of-atoms)))
 
-;; The zip/2, zip/3, and zip/4 implementations are for kicks; probably *much*
-;; better to use Erlang's lists:zip/2 and lists:zip3/3. There's no zip/4, so
-;; hey -- have fun. The zip/1 function is what's most interesting: it can be
-;; used for lists of lists of any length -- no need for special-case arities.
-;; In particular, the zip/1 function was needed for the lmatrix library.
-;;
-;; Note that, unlike the Erlang zip functions, these functions *do not* return
-;; a list of tuples; they return a list of lists.
 (defun zip (lists)
   (zip-any lists ()))
 
@@ -168,19 +160,6 @@
       (let (((list (cons h1 t1) (cons h2 t2) (cons h3 t3) (cons h4 t4))
              (list list-1 list-2 list-3 list-4)))
         (zip-4 t1 t2 t3 t4 (++ acc `((,h1 ,h2 ,h3 ,h4))))))))
-
-;; An alternate implementation:
-;; (defun zip-4 (list-1 list-2 list-3 list-4 acc)
-;;   ((_ _ _ '() acc)
-;;     acc)
-;;   ((_ _ '() _ acc)
-;;     acc)
-;;   ((_ '() _ _ acc)
-;;     acc)
-;;     (('() _ _ _ acc)
-;;     acc)
-;;   (((cons h1 t1) (cons h2 t2) (cons h3 t3) (cons h4 t4) acc)
-;;     (zip-4 t1 t2 t3 t4 (++ acc `((,h1 ,h2 ,h3 ,h4))))))
 
 (defun zip-any (lists acc)
   (cond
