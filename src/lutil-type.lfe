@@ -129,31 +129,31 @@
 ;; Note that, unlike the Erlang zip functions, these functions *do not* return
 ;; a list of tuples; they return a list of lists.
 (defun zip (lists)
-  (zip-any lists '()))
+  (zip-any lists ()))
 
 (defun zip (list-1 list-2)
-  (zip-2 list-1 list-2 '()))
+  (zip-2 list-1 list-2 ()))
 
 (defun zip (list-1 list-2 list-3)
-  (zip-3 list-1 list-2 list-3 '()))
+  (zip-3 list-1 list-2 list-3 ()))
 
 (defun zip (list-1 list-2 list-3 list-4)
-  (zip-4 list-1 list-2 list-3 list-4 '()))
+  (zip-4 list-1 list-2 list-3 list-4 ()))
 
 (defun zip-2
-  ((_ '() acc)
+  ((_ () acc)
     acc)
-  (('() _ acc)
+  ((() _ acc)
     acc)
   (((cons h1 t1) (cons h2 t2) acc)
     (zip-2 t1 t2 (++ acc `((,h1 ,h2))))))
 
 (defun zip-3
-  ((_ _ '() acc)
+  ((_ _ () acc)
     acc)
-  ((_ '() _ acc)
+  ((_ () _ acc)
     acc)
-  (('() _ _ acc)
+  ((() _ _ acc)
     acc)
   (((cons h1 t1) (cons h2 t2) (cons h3 t3) acc)
     (zip-3 t1 t2 t3 (++ acc `((,h1 ,h2 ,h3))))))
@@ -161,7 +161,7 @@
 (defun zip-4 (list-1 list-2 list-3 list-4 acc)
   (cond
     ((lists:any
-        (lambda (x) (== x '()))
+        (lambda (x) (== x ()))
         (list list-1 list-2 list-3 list-4))
      acc)
     ('true
@@ -185,7 +185,7 @@
 (defun zip-any (lists acc)
   (cond
     ((lists:any
-        (lambda (x) (== x '()))
+        (lambda (x) (== x ()))
         lists)
      acc)
     ('true

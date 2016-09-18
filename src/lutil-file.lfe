@@ -227,7 +227,7 @@
 
 (defun beam->module (beam)
   (let (((tuple 'ok (tuple module _))
-         (beam_lib:chunks beam '())))
+         (beam_lib:chunks beam ())))
     module))
 
 (defun get-module-attrs (module)
@@ -238,7 +238,7 @@
   attributes."
   (let ((behavs (get-behaviour (get-beam-attrs beam))))
     (case behavs
-      ('undefined '())
+      ('undefined ())
       (_ behavs))))
 
 ;; provided for the spelling-impaired

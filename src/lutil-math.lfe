@@ -87,7 +87,7 @@
 
 (defun factors (n)
   "Tail-recursive prime factors function."
-  (factors n 2 '()))
+  (factors n 2 ()))
 
 (defun factors
   ((1 _ acc) (++ acc '(1)))
@@ -99,9 +99,9 @@
     (factors n (+ k 1) acc)))
 
 (defun levenshtein-simple
-  (('() str)
+  ((() str)
     (length str))
-  ((str '())
+  ((str ())
     (length str))
   (((cons a str1) (cons b str2)) (when (== a b))
     (levenshtein-simple str1 str2))
@@ -154,12 +154,12 @@
     distance))
 
 (defun levenshtein-distance
-  (((= '() str1) str2 cache)
+  (((= () str1) str2 cache)
     (tuple (length str2)
            (dict:store (tuple str1 str2)
                        (length str2)
                        cache)))
-  ((str1 (= '() str2) cache)
+  ((str1 (= () str2) cache)
     (tuple (length str1)
            (dict:store (tuple str1 str2)
                        (length str1)

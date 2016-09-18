@@ -65,7 +65,7 @@
       (element 3 env))))
 
 (defun warn (msg)
-  (warn msg '()))
+  (warn msg ()))
 
 (defun warn (msg args)
   (lfe_io:format (++ msg "~n") args))

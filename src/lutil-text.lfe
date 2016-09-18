@@ -35,7 +35,7 @@
 (defun assemble-lines (max-len word rest)
   (lists:foldl
     #'assemble-line/2
-    (tuple max-len (length word) word '()) rest))
+    (tuple max-len (length word) word ()) rest))
 
 (defun assemble-line
   ((word (tuple max line-len line acc))
