@@ -10,7 +10,7 @@
   %% All modules used by the application.
   {modules,
    [
-    lutil
+    lutil, 'lutil-file', 'lutil-math', 'lutil-text', 'lutil-type'
    ]},
 
   %% All of the registered names the application uses. This can be ignored.
@@ -22,7 +22,8 @@
   {applications,
    [
     kernel,
-    stdlib
+    stdlib,
+    lfe
    ]},
 
   %% OTP application loader will load, but not start, included apps. Again
@@ -35,6 +36,9 @@
   {env, []},
 
   {maintainers, ["Duncan McGreggor"]},
+  %% TODO: licenses
   {links, [{"GitHub", "https://github.com/lfex/lutil"}]}
+  %% TODO: Documentation link
+  %% TODO: {files, [...]}
  ]
 }.
