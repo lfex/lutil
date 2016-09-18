@@ -2,7 +2,7 @@
   (behaviour ltest-unit)
   (export all))
 
-(include-lib "clj/include/predicates.lfe")
+(include-lib "lfe/include/clj.lfe")
 (include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest fast-floor
@@ -56,16 +56,16 @@
   (is-equal 255 (lutil-math:color-scale 1.0 #(0.0 1.0))))
 
 (deftest odd?
-  (is (lutil-math:odd? 1))
-  (is-not (lutil-math:odd? 2))
-  (is (lutil-math:odd? 3))
-  (is-not (lutil-math:odd? 4)))
+  (is (clj:odd? 1))
+  (is-not (clj:odd? 2))
+  (is (clj:odd? 3))
+  (is-not (clj:odd? 4)))
 
 (deftest even?
-  (is-not (lutil-math:even? 1))
-  (is (lutil-math:even? 2))
-  (is-not (lutil-math:even? 3))
-  (is (lutil-math:even? 4)))
+  (is-not (clj:even? 1))
+  (is (clj:even? 2))
+  (is-not (clj:even? 3))
+  (is (clj:even? 4)))
 
 (deftest zero?
   (is-not (zero? 1))
