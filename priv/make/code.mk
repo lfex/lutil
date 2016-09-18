@@ -1,13 +1,18 @@
 lib    := $(notdir $(PWD))
 _build := $(PWD)/_build
 
+null     :=
+space    := $(null) #
+comma    := ,
+testmods := $(basename $(notdir $(wildcard test/*.lfe)))
+
 compile:
 	@rebar3 compile
 
 check: compile
 	@mkdir -p _build/test/lib
 	@ln -sf $(_build)/default/lib/$(lib) $(_build)/test/lib
-	@rebar3 eunit
+	@rebar3 eunit -m $(subst $(space),$(comma),$(testmods))
 
 # check: compile
 # 	-@rebar3 as default+test compile
