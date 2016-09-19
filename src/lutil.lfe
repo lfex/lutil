@@ -8,6 +8,7 @@
 
 (defun uuid4 ()
   "Adapted from the implementation given [here][1].
+
   [1]: https://github.com/afiskon/erlang-uuid-v4/blob/8c03a11524f6bccf984575877b533ef30a009175/src/uuid.erl"
   (let* (((binary
             (a (size 32))

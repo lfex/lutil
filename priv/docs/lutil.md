@@ -2,7 +2,7 @@
 
 ## [[lutil:uuid4/0]]
 
-```lfe
+```commonlisp
 > (lutil:uuid4 (tuple 'type 'binary))
 #B(50 101 51 53 49 99 48 97 45 50 100 100 52 45 52 54 56 55 45 50 ...)
 > (lutil:uuid4 (tuple 'type 'list))

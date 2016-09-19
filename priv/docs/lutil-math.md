@@ -7,7 +7,7 @@ The implementation above provided the best overall performance, with the third
 implementation coming in second place, generally. The differences are so little
 as to not matter.
 
-```lfe
+```commonlisp
 (defun levenshtein-simple-2
   ((() str)
     (length str))
@@ -23,7 +23,7 @@ as to not matter.
            (levenshtein-simple (cdr str1) (cdr str2)))))))
 ```
 
-```lfe
+```commonlisp
 (defun levenshtein-simple-3 (str1 str2)
   (cond
     ((== () str1)

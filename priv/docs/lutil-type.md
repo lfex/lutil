@@ -14,7 +14,7 @@ list of tuples; they return a list of lists.
 
 An alternate implementation of [[lutil-type:zip/4]]:
 
-```lfe
+```commonlisp
 (defun zip-4 (list-1 list-2 list-3 list-4 acc)
   ((_ _ _ () acc)
     acc)
