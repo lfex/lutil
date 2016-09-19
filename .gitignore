@@ -10,3 +10,5 @@ ebin/*.beam
 erl_crash.dump
 *.sw[po]
 _*
+rebar3.crashdump
+.temp/
