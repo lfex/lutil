@@ -3,10 +3,6 @@
 (defmodule lutil
   (export all))
 
-;; The compose macros are included here to allow for easy use in the REPL when
-;; one slurps this module.
-(include-lib "clj/include/compose.lfe")
-
 (defun uuid4 ()
   "Adapted from the implementation given here:
     https://github.com/afiskon/erlang-uuid-v4/blob/8c03a11524f6bccf984575877b533ef30a009175/src/uuid.erl

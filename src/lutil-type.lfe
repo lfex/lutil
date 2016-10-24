@@ -3,8 +3,6 @@
 (defmodule lutil-type
   (export all))
 
-(include-lib "clj/include/predicates.lfe")
-
 (defun add-tuples (a b)
   "Given two tuples, add them together."
   (add-tuples (list a b)))
@@ -68,10 +66,10 @@
   ;; any error here will be keys or indices not found, and thus return
   ;; undefined. Might be better to only do this for function_clause errors ...
   (try
-    (cond ((proplist? data) (get-in-proplist data keys))
-          ((dict? data) (get-in-dict data keys))
-          ((list? data) (get-in-list data keys))
-          ((map? data) (get-in-map data keys)))
+    (cond ((clj:proplist? data) (get-in-proplist data keys))
+          ((clj:dict? data) (get-in-dict data keys))
+          ((clj:list? data) (get-in-list data keys))
+          ((clj:map? data) (get-in-map data keys)))
     (catch (_
       'undefined))))
 
@@ -90,9 +88,9 @@
 (defun get-in-kv
   ((func data (cons key keys))
     (let ((value (funcall func key data)))
-      (if (orelse (proplist? value)
-                  (dict? value)
-                  (map? value))
+      (if (orelse (clj:proplist? value)
+                  (clj:dict? value)
+                  (clj:map? value))
           (get-in value keys)
           value))))
 
