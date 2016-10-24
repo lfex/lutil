@@ -1,11 +1,11 @@
 # lutil
 
+[![Build Status][travis badge]][travis] [![LFE Versions][lfe badge]][lfe] [![Erlang Versions][erlang badge]][versions] [![Tags][github tags badge]][github tags] [![Downloads][hex downloads]][hex package]
+
 [![][lutil-logo]][lutil-logo-large]
 
-[lutil-logo]: priv/images/lutil-x250.png
-[lutil-logo-large]: priv/images/lutil-x700.png
-
 *Utility functions for LFE*
+
 
 ##### Contents
 
@@ -100,4 +100,24 @@ since been moved to their [own project](https://github.com/lfex/clj).
 
 Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
 
+
+<!-- Named page links below: /-->
+
+[lutil-logo]: priv/images/lutil-x250.png
+[lutil-logo-large]: priv/images/lutil-x700.png
+[org]: https://github.com/lfex
+[github]: https://github.com/lfex/lutil
+[gitlab]: https://gitlab.com/lfex/lutil
+[travis]: https://travis-ci.org/lfex/lutil
+[travis badge]: https://img.shields.io/travis/lfex/lutil.svg
+[lfe]: https://github.com/rvirding/lfe
+[lfe badge]: https://img.shields.io/badge/lfe-1.2.0-blue.svg
+[erlang badge]: https://img.shields.io/badge/erlang-R15%20to%2019.1-blue.svg
+[versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
+[github tags]: https://github.com/lfex/lutil/tags
+[github tags badge]: https://img.shields.io/github/tag/lfex/lutil.svg
+[github downloads]: https://img.shields.io/github/downloads/atom/atom/total.svg
+[hex badge]: https://img.shields.io/hexpm/v/lutil.svg?maxAge=2592000
+[hex package]: https://hex.pm/packages/lutil
+[hex downloads]: https://img.shields.io/hexpm/dt/lutil.svg
 
