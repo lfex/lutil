@@ -99,6 +99,8 @@ added to the [LFE stdlib][clj docs]!
 
 ## License [&#x219F;](#contents)
 
+BSD 3-Clause License
+
 Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
 
 
