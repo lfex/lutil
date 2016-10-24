@@ -93,7 +93,8 @@ lutil offers the ``create-table`` macro for use with more easily working
 generating Mnesia tables. Example usage is available [here](https://github.com/oubiwann/mnesia-tutorial/blob/master/src/structure.lfe).
 
 If you are looking for the Clojure macros which used to be in lutil, they have
-since been moved to their [own project](https://github.com/lfex/clj).
+an interesting history: they were first moved to their own project, and then
+added to the [LFE stdlib][clj docs]!
 
 
 ## License [&#x219F;](#contents)
@@ -120,4 +121,4 @@ Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
 [hex badge]: https://img.shields.io/hexpm/v/lutil.svg?maxAge=2592000
 [hex package]: https://hex.pm/packages/lutil
 [hex downloads]: https://img.shields.io/hexpm/dt/lutil.svg
-
+[clj docs]: https://github.com/rvirding/lfe/blob/develop/doc/lfe_clj.txt
