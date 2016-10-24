@@ -15,6 +15,7 @@
 * [Usage](#usage-)
   * [Modules](#modules-)
   * [Macros](#macros-)
+* [License](#license-)
 
 ## Introduction [&#x219F;](#contents)
 
@@ -93,3 +94,10 @@ generating Mnesia tables. Example usage is available [here](https://github.com/o
 
 If you are looking for the Clojure macros which used to be in lutil, they have
 since been moved to their [own project](https://github.com/lfex/clj).
+
+
+## License [&#x219F;](#contents)
+
+Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
+
+
