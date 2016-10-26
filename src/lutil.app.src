@@ -2,7 +2,7 @@
 {application, lutil,
  [
   %% A quick description of the application.
-  {description, "LFE Utility Functions and Macros."},
+  {description, "LFE Utility Functions and Macros"},
 
   %% The version of the application
   {vsn, "0.10.0-rc2"},
