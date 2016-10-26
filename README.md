@@ -101,21 +101,21 @@ added to the [LFE stdlib][clj docs]!
 
 BSD 3-Clause License
 
-Copyright (c) 2009, Tim Dysinger <tim@dysinger.net>
+Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 
-Copyright (c) 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
+Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
 
-Copyright (c) 2014, Torbjorn Tornkvist <kruskakli@gmail.com>
+Copyright © 2014, Torbjorn Tornkvist <kruskakli@gmail.com>
 
-Copyright (c) 2014, Døkkarr Hirðisson <dokkarr@lfe.io>
+Copyright © 2014, Døkkarr Hirðisson <dokkarr@lfe.io>
 
-Copyright (c) 2014, Dreki Þórgísl <dreki@billo.systems>
+Copyright © 2014, Dreki Þórgísl <dreki@billo.systems>
 
-Copyright (c) 2015, arpunk <arpunk@cryptolab.net>
+Copyright © 2015, arpunk <arpunk@cryptolab.net>
 
-Copyright (c) 2015, osense <krupicka.adam@gmail.com>
+Copyright © 2015, osense <krupicka.adam@gmail.com>
 
-Copyright (c) 2016, Eric Bailey <eric@ericb.me>
+Copyright © 2016, Eric Bailey <eric@ericb.me>
 
 
 <!-- Named page links below: /-->
@@ -133,7 +133,7 @@ Copyright (c) 2016, Eric Bailey <eric@ericb.me>
 [versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
 [github tags]: https://github.com/lfex/lutil/tags
 [github tags badge]: https://img.shields.io/github/tag/lfex/lutil.svg
-[github downloads]: https://img.shields.io/github/downloads/atom/atom/total.svg
+[github downloads]: https://img.shields.io/github/downloads/lfex/lutil/total.svg
 [hex badge]: https://img.shields.io/hexpm/v/lutil.svg?maxAge=2592000
 [hex package]: https://hex.pm/packages/lutil
 [hex downloads]: https://img.shields.io/hexpm/dt/lutil.svg
