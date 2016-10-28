@@ -13,7 +13,7 @@ shell:
 
 clean:
 	@rebar3 clean
-	@rm -rf ebin/* _build/default/lib/$(PROJECT)
+	@rm -rf ebin/* _build/default/lib/$(PROJECT) rebar.lock
 
 clean-all: clean
 	@rebar3 as dev lfe clean
@@ -39,5 +39,5 @@ build-hexpm: clean
 
 build-all: build-github build-gitlab build-hexpm
 
-publish:
+publish: clean
 	rebar3 as hexpm hex publish
