@@ -6,7 +6,7 @@ before_script:
 env: PATH=".:$PATH"
 script:
   - make build-all
-  - make check
+  - make check-all
 otp_release:
   - 19.1
   - 18.3
