@@ -1,4 +1,5 @@
 deps
+rebar3.*dump
 *.sublime-project
 *.sublime-workspace
 *.beam
