@@ -6,7 +6,9 @@ before_script:
 env: PATH=".:$PATH"
 script:
   - make build-all
-  - make check-all
+  - make check
+  - make check-gitlab
+  #- make check-hexpm # XXX disabled due to Hex.pm failing on R15
 otp_release:
   - 19.1
   - 18.3
