@@ -1,8 +1,12 @@
 # lutil
 
-[![Build Status][travis badge]][travis] [![LFE Versions][lfe badge]][lfe] [![Erlang Versions][erlang badge]][versions] [![Tags][github tags badge]][github tags] [![Downloads][hex downloads]][hex package]
+[![Build Status][travis badge]][travis]
+[![LFE Versions][lfe badge]][lfe]
+[![Erlang Versions][erlang badge]][versions]
+[![Tags][github tags badge]][github tags]
+[![Downloads][hex downloads]][hex package]
 
-[![][lutil-logo]][lutil-logo-large]
+[![Project Logo][logo]][logo-large]
 
 *Utility functions for LFE*
 
@@ -121,8 +125,8 @@ Copyright © 2016, Eric Bailey <eric@ericb.me>
 
 <!-- Named page links below: /-->
 
-[lutil-logo]: priv/images/lutil-x250.png
-[lutil-logo-large]: priv/images/lutil-x700.png
+[logo]: priv/images/lutil-x250.png
+[logo-large]: priv/images/lutil-x700.png
 [org]: https://github.com/lfex
 [github]: https://github.com/lfex/lutil
 [gitlab]: https://gitlab.com/lfex/lutil
