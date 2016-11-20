@@ -73,3 +73,9 @@
 
 (defun deprecated (msg)
   (warn (++ "Deprecated: " msg)))
+
+(defun r15? ()
+  (case (re:run (erlang:system_info 'otp_release) "R15.*")
+    (`#(match ,_) 'true)
+    (_ 'false)))
+

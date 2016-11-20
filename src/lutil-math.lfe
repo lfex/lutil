@@ -239,3 +239,8 @@
    a)
   ((a b)
    (gcd b (rem a b))))
+
+(defun float->str (float)
+  (if (not (lutil:r15?))
+    (float_to_list float)
+    (caar (io_lib:format "~.20e" `(,float)))))
