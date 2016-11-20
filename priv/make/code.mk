@@ -1,5 +1,5 @@
 compile:
-	$(REBAR3) compile
+	$(REBAR3) as dev compile
 
 check:
 	@echo
