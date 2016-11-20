@@ -242,5 +242,5 @@
 
 (defun float->str (float)
   (if (not (lutil:r15?))
-    (float_to_list float '(#(decimals 20)))
+    (call 'erlang 'float_to_list float '(#(decimals 20)))
     (caar (io_lib:format "~.20e" `(,float)))))
