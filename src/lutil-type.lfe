@@ -189,6 +189,6 @@
         lists)
      acc)
     ('true
-      (let ((heads (lists:map #'car/1 lists))
-            (tails (lists:map #'cdr/1 lists)))
+      (let ((heads (lists:map #'cl:car/1 lists))
+            (tails (lists:map #'cl:cdr/1 lists)))
         (zip-any tails (++ acc `(,heads)))))))

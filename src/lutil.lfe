@@ -12,7 +12,7 @@
             (b (size 16))
             (c (size 16))
             (d (size 16))
-            (e (size 48))) (crypto:rand_bytes 16))
+            (e (size 48))) (crypto:strong_rand_bytes 16))
         (format-template '"~8.16.0b-~4.16.0b-4~3.16.0b-~4.16.0b-~12.16.0b")
         (uuid-data (list a b (band c #x0fff) (band d #x3fff) (bor #x8000 e)))
         (string (io_lib:format format-template uuid-data)))
