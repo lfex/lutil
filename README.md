@@ -106,22 +106,16 @@ added to the [LFE stdlib][clj docs]!
 
 BSD 3-Clause License
 
+```
 Copyright © 2009, Tim Dysinger <tim@dysinger.net>
-
-Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
-
+Copyright © 2013-2019, Duncan McGreggor <oubiwann@gmail.com>
 Copyright © 2014, Torbjorn Tornkvist <kruskakli@gmail.com>
-
-Copyright © 2014, Døkkarr Hirðisson <dokkarr@lfe.io>
-
-Copyright © 2014, Dreki Þórgísl <dreki@billo.systems>
-
+                  Døkkarr Hirðisson <dokkarr@lfe.io>
+                  Dreki Þórgísl <dreki@billo.systems>\
 Copyright © 2015, arpunk <arpunk@cryptolab.net>
-
-Copyright © 2015, osense <krupicka.adam@gmail.com>
-
+                  osense <krupicka.adam@gmail.com>
 Copyright © 2016, Eric Bailey <eric@ericb.me>
-
+```
 
 <!-- Named page links below: /-->
 
@@ -133,8 +127,8 @@ Copyright © 2016, Eric Bailey <eric@ericb.me>
 [travis]: https://travis-ci.org/lfex/lutil
 [travis badge]: https://img.shields.io/travis/lfex/lutil.svg
 [lfe]: https://github.com/rvirding/lfe
-[lfe badge]: https://img.shields.io/badge/lfe-1.2.0-blue.svg
-[erlang badge]: https://img.shields.io/badge/erlang-R15%20to%2019.1-blue.svg
+[lfe badge]: https://img.shields.io/badge/lfe-1.3.0-blue.svg
+[erlang badge]: https://img.shields.io/badge/erlang-17.5%20to%2022.0-blue.svg
 [versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
 [github tags]: https://github.com/lfex/lutil/tags
 [github tags badge]: https://img.shields.io/github/tag/lfex/lutil.svg

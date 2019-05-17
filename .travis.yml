@@ -1,8 +1,5 @@
 language: erlang
 install: true
-before_script:
-  - make setup-rebar3
-  # - make setup-hexpm
 # env:
 #   - REBAR_BUILD=github
 #   - REBAR_BUILD=gitlab
