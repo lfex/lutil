@@ -70,7 +70,7 @@
           ((clj:dict? data) (get-in-dict data keys))
           ((clj:list? data) (get-in-list data keys))
           ((clj:map? data) (get-in-map data keys)))
-    (catch (_
+    (catch (`#(,_ ,_ ,_)
       'undefined))))
 
 (defun get-in-list (data indices)
