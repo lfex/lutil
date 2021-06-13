@@ -37,20 +37,36 @@
   (((tuple 'type 'atom))
     (binary_to_atom (uuid4) 'latin1)))
 
-(defun get-app-version (app-name)
-  "DEPLRECATED.
+(defun version ()
+  (version 'lutil))
 
-  Provided for backwards compatibility."
-  (lr3-ver-util:get-app-version app-name))
+(defun version (app-name)
+  (application:load app-name)
+  (case (application:get_key app-name 'vsn)
+    (`#(ok ,vsn) vsn)
+    (default default)))
 
-(defun get-version ()
-  (lr3-ver-util:get-app-version 'lutil))
+(defun version-arch ()
+  `#(architecture ,(erlang:system_info 'system_architecture)))
 
-(defun get-versions ()
-  (++ (lr3-ver-util:get-versions)
-      `(#(kla ,(lr3-ver-util:get-app-version 'kla))
-        #(clj ,(lr3-ver-util:get-app-version 'clj))
-        #(lutil ,(get-version)))))
+(defun version+name (app-name)
+  `#(,app-name ,(version app-name)))
+
+(defun versions-rebar ()
+  `(,(version+name 'rebar)
+    ,(version+name 'rebar3_lfe)))
+
+(defun versions-langs ()
+  `(,(version+name 'lfe)
+    #(erlang ,(erlang:system_info 'otp_release))
+    #(emulator ,(erlang:system_info 'version))
+    #(driver ,(erlang:system_info 'driver_version))))
+
+(defun versions (bkend)
+  (lists:append `((,(version+name 'lutil))
+                  ,(versions-langs)
+                  ,(versions-rebar)
+                  (,(version-arch)))))
 
 (defun check (x)
   (=/= x 'false))
@@ -61,21 +77,3 @@
       (lambda (x)
         (element 1 x))
       (element 3 env))))
-
-(defun warn (msg)
-  (warn msg '()))
-
-(defun warn (msg args)
-  (lfe_io:format (++ msg "~n") args))
-
-(defun deprecated ()
-  (deprecated "This functionality has been deprecated."))
-
-(defun deprecated (msg)
-  (warn (++ "Deprecated: " msg)))
-
-(defun r15? ()
-  (case (re:run (erlang:system_info 'otp_release) "R15.*")
-    (`#(match ,_) 'true)
-    (_ 'false)))
-

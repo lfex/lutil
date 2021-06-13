@@ -81,7 +81,7 @@
 
 (defun prime? (x)
   "If a number consists of more than two factors, it is not a prime number."
-  (let ((factors (lutil:factors x)))
+  (let ((factors (factors x)))
     (cond ((== 2 (length (lists:usort factors))) 'true)
           ('true 'false))))
 
@@ -241,6 +241,4 @@
    (gcd b (rem a b))))
 
 (defun float->str (float)
-  (if (not (lutil:r15?))
-    (call 'erlang 'float_to_list float '(#(decimals 20)))
-    (caar (io_lib:format "~.20e" `(,float)))))
+  (caar (io_lib:format "~.20e" `(,float))))
