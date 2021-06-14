@@ -4,7 +4,6 @@
 [![LFE Versions][lfe badge]][lfe]
 [![Erlang Versions][erlang badge]][versions]
 [![Tags][github tags badge]][github tags]
-[![Downloads][hex downloads]][hex package]
 
 *Utility functions for LFE*
 
@@ -60,7 +59,7 @@ In your `rebar.config` file, update your `deps` section to include
 
 ```erlang
 {deps, [
-  {lutil, ".*", {git, "git://github.com/lfex/lutil.git"}}
+  {lutil, {git, "https://github.com/lfex/lutil.git", {branch, "release/0.11.x"}}}
 ]}
 ```
 
@@ -107,14 +106,14 @@ added to the [LFE stdlib][clj docs]!
 BSD 3-Clause License
 
 ```
-Copyright © 2009, Tim Dysinger <tim@dysinger.net>
-Copyright © 2013-2019, Duncan McGreggor <oubiwann@gmail.com>
+Copyright © 2013-2021, Duncan McGreggor <oubiwann@gmail.com>
+Copyright © 2016, Eric Bailey <eric@ericb.me>
+Copyright © 2015, arpunk <arpunk@cryptolab.net>
+                  osense <krupicka.adam@gmail.com>
 Copyright © 2014, Torbjorn Tornkvist <kruskakli@gmail.com>
                   Døkkarr Hirðisson <dokkarr@lfe.io>
                   Dreki Þórgísl <dreki@billo.systems>\
-Copyright © 2015, arpunk <arpunk@cryptolab.net>
-                  osense <krupicka.adam@gmail.com>
-Copyright © 2016, Eric Bailey <eric@ericb.me>
+Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 ```
 
 <!-- Named page links below: /-->
@@ -127,8 +126,8 @@ Copyright © 2016, Eric Bailey <eric@ericb.me>
 [travis]: https://travis-ci.org/lfex/lutil
 [travis badge]: https://img.shields.io/travis/lfex/lutil.svg
 [lfe]: https://github.com/rvirding/lfe
-[lfe badge]: https://img.shields.io/badge/lfe-1.3.0-blue.svg
-[erlang badge]: https://img.shields.io/badge/erlang-17.5%20to%2022.0-blue.svg
+[lfe badge]: https://img.shields.io/badge/lfe-2.0-blue.svg
+[erlang badge]: https://img.shields.io/badge/erlang-19%20to%2024-blue.svg
 [versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
 [github tags]: https://github.com/lfex/lutil/tags
 [github tags badge]: https://img.shields.io/github/tag/lfex/lutil.svg
