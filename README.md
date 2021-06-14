@@ -1,6 +1,6 @@
 # lutil
 
-[![Build Status][travis badge]][travis]
+[![Build Status][gh-actions-badge]][gh-actions]
 [![LFE Versions][lfe badge]][lfe]
 [![Erlang Versions][erlang badge]][versions]
 [![Tags][github tags badge]][github tags]
@@ -123,8 +123,8 @@ Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 [org]: https://github.com/lfex
 [github]: https://github.com/lfex/lutil
 [gitlab]: https://gitlab.com/lfex/lutil
-[travis]: https://travis-ci.org/lfex/lutil
-[travis badge]: https://img.shields.io/travis/lfex/lutil.svg
+[gh-actions-badge]: https://github.com/lfex/lutil/workflows/ci%2Fcd/badge.svg
+[gh-actions]: https://github.com/lfex/lutil/actions
 [lfe]: https://github.com/rvirding/lfe
 [lfe badge]: https://img.shields.io/badge/lfe-2.0-blue.svg
 [erlang badge]: https://img.shields.io/badge/erlang-19%20to%2024-blue.svg
