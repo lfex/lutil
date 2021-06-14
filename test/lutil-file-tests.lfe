@@ -1,10 +1,6 @@
 (defmodule lutil-file-tests
   (behaviour ltest-system)
-  (export all)
-  (import
-    (from ltest
-      (check-failed-is 2)
-      (check-wrong-is-exception 2))))
+  (export all))
 
 (include-lib "ltest/include/ltest-macros.lfe")
 
