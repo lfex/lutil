@@ -63,6 +63,11 @@
   scaled to the range 0 to 255."
   (erlang:round (scale value current-frame #(0.0 255.0))))
 
+(defun midi-scale (value current-frame)
+  "Given a value and a range that value belongs to, calculate the value when
+  scaled to the range 0 to 127, the legal values for MIDI 1.0."
+  (erlang:round (scale value current-frame #(0.0 127.0))))
+
 (defun factorial (n)
   "Tail-recursive factrial function."
   (factorial n 1))
