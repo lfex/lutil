@@ -39,8 +39,9 @@
   {pkg_name, lutil},
   {maintainers, ["Duncan McGreggor"]},
   {licenses, ["BSD-3"]},
-  {links,
-   [{"GitHub", "https://github.com/lfex/lutil"},
+  {links, [
+    {"GitHub", "https://github.com/lfex/lutil"},
     {"Hex", "https://hex.pm/packages/lutil"}
-   ]}
- ]}.
+  ]},
+  {exclude_files, ["priv/images/*", "priv/make/*"]}
+]}.
