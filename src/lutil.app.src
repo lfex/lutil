@@ -5,7 +5,7 @@
   {description, "LFE Utility Functions and Macros"},
 
   %% The version of the application
-  {vsn, "0.11.0"},
+  {vsn, "0.12.0"},
 
   %% All modules used by the application.
   {modules,
@@ -41,7 +41,6 @@
   {licenses, ["BSD-3"]},
   {links,
    [{"GitHub", "https://github.com/lfex/lutil"},
-    {"Gitlab", "https://gitlab.com/lfex/lutil"},
     {"Hex", "https://hex.pm/packages/lutil"}
    ]}
  ]}.
