@@ -1,17 +1,15 @@
 %% -*- erlang -*-
-{application, lutil,
- [
+{application, lutil, [
   %% A quick description of the application.
   {description, "LFE Utility Functions and Macros"},
 
   %% The version of the application
-  {vsn, "0.12.0"},
+  {vsn, "0.12.1"},
 
   %% All modules used by the application.
-  {modules,
-   [
+  {modules, [
     lutil
-   ]},
+  ]},
 
   %% All of the registered names the application uses. This can be ignored.
   {registered, []},
@@ -19,8 +17,7 @@
   %% Applications that are to be started prior to this one. This can be ignored
   %% leave it alone unless you understand it well and let the .rel files in
   %% your release handle this.
-  {applications,
-   [
+  {applications, [
     kernel,
     stdlib,
     crypto
