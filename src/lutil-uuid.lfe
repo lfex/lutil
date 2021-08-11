@@ -5,13 +5,19 @@
   (export all))
 
 (defun v4 ()
-  (v4 (rand:bytes 16)))
+   ;; XXX rand:bytes is Erlang 24+ only; when that's the oldest version we
+   ;; support, we can turn this back on
+   ;;(v4 (rand:bytes 16)))
+   (v4 (crypto:strong_rand_bytes 16)))
 
 (defun v4
   ((type) (when (== type 'strong))
    (v4 (crypto:strong_rand_bytes 16)))
   ((type) (when (is_atom type))
-   (v4 (rand:bytes 16)))
+   ;; XXX rand:bytes is Erlang 24+ only; when that's the oldest version we
+   ;; support, we can turn this back on
+   ;;(v4 (rand:bytes 16)))
+   (v4 (crypto:strong_rand_bytes 16)))
   ((in-bytes)
    (let (((binary (r1 (size 48))
                   (_ (size 4))
