@@ -49,3 +49,9 @@
       (lambda (x)
         (element 1 x))
       (element 3 env))))
+
+(defun shuffle (items)
+  (list-comp ((<- `#(,_ ,n) (lists:sort
+                             (list-comp ((<- m items))
+                               `#(,(rand:uniform) ,m)))))
+    n))
