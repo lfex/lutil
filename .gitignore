@@ -1,14 +1,36 @@
-deps
-rebar3.*dump
-*.sublime-project
-*.sublime-workspace
-*.beam
+# MacOS
+.DS_Store
+
+# Erlang
 .eunit
-bin/expm
-ebin/*.app
-ebin/*.beam
-.rebar
+*.o
+*.beam
+*.plt
 erl_crash.dump
-*.sw[po]
-_build/*
-_checkouts
+.concrete/DEV_MODE
+
+# rebar 2.x
+.rebar
+rel/example_project
+ebin/*.beam
+deps
+
+# rebar 3
+.rebar3
+_build/
+_checkouts/
+rebar.lock
+.rebar
+rebar/*
+.rebar/*
+rebar3.crashdump
+
+# Emacs
+*~
+\#*\#
+.\#*
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
