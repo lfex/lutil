@@ -10,3 +10,7 @@ check:
 	@rebar3 xref
 	-@rebar3 dialyzer
 	@rebar3 as test lfe ltest
+
+clean:
+	@rm -rf _build rebar.lock
+
