@@ -1,24 +1,55 @@
 name: ci/cd
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ master, 'release/**', 'task/**', 'feature/**', 'epic/**']
+    branches: [ main, 'release/**', 'task/**', 'feature/**', 'epic/**']
     tags: ['**']
   pull_request:
-    branches: [ master, 'release/**', 'task/**', 'feature/**', 'epic/**']
+    branches: [ main, 'release/**', 'task/**', 'feature/**', 'epic/**']
   schedule:
   - cron: "8 4 12 * *"
-  
+
 jobs:
 
-  build:
+  core-builds:
     name: Erlang ${{ matrix.otp_version }} build
     runs-on: ubuntu-18.04
 
     strategy:
       matrix:
-        otp_version: [19, 20, 21, 22, 23, 24]
-        os: [ubuntu-latest]
+        otp_version: ['24.3', '25.3']
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ matrix.otp_version }}
+        rebar3-version: '3.22'
+    - name: Check rebar3 Version
+      run: rebar3 --version
+    - name: Compile
+      run: rebar3 compile
+    - name: Xref Checks
+      run: rebar3 xref
+    - name: Dialyzer
+      run: rebar3 dialyzer
+    - name: Compile Tests
+      run: rebar3 as test compile
+    - name: Run Unit Tests
+      run: rebar3 as test lfe ltest -tunit
+    - name: Run Integration Tests
+      run: rebar3 as test lfe ltest -tintegration
+    - name: Test Coverage
+      run: rebar3 as test do proper -c, cover -v --min_coverage=0
+
+  old-builds:
+    name: Old Erlang ${{ matrix.otp_version }} build
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        otp_version: ['20.3', '21.3', '22.3', '23.3']
 
     steps:
     - uses: actions/checkout@v2
@@ -29,12 +60,12 @@ jobs:
     - name: Check rebar3 Version
       run: rebar3 --version
     - name: Compile
-      run: DIAGNOSTIC=1 rebar3 compile
+      run: rebar3 compile
     - name: Xref Checks
       run: rebar3 xref
-#    - name: Dialyzer
-#      run: rebar3 dialyzer
-    - name: Compile Test Profile
+    - name: Dialyzer
+      run: rebar3 dialyzer
+    - name: Compile Tests
       run: rebar3 as test compile
     - name: Run Unit Tests
       run: rebar3 as test lfe ltest -tunit
