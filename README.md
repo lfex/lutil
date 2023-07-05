@@ -9,7 +9,6 @@
 
 [![Project Logo][logo]][logo-large]
 
-
 ##### Contents
 
 * [Introduction](#introduction-)
@@ -20,37 +19,36 @@
   * [Macros](#macros-)
 * [License](#license-)
 
-
 ## Introduction [&#x219F;](#contents)
 
 lutil offers several modules and macros with convenience functions that can
-be easily incorported into projects without having to re-implement these
+be easily incorporated into projects without having to re-implement these
 little functions all the time.
 
 Utility modules include:
- * `lutil-file`
- * `lutil-math`
- * `lutil-text`
- * `lutil-type`
- * `lutil`
+
+* `lutil-file`
+* `lutil-math`
+* `lutil-text`
+* `lutil-type`
+* `lutil`
 
 lutil also explores new LFE functions and macros that may be of interest to
 LFE-proper; if they fare well here, we will submit proposals for inclusion.
 
 Macros include:
- * `compose.lfe`
- * `core.lfe`
- * `mnesia-macros.lfe`
- * `predicates.lfe`
 
+* `compose.lfe`
+* `core.lfe`
+* `mnesia-macros.lfe`
+* `predicates.lfe`
 
 ## Dependencies [&#x219F;](#contents)
 
 As of version 0.7.0, this project assumes that you have
-[rebar3](https://github.com/rebar/rebar3) installed somwhere in your `$PATH`.
+[rebar3](https://github.com/rebar/rebar3) installed somewhere in your `$PATH`.
 It no longer uses the old version of rebar. If you do not wish to use rebar3,
 you may use the most recent rebar2-compatible release of lutil: 0.6.7.
-
 
 ## Installation [&#x219F;](#contents)
 
@@ -59,13 +57,11 @@ In your `rebar.config` file, update your `deps` section to include
 
 ```erlang
 {deps, [
-  {lutil, {git, "https://github.com/lfex/lutil.git", {branch, "release/0.11.x"}}}
+  {lutil, "0.13.2"}}}
 ]}
 ```
 
-
 ## Usage [&#x219F;](#contents)
-
 
 ### Modules [&#x219F;](#contents)
 
@@ -90,7 +86,6 @@ For the modules, usage is the same as any other Erlang or LFE library :-)
 #B(99 101 102 102 54 53 97 50 45 48 57 55 49 45 52 50 49 49 45 50 52 ...)
 ```
 
-
 ### Macros [&#x219F;](#contents)
 
 lutil offers the `create-table` macro for use with more easily working
@@ -100,13 +95,12 @@ If you are looking for the Clojure macros which used to be in lutil, they have
 an interesting history: they were first moved to their own project, and then
 added to the [LFE stdlib][clj docs]!
 
-
 ## License [&#x219F;](#contents)
 
 BSD 3-Clause License
 
 ```
-Copyright © 2013-2021, Duncan McGreggor <oubiwann@gmail.com>
+Copyright © 2013-2023, Duncan McGreggor <oubiwann@gmail.com>
 Copyright © 2016, Eric Bailey <eric@ericb.me>
 Copyright © 2015, arpunk <arpunk@cryptolab.net>
                   osense <krupicka.adam@gmail.com>
@@ -120,19 +114,12 @@ Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 
 [logo]: priv/images/lutil-x250.png
 [logo-large]: priv/images/lutil-x700.png
-[org]: https://github.com/lfex
-[github]: https://github.com/lfex/lutil
-[gitlab]: https://gitlab.com/lfex/lutil
 [gh-actions-badge]: https://github.com/lfex/lutil/workflows/ci%2Fcd/badge.svg
 [gh-actions]: https://github.com/lfex/lutil/actions
-[lfe]: https://github.com/rvirding/lfe
-[lfe badge]: https://img.shields.io/badge/lfe-2.0-blue.svg
-[erlang badge]: https://img.shields.io/badge/erlang-19%20to%2024-blue.svg
+[lfe]: https://github.com/lfe/lfe
+[lfe badge]: https://img.shields.io/badge/lfe-2.1-blue.svg
+[erlang badge]: https://img.shields.io/badge/erlang-20%20to%2025-blue.svg
 [versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
 [github tags]: https://github.com/lfex/lutil/tags
 [github tags badge]: https://img.shields.io/github/tag/lfex/lutil.svg
-[github downloads]: https://img.shields.io/github/downloads/lfex/lutil/total.svg
-[hex badge]: https://img.shields.io/hexpm/v/lutil.svg?maxAge=2592000
-[hex package]: https://hex.pm/packages/lutil
-[hex downloads]: https://img.shields.io/hexpm/dt/lutil.svg
 [clj docs]: https://github.com/rvirding/lfe/blob/develop/doc/lfe_clj.txt
