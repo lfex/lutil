@@ -14,7 +14,7 @@ jobs:
 
   core-builds:
     name: Erlang ${{ matrix.otp_version }} build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
