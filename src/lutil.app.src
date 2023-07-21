@@ -41,7 +41,7 @@
     {"Hex", "https://hex.pm/packages/lutil"}
   ]},
   {exclude_files, [
-    "priv/images/*",
-    "priv/make/*"
+    "priv/html/*",
+    "priv/images/*"
   ]}
 ]}.
