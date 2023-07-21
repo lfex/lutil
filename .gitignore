@@ -25,6 +25,9 @@ rebar/*
 .rebar/*
 rebar3.crashdump
 
+# hex.pm
+/doc
+
 # Emacs
 *~
 \#*\#
