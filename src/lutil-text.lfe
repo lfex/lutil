@@ -15,6 +15,12 @@
   Capital letters range from 'A' (ASCII code 65) to 'Z' (ASCII code 90)."
   (lists:member (car string) (lists:seq 65 90)))
 
+(defun indent (count)
+  (indent count " "))
+
+(defun indent (count char)
+  (lists:duplicate count char))
+
 (defun wrap (words)
   (wrap words 78))
 
@@ -24,12 +30,12 @@
 (defun wrap (words width indent)
   (wrap words width indent " "))
 
-(defun wrap (words width indent delim)
-  (let ((prefix (++ "\n" (lists:duplicate indent " "))))
+(defun wrap (words width count delim)
+  (let ((prefix (++ "\n" (indent count " "))))
     (++ prefix
         (string:join
          (reverse
-          (wrap (string:tokens words delim) width indent delim '("")))
+          (wrap (string:tokens words delim) width count delim '("")))
          prefix))))
 
 (defun wrap
