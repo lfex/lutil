@@ -108,17 +108,9 @@
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
 
-(defun atom-cat (atom-1 atom-2)
-  "Concatenate two atoms."
-  (list_to_atom (++ (atom_to_list atom-1) (atom_to_list atom-2))))
+(defun atom-cat (a1 a2) (lutil-atom:cat a1 a2))
 
-(defun atom-cat (list-of-atoms)
-  "Concatenate n atoms."
-  (list_to_atom
-    (lists:foldl
-        (lambda (x acc) (++ acc (atom_to_list x)))
-        ""
-        list-of-atoms)))
+(defun atom-cat (alist) (lutil-atom:cat alist))
 
 ;; The zip/2, zip/3, and zip/4 implementations are for kicks; probably *much*
 ;; better to use Erlang's lists:zip/2 and lists:zip3/3. There's no zip/4, so

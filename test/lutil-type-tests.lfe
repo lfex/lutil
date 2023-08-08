@@ -126,14 +126,6 @@
 (deftest list->tuple
   (is-equal #(a b c 1 2 3) (lutil-type:list->tuple '(a b c 1 2 3))))
 
-(deftest atom-cat-2-arity
-  (is-equal 'ab (lutil-type:atom-cat 'a 'b)))
-
-(deftest atom-cat-list-of-atoms
-  (is-equal 'ab (lutil-type:atom-cat '(a b)))
-  (is-equal 'abc (lutil-type:atom-cat '(a b c)))
-  (is-equal 'abcdefg (lutil-type:atom-cat '(a b c d e f g))))
-
 (deftest zip-1
   (is-equal
     '((1 4 7 10 13 16)
