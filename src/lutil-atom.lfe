@@ -1,5 +1,6 @@
 (defmodule lutil-atom
-  (export all))
+  (export
+   (cat 1) (cat 2)))
 
 (defun cat (atom-1 atom-2)
   "Concatenate two atoms."
