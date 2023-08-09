@@ -25,23 +25,13 @@ lutil offers several modules and macros with convenience functions that can
 be easily incorporated into projects without having to re-implement these
 little functions all the time.
 
-Utility modules include:
-
-* `lutil-file`
-* `lutil-math`
-* `lutil-text`
-* `lutil-type`
-* `lutil`
-
 lutil also explores new LFE functions and macros that may be of interest to
 LFE-proper; if they fare well here, we will submit proposals for inclusion.
 
-Macros include:
-
-* `compose.lfe`
-* `core.lfe`
-* `mnesia-macros.lfe`
-* `predicates.lfe`
+Note that with the release of 0.14, many deprecated functions and macros that have
+either been moved into LFE itself or other LFE libraries were removed and are
+no longer available in the library. The last version with those functions
+present is  0.13.5.
 
 ## Dependencies [&#x219F;](#contents)
 
@@ -57,7 +47,7 @@ In your `rebar.config` file, update your `deps` section to include
 
 ```erlang
 {deps, [
-  {lutil, "0.13.2"}}}
+  {lutil, "0.14.0"}}}
 ]}
 ```
 
@@ -71,9 +61,9 @@ For the modules, usage is the same as any other Erlang or LFE library :-)
 > (lutil-math:dot-product '(1 2 3) '(4 5 6))
 32
 
-> (lutil-type:add-tuples (tuple 1 2) (tuple 3 4))
+> (lutil-tuple:cat (tuple 1 2) (tuple 3 4))
 #(1 2 3 4)
-> (lutil-type:add-tuples (list (tuple 1 2) (tuple 3 4) (tuple 5 6)))
+> (lutil-tuple:cat (list (tuple 1 2) (tuple 3 4) (tuple 5 6)))
 #(1 2 3 4 5 6)
 
 > (lutil:uuid4 (tuple 'type "list"))

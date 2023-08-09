@@ -1,12 +1,19 @@
 (defmodule lutil-list
   (export all))
 
+(defun ->dict (list-data)
+  "'list-data' is a list of implicit pairs:
+    * the odd elements are keys of type 'atom'
+    * the even elemnts are the values.
+
+  This list is partitioned. zipped to tuples, and then converted to a dict."
+  (let (((tuple keys values) (partition list-data)))
+    (dict:from_list
+     (lists:zip keys values))))
+
 (defun ->tuple (list-data)
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
-
-(defun get-in (data indices)
-  (lists:foldl #'lists:nth/2 data indices))
 
 (defun partition (list-data)
   "This function takes lists of even length with an implicit key (atom) value

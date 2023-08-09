@@ -1,12 +1,10 @@
-(defmodule lutil-atom-tests
+(defmodule lutil-list-tests
   (behaviour ltest-unit)
   (export all))
 
 (include-lib "ltest/include/ltest-macros.lfe")
 
-(deftest partition
-  (let ((result (lutil-list:partition (test-dict-data-2))))
-    (is-equal #((key-1 key-2) ("value 1" "value 2")) result)))
+;;; Testing data
 
 (defun test-dict-data-1 ()
   (list
@@ -25,6 +23,12 @@
 
 (defun test-dict-2 ()
   (lutil-list:->dict (test-dict-data-2)))
+
+;;; Tests
+
+(deftest partition
+  (let ((result (lutil-list:partition (test-dict-data-2))))
+    (is-equal #((key-1 key-2) ("value 1" "value 2")) result)))
 
 (deftest ->dict
   (is-equal "value 1" (dict:fetch 'key-1 (test-dict-2)))

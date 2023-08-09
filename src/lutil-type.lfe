@@ -1,3 +1,7 @@
+;;;; DEPRECATED
+;;;;
+;;;; THIS MODULE WILL BE DELETED IN VERSION 0.15.0
+;;;;
 ;;;; data types and type ops
 ;;;;
 (defmodule lutil-type
