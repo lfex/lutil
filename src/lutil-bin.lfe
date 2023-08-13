@@ -28,7 +28,6 @@
   ((bitstr pattern pattern-size index)
    (let ((head (binary:part bitstr 0 index))
          (tail (binary:part bitstr index pattern-size)))
-     (lfe_io:format "head: ~p; tail: ~p~n" (list head tail))
      (if (!= pattern tail)
        bitstr
        (trim-trailing head pattern pattern-size (- (byte_size head) pattern-size))))))
