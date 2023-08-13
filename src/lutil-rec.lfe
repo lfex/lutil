@@ -8,5 +8,9 @@
   (list_to_atom (++ "fields-" (atom_to_list record-name))))
 
 (defmacro fields
-  (`(,record-name . ,_)
+  ;; Input as record name (quoted atom)
+  (`((,_ . (,record-name . ,_)) . ())
+   `(,(fields-macro-name record-name)))
+  ;; Input as record name (unquoted atom)
+  (`(,record-name . ())
    `(,(fields-macro-name record-name))))

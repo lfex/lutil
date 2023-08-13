@@ -12,4 +12,8 @@
 
 (deftest fields
   (is-equal '(field-a field-b field-c last-field)
-            (lutil-rec:fields test-record)))
+           (lutil-rec:fields test-record)))
+
+(deftest fields-quoted-input
+  (is-equal '(field-a field-b field-c last-field)
+            (lutil-rec:fields 'test-record)))
