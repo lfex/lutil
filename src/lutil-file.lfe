@@ -15,6 +15,11 @@
          'true)
         ('true 'false)))
 
+;; XXX an args-parsing-agnostic form of expand-home-dir is needed, one that
+;; can get a user name (e.g., from the OS ENV).
+
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun expand-home-dir (path-with-home)
   (cond ((is-home-dir? path-with-home)
          (filename:join
@@ -22,30 +27,44 @@
                   (string:substr path-with-home 3))))
         ('true path-with-home)))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-local-dir (dir)
   "Get the local path to a given dir, using (get-cwd)."
   (filename:join `(,(get-cwd) ,dir)))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-deps-dir ()
   "Get the default dependency directories for the current directory."
   (get-local-dir "deps"))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-ebin-dir ()
   "Get the ebin directory for the current directory."
   (get-local-dir "ebin"))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-src-dir ()
   "Get the src directory for the current directory."
   (get-local-dir "src"))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-test-dir ()
   "Get the test directory for the current directory."
   (get-local-dir "test"))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-eunit-dir ()
   "Get the .eunit directory for the current directory."
   (get-local-dir ".eunit"))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-cwd ()
   "The current workding directory in this case is the directory that the user
   executed lfetool *from*. Shortly after it starts up, the lfetool script
@@ -55,6 +74,8 @@
   (caar
     (element 2 (get-arg 'cwd "."))))
 
+;; XXX this form of the function should really be in an 'lutil-script.lfe'
+;; module; see below the note for 'get-arg'
 (defun get-home-dir ()
   (caar
     (element 2 (get-arg 'home #(ok (("/tmp")))))))
@@ -294,6 +315,7 @@
     #'lutil:check/1
     (funcall func beams)))
 
+;; XXX this should really be in an 'lutil-script.lfe' module
 (defun get-arg (arg-name default)
   (let ((arg-value (init:get_argument arg-name)))
     (case arg-value
