@@ -26,6 +26,11 @@
     (`#(ok ,dir) dir)
     (err err)))
 
+(defun read (filename)
+  (case (file:read_file (expand-home-dir filename))
+    (`#(ok ,bytes) bytes)
+    (err err)))
+
 (defun relative-dir (dir)
   "Get the absolute path to directory relative to the current working dir."
   (filename:join `(,(cwd) ,dir)))
