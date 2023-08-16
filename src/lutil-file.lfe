@@ -15,6 +15,12 @@
          'true)
         ('true 'false)))
 
+(defun expand-home-dir (path)
+  (if (is-home-dir? path)
+    (filename:join (list (lutil:home)
+                         (string:substr path 3)))
+    path))
+
 (defun cwd ()
   (case (file:get_cwd)
     (`#(ok ,dir) dir)
