@@ -15,22 +15,37 @@
          'true)
         ('true 'false)))
 
-(defun get-deps ()
-  (get-deps `(,(get-deps-dir))))
+(defun cwd ()
+  (case (file:get_cwd)
+    (`#(ok ,dir) dir)
+    (err err)))
 
-(defun get-deps (deps-dirs)
+(defun relative-dir (dir)
+  "Get the absolute path to directory relative to the current working dir."
+  (filename:join `(,(cwd) ,dir)))
+
+(defun deps-dir () (relative-dir "deps"))
+(defun ebin-dir () (relative-dir "ebin"))
+(defun src-dir () (relative-dir "src"))
+(defun test-dir () (relative-dir "test"))
+(defun eunit-dir () (relative-dir ".eunit"))
+
+(defun deps ()
+  (deps `(,(deps-dir))))
+
+(defun deps (deps-dirs)
   "This function supports multiple dependency directories.
 
   Given a list of directories, each of which contains dependencies,
   return the full list of dependency directories, from all of the combined
   directories provided."
   (filter-deps
-   (get-deps-subdirs deps-dirs)))
+   (deps-subdirs deps-dirs)))
 
-(defun get-deps-subdirs ()
-  (get-deps-subdirs `(,(get-deps-dir))))
+(defun deps-subdirs ()
+  (deps-subdirs `(,(deps-dir))))
 
-(defun get-deps-subdirs (deps-dirs)
+(defun deps-subdirs (deps-dirs)
   "Given a set of dependency directories, get a list of lists, where each
   of the lists is the list of directories in one of the passed deps dirs.
   Once the list of lists is obtained, collapse these into a single list."
@@ -63,14 +78,14 @@
    (check-deps deps-subdirs)))
 
 (defun compile (lfe-files)
-  (compile lfe-files (get-deps) (get-ebin-dir)))
+  (compile lfe-files (deps) (ebin-dir)))
 
 (defun compile (lfe-files out-dir)
-  (compile lfe-files (get-deps) out-dir))
+  (compile lfe-files (deps) out-dir))
 
 (defun compile (lfe-files deps-dirs out-dir)
   ;; update code paths
-  (code:set_path (++ (get-deps deps-dirs)
+  (code:set_path (++ (deps deps-dirs)
                      (code:get_path)))
   ;; do actual compile
   (lists:map
@@ -88,25 +103,25 @@
                                     #(i "include"))))
 
 (defun compile-src ()
-  (compile-src (get-ebin-dir)))
+  (compile-src (ebin-dir)))
 
 (defun compile-src (out-dir)
   (lists:merge
    (compile
     (filelib:wildcard
-     (filename:join (get-src-dir) "*.lfe"))
-    (get-deps)
+     (filename:join (src-dir) "*.lfe"))
+    (deps)
     out-dir)
    (list (compile-app-src))))
 
 (defun compile-test ()
-  (compile-test (get-eunit-dir)))
+  (compile-test (eunit-dir)))
 
 (defun compile-test (out-dir)
   (compile
    (filelib:wildcard
-    (filename:join (get-test-dir) "*.lfe"))
-   (get-deps)
+    (filename:join (test-dir) "*.lfe"))
+   (deps)
    out-dir))
 
 (defun compile-app-src ()
@@ -130,7 +145,7 @@
        (compile
         (filelib:wildcard (filename:join '("src" "*.lfe")))
         "ebin"))
-     (get-deps))
+     (deps))
     (file:set_cwd orig-cwd)))
 
 (defun files->beams (file-data)
@@ -249,11 +264,3 @@
   (lists:filter
    #'lutil:check/1
    (funcall func beams)))
-
-;; XXX this should really be in an 'lutil-script.lfe' module
-(defun get-arg (arg-name default)
-  (let ((arg-value (init:get_argument arg-name)))
-    (case arg-value
-      ('error
-       `#(default ((,default))))
-      (_ arg-value))))
