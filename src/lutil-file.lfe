@@ -4,7 +4,7 @@
 (defun dump-data (filename data)
   "A convenience function for writing Erlang data to disk."
   (file:write_file filename
-     (io_lib:fwrite "~p.~n" (list data))))
+                   (io_lib:fwrite "~p.~n" (list data))))
 
 (defun mkdirs (path)
   (filelib:ensure_dir path)
@@ -14,71 +14,6 @@
   (cond ((=:= "~/" (string:substr path 1 2))
          'true)
         ('true 'false)))
-
-;; XXX an args-parsing-agnostic form of expand-home-dir is needed, one that
-;; can get a user name (e.g., from the OS ENV).
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun expand-home-dir (path-with-home)
-  (cond ((is-home-dir? path-with-home)
-         (filename:join
-            (list (get-home-dir)
-                  (string:substr path-with-home 3))))
-        ('true path-with-home)))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-local-dir (dir)
-  "Get the local path to a given dir, using (get-cwd)."
-  (filename:join `(,(get-cwd) ,dir)))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-deps-dir ()
-  "Get the default dependency directories for the current directory."
-  (get-local-dir "deps"))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-ebin-dir ()
-  "Get the ebin directory for the current directory."
-  (get-local-dir "ebin"))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-src-dir ()
-  "Get the src directory for the current directory."
-  (get-local-dir "src"))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-test-dir ()
-  "Get the test directory for the current directory."
-  (get-local-dir "test"))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-eunit-dir ()
-  "Get the .eunit directory for the current directory."
-  (get-local-dir ".eunit"))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-cwd ()
-  "The current workding directory in this case is the directory that the user
-  executed lfetool *from*. Shortly after it starts up, the lfetool script
-  switches from this dir to the actual directory where the lfetool code/library
-  lives. To preserve the original cwd, it is passed as a parameter to erl
-  during start up. That value is accessed with this function."
-  (caar
-    (element 2 (get-arg 'cwd "."))))
-
-;; XXX this form of the function should really be in an 'lutil-script.lfe'
-;; module; see below the note for 'get-arg'
-(defun get-home-dir ()
-  (caar
-    (element 2 (get-arg 'home #(ok (("/tmp")))))))
 
 (defun get-deps ()
   (get-deps `(,(get-deps-dir))))
@@ -90,7 +25,7 @@
   return the full list of dependency directories, from all of the combined
   directories provided."
   (filter-deps
-    (get-deps-subdirs deps-dirs)))
+   (get-deps-subdirs deps-dirs)))
 
 (defun get-deps-subdirs ()
   (get-deps-subdirs `(,(get-deps-dir))))
@@ -100,32 +35,32 @@
   of the lists is the list of directories in one of the passed deps dirs.
   Once the list of lists is obtained, collapse these into a single list."
   (lists:merge
-    (lists:map
-      (lambda (x)
-        (filelib:wildcard (filename:join x "*")))
-      deps-dirs)))
+   (lists:map
+    (lambda (x)
+      (filelib:wildcard (filename:join x "*")))
+    deps-dirs)))
 
 (defun check-deps (deps-subdirs)
   "Given a list of dependency directories, check to see which subdirectories
   we actually care about. Those we don't want, return false."
   (lists:map
-    (lambda (x)
-      (if (and
-            ;; only keep it if it's a dir and
-            (filelib:is_dir x)
-            ;; it doesn't begin with a "."
-            (not (== (car ".")
-                     (car (filename:basename x)))))
-        x))
-    deps-subdirs))
+   (lambda (x)
+     (if (and
+          ;; only keep it if it's a dir and
+          (filelib:is_dir x)
+          ;; it doesn't begin with a "."
+          (not (== (car ".")
+                   (car (filename:basename x)))))
+       x))
+   deps-subdirs))
 
 (defun filter-deps (deps-subdirs)
   "Filter the dependencies subdirectories to return only the ones that pass
   the check-deps criteria."
   (lists:filter
-    (lambda (x)
-      (not (== 'false x)))
-    (check-deps deps-subdirs)))
+   (lambda (x)
+     (not (== 'false x)))
+   (check-deps deps-subdirs)))
 
 (defun compile (lfe-files)
   (compile lfe-files (get-deps) (get-ebin-dir)))
@@ -139,13 +74,13 @@
                      (code:get_path)))
   ;; do actual compile
   (lists:map
-    (lambda (x)
-      (case (compile-file x out-dir)
-        ((= (tuple 'ok mod) result)
-          result)
-        ('error
-          `#(error ,x))))
-    lfe-files))
+   (lambda (x)
+     (case (compile-file x out-dir)
+       ((= (tuple 'ok mod) result)
+        result)
+       ('error
+        `#(error ,x))))
+   lfe-files))
 
 (defun compile-file (filename out-dir)
   (lfe_comp:file filename `(verbose report
@@ -157,45 +92,45 @@
 
 (defun compile-src (out-dir)
   (lists:merge
-    (compile
-      (filelib:wildcard
-        (filename:join (get-src-dir) "*.lfe"))
-      (get-deps)
-      out-dir)
-    (list (compile-app-src))))
+   (compile
+    (filelib:wildcard
+     (filename:join (get-src-dir) "*.lfe"))
+    (get-deps)
+    out-dir)
+   (list (compile-app-src))))
 
 (defun compile-test ()
   (compile-test (get-eunit-dir)))
 
 (defun compile-test (out-dir)
   (compile
-    (filelib:wildcard
-      (filename:join (get-test-dir) "*.lfe"))
-    (get-deps)
-    out-dir))
+   (filelib:wildcard
+    (filename:join (get-test-dir) "*.lfe"))
+   (get-deps)
+   out-dir))
 
 (defun compile-app-src ()
   (let* ((app-src (car (filelib:wildcard
-                         (filename:join
-                           "src"
-                           "*.app.src"))))
+                        (filename:join
+                         "src"
+                         "*.app.src"))))
          (app-dst (filename:join "ebin"
-                             (filename:basename
-                               (filename:rootname app-src)))))
+                                 (filename:basename
+                                  (filename:rootname app-src)))))
     (case (file:copy app-src app-dst)
       ((tuple 'ok _)
-        `#(ok #(app-src ,app-src)
-              #(app-dst ,app-dst))))))
+       `#(ok #(app-src ,app-src)
+             #(app-dst ,app-dst))))))
 
 (defun compile-deps ()
   (let (((tuple 'ok orig-cwd) (file:get_cwd)))
     (lists:map
-      (lambda (x)
-        (file:set_cwd x)
-        (compile
-          (filelib:wildcard (filename:join '("src" "*.lfe")))
-          "ebin"))
-      (get-deps))
+     (lambda (x)
+       (file:set_cwd x)
+       (compile
+        (filelib:wildcard (filename:join '("src" "*.lfe")))
+        "ebin"))
+     (get-deps))
     (file:set_cwd orig-cwd)))
 
 (defun files->beams (file-data)
@@ -207,35 +142,35 @@
     * Given a list of filenames, return a list of beams (i.e., no file
       extensions)."
   (lists:map
-    (match-lambda
-      (((tuple mod filename))
-        `#(,mod ,(filename:rootname filename)))
-      ((filename)
-        (filename:rootname filename)))
-    file-data))
+   (match-lambda
+     (((tuple mod filename))
+      `#(,mod ,(filename:rootname filename)))
+     ((filename)
+      (filename:rootname filename)))
+   file-data))
 
 (defun beams->files (beam-data)
   "Given a list of beams (no .beam extension), return a list of files (with
   the .beam extension)."
   (lists:map
-    (match-lambda
-      (((tuple mod beam))
-        `#(,mod ,(++ beam ".beam")))
-      ((beam)
-        (++ beam ".beam")))
-    beam-data))
+   (match-lambda
+     (((tuple mod beam))
+      `#(,mod ,(++ beam ".beam")))
+     ((beam)
+      (++ beam ".beam")))
+   beam-data))
 
 (defun beams->modules (beams-list)
   (lists:map
-    #'beam->module/1
-    beams-list))
+   #'beam->module/1
+   beams-list))
 
 (defun modules->beams (module-list)
   (lists:usort
-    (lists:map
-      (lambda (x)
-        (filename:rootname (code:which x)))
-      module-list)))
+   (lists:map
+    (lambda (x)
+      (filename:rootname (code:which x)))
+    module-list)))
 
 (defun get-beam-attrs (beam)
   "Given an atom representing a plugin's name, return its module
@@ -276,29 +211,29 @@
 
 (defun get-behaviour (attrs)
   (proplists:get_value
-    'behaviour
-    attrs
-    (proplists:get_value 'behavior attrs)))
+   'behaviour
+   attrs
+   (proplists:get_value 'behavior attrs)))
 
 (defun load-beams (beams)
   (lists:map
-    #'code:load_abs/1
-    beams))
+   #'code:load_abs/1
+   beams))
 
 (defun check-loaded-modules (substring)
   (lists:map
-    (lambda (x)
-      (case (re:run (atom_to_list (element 1 x)) (++ ".*" substring ".*"))
-        ((tuple 'match _) x)
-        (_ 'false)))
-    (code:all_loaded)))
+   (lambda (x)
+     (case (re:run (atom_to_list (element 1 x)) (++ ".*" substring ".*"))
+       ((tuple 'match _) x)
+       (_ 'false)))
+   (code:all_loaded)))
 
 (defun filtered-loaded-modules (substring)
   (filtered #'check-loaded-modules/1 substring))
 
 (defun get-loaded-beams (substring)
   (files->beams
-    (filtered-loaded-modules substring)))
+   (filtered-loaded-modules substring)))
 
 (defun get-beam-exports (beam)
   "Given a beam path, return its exported functions."
@@ -312,13 +247,13 @@
 
 (defun filtered (func beams)
   (lists:filter
-    #'lutil:check/1
-    (funcall func beams)))
+   #'lutil:check/1
+   (funcall func beams)))
 
 ;; XXX this should really be in an 'lutil-script.lfe' module
 (defun get-arg (arg-name default)
   (let ((arg-value (init:get_argument arg-name)))
     (case arg-value
       ('error
-        `#(default ((,default))))
+       `#(default ((,default))))
       (_ arg-value))))
