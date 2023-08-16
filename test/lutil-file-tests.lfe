@@ -72,15 +72,3 @@
     "../lfe-reveal-js/deps/lfeunit"
     "../lfe-reveal-js/deps/yaws"
     "deps/lfe"))
-
-;; TODO: Rethink this
-(deftestskip check-deps
-  (is-equal
-    (expected-checked-subdirs)
-    (lutil-file:check-deps (get-test-subdirs))))
-
-;; TODO: Rethink this
-(deftestskip filtered-deps
-  (is-equal
-    (expected-filtered-subdirs)
-    (lutil-file:filter-deps (get-test-subdirs))))
