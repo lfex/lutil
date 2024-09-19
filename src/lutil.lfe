@@ -34,12 +34,6 @@
                                `#(,(rand:uniform) ,m)))))
     n))
 
-(defun uuid4 ()
-  (lutil-uuid:four #(type strong bitstring)))
-
-(defun uuid4 (opts)
-  (lutil-uuid:four opts))
-
 (defun version ()
   (lutil-vsn:get))
 
