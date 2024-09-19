@@ -15,6 +15,39 @@
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
 
+(defun chunks (list-data count)
+  (chunks list-data count #(by-parts)))
+
+(defun chunks
+  ((list-data len #(by-length))
+   (chunks-by-length list-data len))
+  ((list-data count #(by-parts))
+   (chunks-by-parts list-data count)))
+
+(defun chunks-by-length (list-data len)
+  (let*((leader-len (case (rem (length list-data) len)
+                      (0 0)
+                      (n (- len n))))
+        (leader (lists:duplicate leader-len 'undefined)))
+    (chunks-by-length (++ leader (lists:reverse list-data)) '() 0 len)))
+
+;; The following is adapted from an Erlang answer given by user chops on
+;; StackOverflow, here:
+;; * https://stackoverflow.com/questions/12534898/splitting-a-list-in-equal-sized-chunks-in-erlang
+(defun chunks-by-length
+  (('() acc _ _)
+   acc)
+  ((`(,h . ,t) acc pos max) (when (== pos max))
+   (chunks-by-length t (cons (list h) acc) 1 max))
+  ((`(,h . ,t) `(,h-acc . ,t-acc) pos max)
+   (chunks-by-length t (cons (cons h h-acc) t-acc) (+ 1 pos) max))
+  ((`(,h . ,t) '() pos max)
+   (chunks-by-length t (list (list h)) (+ 1 pos) max)))
+
+(defun chunks-by-parts (list-data count)
+  (let ((length (round (/ (length list-data) count))))
+    (chunks-by-length list-data length)))
+  
 (defun partition (list-data)
   "This function takes lists of even length with an implicit key (atom) value
   pairing and generates a list of two lists: one with all the keys, and the
