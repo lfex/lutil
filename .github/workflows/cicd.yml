@@ -18,10 +18,10 @@ jobs:
 
     strategy:
       matrix:
-        otp_version: ['24.3', '25.3', '26.0']
+        otp_version: ['26', '25', '24']
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: erlef/setup-beam@v1
       with:
         otp-version: ${{ matrix.otp_version }}
@@ -44,7 +44,7 @@ jobs:
     #  run: rebar3 as test do proper -c, cover -v --min_coverage=0
 
   old-builds:
-    name: Old Erlang ${{ matrix.otp_version }} build
+    name: Erlang ${{ matrix.otp_version }} build
     runs-on: ubuntu-20.04
 
     strategy:
@@ -54,10 +54,10 @@ jobs:
         # * https://github.com/lfe/rebar3/issues/82
         # * https://github.com/erlang/rebar3/issues/2817
         #otp_version: ['20.3', '21.3', '22.3', '23.3']
-        otp_version: ['21.3', '22.3', '23.3']
+        otp_version: ['23', '22', '21']
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: erlef/setup-beam@v1
       with:
         otp-version: ${{ matrix.otp_version }}

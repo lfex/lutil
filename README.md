@@ -47,7 +47,7 @@ In your `rebar.config` file, update your `deps` section to include
 
 ```erlang
 {deps, [
-  {lutil, "0.14.0"}}}
+  {lutil, "0.15.0"}}}
 ]}
 ```
 
@@ -56,6 +56,8 @@ In your `rebar.config` file, update your `deps` section to include
 ### Modules [&#x219F;](#contents)
 
 For the modules, usage is the same as any other Erlang or LFE library :-)
+
+Some example usage:
 
 ```cl
 > (lutil-math:dot-product '(1 2 3) '(4 5 6))
@@ -66,14 +68,20 @@ For the modules, usage is the same as any other Erlang or LFE library :-)
 > (lutil-tuple:cat (list (tuple 1 2) (tuple 3 4) (tuple 5 6)))
 #(1 2 3 4 5 6)
 
-> (lutil:uuid4 (tuple 'type "list"))
-"f790b655-f139-46d5-08e5-faf132bdd62a"
-> (lutil:uuid4 (tuple 'type "atom"))
-8ecd6cc2-8580-4ab6-3fc1-8135ed9bb28c
-> (lutil:uuid4 (tuple 'type "binary"))
-#B(51 49 53 56 102 52 53 54 45 50 51 55 56 45 52 51 56 54 45 50 57 56 ...)
-> (lutil:uuid4)
-#B(99 101 102 102 54 53 97 50 45 48 57 55 49 45 52 50 49 49 45 50 52 ...)
+lfe> (lutil-list:chunks (lists:seq 1 32) 8 #(by-parts))
+((1 2 3 4)
+ (5 6 7 8)
+ (9 10 11 12)
+ (13 14 15 16)
+ (17 18 19 20)
+ (21 22 23 24)
+ (25 26 27 28)
+ (29 30 31 32))
+lfe> (lutil-list:chunks (lists:seq 1 32) 8 #(by-length))
+((1 2 3 4 5 6 7 8)
+ (9 10 11 12 13 14 15 16)
+ (17 18 19 20 21 22 23 24)
+ (25 26 27 28 29 30 31 32))
 ```
 
 ### Macros [&#x219F;](#contents)
@@ -90,7 +98,7 @@ added to the [LFE stdlib][clj docs]!
 BSD 3-Clause License
 
 ```
-Copyright © 2013-2023, Duncan McGreggor <oubiwann@gmail.com>
+Copyright © 2013-2024, Duncan McGreggor <oubiwann@gmail.com>
 Copyright © 2016, Eric Bailey <eric@ericb.me>
 Copyright © 2015, arpunk <arpunk@cryptolab.net>
                   osense <krupicka.adam@gmail.com>
