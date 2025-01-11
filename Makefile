@@ -5,7 +5,8 @@ REBAR_PROFILE ?= dev
 LFE = _build/$(REBAR_PROFILE)/lib/lfe/bin/lfe
 
 check:
-	-@rebar3 lfe clean
+	@#rebar3 lfe clean
+	@rm -rf _build rebar.lock
 	@rebar3 lfe compile
 	@rebar3 xref
 	-@rebar3 dialyzer
