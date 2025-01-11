@@ -4,7 +4,7 @@
   {description, "LFE Utility Functions and Macros"},
 
   %% The version of the application
-  {vsn, "0.16.0"},
+  {vsn, "0.16.1"},
 
   %% All modules used by the application.
   {modules, [
@@ -39,7 +39,7 @@
     {"GitHub", "https://github.com/lfex/lutil"},
     {"Hex", "https://hex.pm/packages/lutil"}
   ]},
-  {exclude_files, [
-    "priv/*"
+  {exclude_paths, [
+    "priv"
   ]}
 ]}.
