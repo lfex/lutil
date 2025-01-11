@@ -47,7 +47,7 @@ In your `rebar.config` file, update your `deps` section to include
 
 ```erlang
 {deps, [
-  {lutil, "0.15.0"}}}
+  {lutil, "0.16.0"}}}
 ]}
 ```
 
@@ -98,7 +98,7 @@ added to the [LFE stdlib][clj docs]!
 BSD 3-Clause License
 
 ```
-Copyright © 2013-2024, Duncan McGreggor <oubiwann@gmail.com>
+Copyright © 2013-2025, Duncan McGreggor <oubiwann@gmail.com>
 Copyright © 2016, Eric Bailey <eric@ericb.me>
 Copyright © 2015, arpunk <arpunk@cryptolab.net>
                   osense <krupicka.adam@gmail.com>
