@@ -6,6 +6,7 @@
 (defun trim-trailing-ws (bitstr)
   (clj:-> bitstr          
           (trim-trailing #" ")
+          (trim-trailing #"\t")
           (trim-trailing #"\n")
           (trim-trailing #"\r")
           (trim-trailing #"\r\n")))
@@ -23,11 +24,13 @@
    #"")
   ((bitstr pattern _ _) (when (== bitstr pattern))
    #"")
+  ((bitstr _ 0 _)
+   bitstr)
   ((bitstr _ pattern-size index) (when (or (=< index 0) (< (byte_size bitstr) (+ pattern-size index))))
    bitstr)
   ((bitstr pattern pattern-size index)
    (let ((head (binary:part bitstr 0 index))
          (tail (binary:part bitstr index pattern-size)))
-     (if (!= pattern tail)
+     (if (=/= pattern tail)
        bitstr
        (trim-trailing head pattern pattern-size (- (byte_size head) pattern-size))))))
