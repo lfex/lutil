@@ -149,3 +149,16 @@
             (lutil-math:xform-numbers 8 (lists:seq 1 10)))
   (is-equal '(1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0)
             (lutil-math:xform-numbers 9 (lists:seq 1 10))))
+
+(deftest primes
+  (is-equal 1 (lutil-math:get-next-prime 0))
+  (is-equal 2 (lutil-math:get-next-prime 1))
+  (is-equal 3 (lutil-math:get-next-prime 2))
+  (is-equal 5 (lutil-math:get-next-prime 3))
+  (is-equal 7 (lutil-math:get-next-prime 5))
+  (is-equal 11 (lutil-math:get-next-prime 7))
+  (is-equal 13 (lutil-math:get-next-prime 11))
+  (is-equal 17 (lutil-math:get-next-prime 13))
+  (is-equal 19 (lutil-math:get-next-prime 17))
+  (is-equal 23 (lutil-math:get-next-prime 19))
+  (is-equal 1009 (lutil-math:get-next-prime 1000)))

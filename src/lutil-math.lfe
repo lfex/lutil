@@ -59,15 +59,17 @@
 
 (defun get-next-prime (x)
   "Get the next prime in ascending order."
-  (flet ((f (y)
-            (cond ((prime? y) y)
-                  ('true (get-next-prime (+ x 1))))))
-    (f (+ x 1))))
+  (get-next-prime x (+ x 1)))
+
+(defun get-next-prime (_x0 x1)
+  (if (prime? x1)
+    x1
+    (get-next-prime x1)))
 
 (defun prime? (x)
   "If a number consists of more than two factors, it is not a prime number."
   (let ((factors (factors x)))
-    (cond ((== 2 (length (lists:sort factors))) 'true)
+    (cond ((< (length (lists:sort factors)) 3) 'true)
           ('true 'false))))
 
 (defun factors (n)
