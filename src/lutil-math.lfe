@@ -67,7 +67,7 @@
 (defun prime? (x)
   "If a number consists of more than two factors, it is not a prime number."
   (let ((factors (factors x)))
-    (cond ((== 2 (length (lists:usort factors))) 'true)
+    (cond ((== 2 (length (lists:sort factors))) 'true)
           ('true 'false))))
 
 (defun factors (n)
