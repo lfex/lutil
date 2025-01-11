@@ -34,7 +34,7 @@
 
   %% Package metadata:
   {pkg_name, lutil},
-  {licenses, ["BSD-3"]},
+  {licenses, ["BSD-3-Clause"]},
   {links, [
     {"GitHub", "https://github.com/lfex/lutil"},
     {"Hex", "https://hex.pm/packages/lutil"}
