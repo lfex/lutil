@@ -275,3 +275,17 @@
   (lists:filter
    #'lutil:check/1
    (funcall func beams)))
+
+(defun priv (app priv-rel-path)
+  (filename:join (code:priv_dir app)
+                 priv-rel-path))
+
+(defun read-priv (app priv-rel-path)
+  (case (file:read_file (priv app priv-rel-path))
+    (`#(ok ,data) data)
+    (err err)))
+
+(defun read-priv-config (app priv-rel-path)
+  (case (file:consult (priv app priv-rel-path))
+    (`#(ok (,terms)) terms)
+    (err err)))
