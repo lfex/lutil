@@ -1,9 +1,10 @@
 # lutil
 
 [![Build Status][gh-actions-badge]][gh-actions]
-[![LFE Versions][lfe badge]][lfe]
-[![Erlang Versions][erlang badge]][versions]
-[![Tags][github tags badge]][github tags]
+[![LFE Versions][lfe-badge]][lfe]
+[![Erlang Versions][erlang-badge]][versions]
+[![Tags][github-tags-badge]][github-tags]
+[![Downloads][hex-downloads]][hex-package]
 
 *Utility functions for LFE*
 
@@ -108,16 +109,19 @@ Copyright © 2014, Torbjorn Tornkvist <kruskakli@gmail.com>
 Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 ```
 
-<!-- Named page links below: /-->
+[//]: ---Named-Links---
 
 [logo]: priv/images/lutil-x250.png
 [logo-large]: priv/images/lutil-x700.png
 [gh-actions-badge]: https://github.com/lfex/lutil/workflows/ci%2Fcd/badge.svg
 [gh-actions]: https://github.com/lfex/lutil/actions
 [lfe]: https://github.com/lfe/lfe
-[lfe badge]: https://img.shields.io/badge/lfe-2.1-blue.svg
-[erlang badge]: https://img.shields.io/badge/erlang-21%20to%2026-blue.svg
+[lfe-badge]: https://img.shields.io/badge/lfe-2.1-blue.svg
+[erlang-badge]: https://img.shields.io/badge/erlang-21+-blue.svg
 [versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
-[github tags]: https://github.com/lfex/lutil/tags
-[github tags badge]: https://img.shields.io/github/tag/lfex/lutil.svg
+[github-tags]: https://github.com/lfex/lutil/tags
+[github-tags-badge]: https://img.shields.io/github/tag/lfex/lutil.svg
 [clj docs]: https://github.com/rvirding/lfe/blob/develop/doc/lfe_clj.txt
+[hex-badge]: https://img.shields.io/hexpm/v/lutil.svg?maxAge=2592000
+[hex-package]: https://hex.pm/packages/lutil
+[hex-downloads]: https://img.shields.io/hexpm/dt/lutil.svg
