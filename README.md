@@ -117,7 +117,7 @@ Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 [gh-actions]: https://github.com/lfex/lutil/actions
 [lfe]: https://github.com/lfe/lfe
 [lfe-badge]: https://img.shields.io/badge/lfe-2.1-blue.svg
-[erlang-badge]: https://img.shields.io/badge/erlang-21+-blue.svg
+[erlang-badge]: https://img.shields.io/badge/erlang-24+-blue.svg
 [versions]: https://github.com/lfex/lutil/blob/master/.travis.yml
 [github-tags]: https://github.com/lfex/lutil/tags
 [github-tags-badge]: https://img.shields.io/github/tag/lfex/lutil.svg
