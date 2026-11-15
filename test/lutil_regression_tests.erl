@@ -476,10 +476,10 @@ mnesia_fixture(Root) ->
                      mnesia:dirty_read(s03_mnesia_explicit, id1)),
         "mnesia_fixture_ok"
     after
-        catch mnesia:delete_table(s03_mnesia_empty),
-        catch mnesia:delete_table(s03_mnesia_explicit),
-        catch application:stop(mnesia),
-        catch mnesia:delete_schema([node()]),
+        attempt_cleanup(fun() -> mnesia:delete_table(s03_mnesia_empty) end),
+        attempt_cleanup(fun() -> mnesia:delete_table(s03_mnesia_explicit) end),
+        attempt_cleanup(fun() -> application:stop(mnesia) end),
+        attempt_cleanup(fun() -> mnesia:delete_schema([node()]) end),
         application:unset_env(mnesia, dir)
     end.
 
@@ -489,3 +489,10 @@ read_owned(Root, Path) ->
 
 write_owned(Root, Path, Data) ->
     ok = file:write_file(owned_path(Root, Path), Data).
+
+attempt_cleanup(Fun) ->
+    try Fun() of
+        _ -> ok
+    catch
+        _:_ -> ok
+    end.
