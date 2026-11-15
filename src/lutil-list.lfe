@@ -1,30 +1,37 @@
 (defmodule lutil-list
+  "List conversion, chunking, positional partitioning, and list-of-lists zipping
+  helpers."
   (export all))
 
 (defun ->dict (list-data)
-  "'list-data' is a list of implicit pairs:
-    * the odd elements are keys of type 'atom'
-    * the even elemnts are the values.
-
-  This list is partitioned. zipped to tuples, and then converted to a dict."
+  "Partition an even-length alternating key/value list and build a dictionary
+  from the pairs; keys are expected to be atoms, while values may be any term."
   (let (((tuple keys values) (partition list-data)))
     (dict:from_list
      (lists:zip keys values))))
 
 (defun ->tuple (list-data)
+  "Quote each item as a literal form, evaluate a tuple form, and return the
+  resulting tuple."
   (let ((quoted (lists:map (lambda (x) `',x) list-data)))
     (eval `(tuple ,@quoted))))
 
 (defun chunks (list-data count)
+  "Group `ListData` into chunks using the default `by-parts` mode."
   (chunks list-data count #(by-parts)))
 
 (defun chunks
+  "Group `ListData` by one-element tuple mode `#(by-parts)` or `#(by-length)`.
+  Fixed `Len` must be positive; parts mode requires positive `Count` and a
+  positive rounded chunk length. Other modes fail to match."
   ((list-data len #(by-length))
    (chunks-by-length list-data len))
   ((list-data count #(by-parts))
    (chunks-by-parts list-data count)))
 
 (defun chunks-by-length (list-data len)
+  "Group items into fixed chunks of positive length `Len`; a short final chunk
+  is padded with `undefined` values."
   (let*((leader-len (case (rem (length list-data) len)
                       (0 0)
                       (n (- len n))))
@@ -35,6 +42,9 @@
 ;; StackOverflow, here:
 ;; * https://stackoverflow.com/questions/12534898/splitting-a-list-in-equal-sized-chunks-in-erlang
 (defun chunks-by-length
+  "Worker for fixed-length chunking; it consumes the reversed, padded input
+  prepared by `chunks-by-length/2`, using `Acc`, `Pos`, and `Max` to build and
+  return ordered chunks."
   (('() acc _ _)
    acc)
   ((`(,h . ,t) acc pos max) (when (== pos max))
@@ -45,15 +55,22 @@
    (chunks-by-length t (list (list h)) (+ 1 pos) max)))
 
 (defun chunks-by-parts (list-data count)
+  "Choose a chunk length by rounding `length(ListData) / Count`, then use
+  fixed-length chunking. `Count` and the rounded length must be positive.
+  Rounding means the result is not guaranteed to contain exactly `Count`
+  chunks."
   (let ((length (round (/ (length list-data) count))))
     (chunks-by-length list-data length)))
   
 (defun partition (list-data)
-  "Split positional key/value pairs, including atom-valued values."
+  "Split an even-length alternating key/value list into `{Keys, Values}`,
+  preserving input order; values may be atoms or other terms."
   (partition list-data '() '()))
 
 (defun partition
-  "Continue partitioning pairs with reversed key and value accumulators."
+  "Continue positional partitioning with reversed key and value accumulators.
+  When the input is exhausted, reverse both accumulators; the input tail must
+  contain complete pairs."
   (('() keys values)
    (tuple (lists:reverse keys) (lists:reverse values)))
   (((cons key (cons value rest)) keys values)
@@ -68,18 +85,28 @@
 ;; Note that, unlike the Erlang zip functions, these functions *do not* return
 ;; a list of tuples; they return a list of lists.
 (defun zip (lists)
+  "Transpose rows from a list of lists. Stop at the first empty row; the empty
+  outer list returns an empty list."
   (zip-any lists '()))
 
 (defun zip (list-1 list-2)
+  "Zip two lists into a list of two-element lists, stopping when either input is
+  empty."
   (zip-2 list-1 list-2 '()))
 
 (defun zip (list-1 list-2 list-3)
+  "Zip three lists into a list of three-element lists, stopping when any input
+  is empty."
   (zip-3 list-1 list-2 list-3 '()))
 
 (defun zip (list-1 list-2 list-3 list-4)
+  "Zip four lists into a list of four-element lists, stopping when any input is
+  empty."
   (zip-4 list-1 list-2 list-3 list-4 '()))
 
 (defun zip-2
+  "Worker for two-list zipping; append each row to `Acc` and return it when
+  either input is exhausted."
   ((_ '() acc)
     acc)
   (('() _ acc)
@@ -88,6 +115,8 @@
     (zip-2 t1 t2 (++ acc `((,h1 ,h2))))))
 
 (defun zip-3
+  "Worker for three-list zipping; append each row to `Acc` and return it when
+  any input is exhausted."
   ((_ _ '() acc)
     acc)
   ((_ '() _ acc)
@@ -98,6 +127,8 @@
     (zip-3 t1 t2 t3 (++ acc `((,h1 ,h2 ,h3))))))
 
 (defun zip-4 (list-1 list-2 list-3 list-4 acc)
+  "Worker for four-list zipping; append each row to `Acc` and return it when any
+  input is empty."
   (cond
     ((lists:any
         (lambda (x) (== x '()))
@@ -122,6 +153,8 @@
 ;;     (zip-4 t1 t2 t3 t4 (++ acc `((,h1 ,h2 ,h3 ,h4))))))
 
 (defun zip-any
+  "Worker for n-list zipping; transpose one head from every row per step and
+  stop when the outer list is empty or any row is empty."
   (('() acc)
    acc)
   ((lists acc)

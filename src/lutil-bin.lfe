@@ -1,10 +1,12 @@
 (defmodule lutil-bin
+  "Trim selected trailing byte sequences from binaries."
   (export
    (trim-trailing 1) (trim-trailing 2)
    (trim-trailing-ws 1)))
 
 (defun trim-trailing-ws (bitstr)
-  "Remove repeated trailing space, tab, CR, and LF tokens."
+  "Repeatedly remove trailing space, tab, line-feed, carriage-return, and CRLF
+  byte sequences until none remains."
   (let ((trimmed
          (clj:-> bitstr
                  (trim-trailing #" ")
@@ -17,14 +19,20 @@
       (trim-trailing-ws trimmed))))
 
 (defun trim-trailing (bitstr)
+  "Remove repeated trailing line-feed bytes from `Binary`; return the trimmed
+  binary."
   (trim-trailing bitstr #"\n"))
 
 (defun trim-trailing (bitstr pattern)
+  "Remove every repeated exact `Pattern` suffix from `Binary`; `Pattern` is a
+  binary."
   (let* ((pattern-size (byte_size pattern))
          (starting-index (- (byte_size bitstr) pattern-size)))
     (trim-trailing bitstr pattern pattern-size starting-index)))
 
 (defun trim-trailing
+  "Worker for suffix trimming; `Size` and `Index` are the byte size and
+  candidate suffix offset."
   ((bitstr _ _ _) (when (== bitstr #""))
    #"")
   ((bitstr pattern _ _) (when (== bitstr pattern))

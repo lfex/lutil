@@ -1,3 +1,5 @@
+%% @doc A cyclic sequence with stateless list calls and stateful
+%% <code>gen_server</code> calls.
 -module(lcycle).
 -behaviour(gen_server).
 
@@ -13,36 +15,44 @@
 %%% API - Polymorphic functions
 %%%===================================================================
 
-%% Create a new cycle gen_server with the given list (stateful only)
+%% @doc Start a linked cycle server for a non-empty initial list and
+%% return its pid.
 new(List) when is_list(List), List =/= [] ->
     {ok, Pid} = gen_server:start_link(?MODULE, List, []),
     Pid.
 
-%% Get the next element - works with both pid (stateful) and list (stateless)
+%% @doc Return the next element. Lists return <code>{Value, RotatedList}</code>;
+%% a pid returns the value and advances its server.
 next(Pid) when is_pid(Pid) ->
     gen_server:call(Pid, next);
 next(List) when is_list(List), List =/= [] ->
     next_stateless(List).
 
-%% Get the last element - works with both pid (stateful) and list (stateless)  
+%% @doc Return the last element. Lists return <code>{Value, RotatedList}</code>;
+%% a pid returns the value and moves its server state.
 last(Pid) when is_pid(Pid) ->
     gen_server:call(Pid, last);
 last(List) when is_list(List), List =/= [] ->
     last_stateless(List).
 
-%% Take N elements - works with both pid (stateful) and list (stateless)
+%% @doc Take <code>Count</code> elements forward; list input returns
+%% <code>{Values, RotatedList}</code>, while pid input returns values and
+%% advances its server. Count zero leaves either form unchanged.
 take(Count, State) when is_integer(Count), Count >= 0 ->
     take_acc(Count, State, fun next_adapter/1, result_fun_for(State)).
 
-%% Take N elements from end - works with both pid (stateful) and list (stateless)
+%% @doc Take <code>Count</code> elements backward; list input returns
+%% <code>{Values, RotatedList}</code>, while pid input returns values and
+%% advances its server. Values are displayed in forward order; count zero
+%% leaves either form unchanged.
 lastn(Count, State) when is_integer(Count), Count >= 0 ->
     lastn_acc(Count, State, fun last_adapter/1, result_fun_for(State)).
 
-%% Reset the cycle to its initial state (stateful only)
+%% @doc Reset a cycle server to its initial list and return <code>ok</code>.
 reset(Pid) when is_pid(Pid) ->
     gen_server:call(Pid, reset).
 
-%% Stop the cycle gen_server (stateful only)
+%% @doc Stop the cycle server using <code>gen_server:stop/1</code>.
 stop(Pid) when is_pid(Pid) ->
     gen_server:stop(Pid).
 
@@ -50,10 +60,15 @@ stop(Pid) when is_pid(Pid) ->
 %%% gen_server callbacks
 %%%===================================================================
 
+%% @doc Initialize the server with <code>List</code> as original and current
+%% state; return <code>{ok, State}</code>.
 init(List) ->
     State = #{init => List, current => List},
     {ok, State}.
 
+%% @doc Handle <code>next</code>, <code>last</code>, and <code>reset</code>
+%% calls and return <code>{reply, Reply, NewState}</code>. An unknown request
+%% sets <code>Reply</code> to <code>{error, unknown_request}</code>.
 handle_call(next, _From, #{current := CurrentList} = State) ->
     {Value, NewCurrentList} = next_stateless(CurrentList),
     NewState = State#{current := NewCurrentList},
@@ -71,15 +86,22 @@ handle_call(reset, _From, #{init := InitList} = State) ->
 handle_call(_Request, _From, State) ->
     {reply, {error, unknown_request}, State}.
 
+%% @doc Ignore casts and return <code>{noreply, State}</code> with state
+%% unchanged.
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
+%% @doc Ignore unrelated messages and return <code>{noreply, State}</code>.
 handle_info(_Info, State) ->
     {noreply, State}.
 
+%% @doc Termination callback; perform no additional cleanup and return
+%% <code>ok</code>.
 terminate(_Reason, _State) ->
     ok.
 
+%% @doc Preserve <code>State</code> unchanged during code upgrades and
+%% return <code>{ok, State}</code>.
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
@@ -143,6 +165,7 @@ stateless_result_fun(Acc, State) -> {Acc, State}.
 %%% Example usage
 %%%===================================================================
 
+%% @doc Print examples of stateful and stateless cycle operations.
 example() ->
     io:format("=== Stateful version ===~n"),
     % Create a cycle

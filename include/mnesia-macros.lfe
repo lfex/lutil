@@ -1,5 +1,7 @@
 (defmacro create-table
-  "Create a Mnesia table using the matching record field macro."
+  "Create a Mnesia table for `RecordName` using the generated
+  `fields-RecordName` macro. With empty options, use table type `set`;
+  otherwise append the generated attributes option to `TableDefs`."
   (`(,record-table-name ())
    `(create-table ,record-table-name
                   (list (tuple 'type 'set))))
@@ -13,8 +15,6 @@
             (list (tuple 'attributes ,record-fields-call)))))))
 
 (defun loaded-mnesia-macros ()
-  "This is just a dummy function for display purposes when including from the
-  REPL (the last function loaded has its name printed in stdout).
-
-  This function needs to be the last one in this include."
+  "Include-only helper kept last so the REPL reports the included macro carrier.
+  Calling it returns `ok`; it does not load or define Mnesia tables."
   'ok)
