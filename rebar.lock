@@ -1,0 +1,8 @@
+{"1.2.0",
+[{<<"lfe">>,{pkg,<<"lfe">>,<<"2.2.2">>},0}]}.
+[
+{pkg_hash,[
+ {<<"lfe">>, <<"9DCAF07B52FB0FDFB80DCBD2B4EC36D5A0AA93B27ADD5A25C4E95E14B0273F76">>}]},
+{pkg_hash_ext,[
+ {<<"lfe">>, <<"E88408510D08F9E02E35745C3B399A4A82EA89B6A8723371AF0A2B2C9ACBB818">>}]}
+].

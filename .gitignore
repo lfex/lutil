@@ -1,32 +1,27 @@
-# MacOS
+# macOS
 .DS_Store
 
-# Erlang
-.eunit
+# Erlang and Rebar3
+.eunit/
 *.o
 *.beam
 *.plt
 erl_crash.dump
 .concrete/DEV_MODE
-
-# rebar 2.x
-.rebar
-rel/example_project
-ebin/*.beam
-deps
-
-# rebar 3
-.rebar3
+.rebar/
+.rebar3/
 _build/
 _checkouts/
-rebar.lock
-.rebar
-rebar/*
-.rebar/*
+deps/
+ebin/*.beam
+rel/example_project
 rebar3.crashdump
 
-# hex.pm
-/doc
+# Generated documentation
+/doc/
+
+# Local worktrees
+.worktrees/
 
 # Emacs
 *~

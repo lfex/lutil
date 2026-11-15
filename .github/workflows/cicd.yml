@@ -3,73 +3,30 @@ name: ci/cd
 on:
   workflow_dispatch:
   push:
-    branches: [ main, 'release/**', 'task/**', 'feature/**', 'epic/**']
+    branches: [main, 'release/**', 'task/**', 'feature/**', 'epic/**', 'codex/**']
     tags: ['**']
   pull_request:
-    branches: [ main, 'release/**', 'task/**', 'feature/**', 'epic/**']
+    branches: [main, 'release/**', 'task/**', 'feature/**', 'epic/**', 'codex/**']
   schedule:
-  - cron: "8 4 12 * *"
+    - cron: '8 4 12 * *'
 
 jobs:
-
-  core-builds:
-    name: Erlang ${{ matrix.otp_version }} build
+  native:
+    name: Erlang/OTP ${{ matrix.otp_version }} native checks
     runs-on: ubuntu-latest
-
     strategy:
+      fail-fast: false
       matrix:
-        otp_version: ['28', '27', '26']
+        otp_version: ['27.3.4.19', '28.5.0.8', '29.1.2']
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: erlef/setup-beam@v1
-      with:
-        otp-version: ${{ matrix.otp_version }}
-        rebar3-version: '3.25'
-    - name: Check rebar3 Version
-      run: rebar3 --version
-    - name: Compile
-      run: rebar3 compile
-    #- name: Xref Checks
-    #  run: rebar3 xref
-    # - name: Dialyzer
-    #   run: rebar3 dialyzer
-    - name: Compile Tests
-      run: rebar3 as test compile
-    - name: Run Unit Tests
-      run: rebar3 as test lfe ltest -tunit
-    - name: Run Integration Tests
-      run: rebar3 as test lfe ltest -tintegration
-    #- name: Test Coverage
-    #  run: rebar3 as test do proper -c, cover -v --min_coverage=0
-
-  old-builds:
-    name: Erlang ${{ matrix.otp_version }} build
-    runs-on: ubuntu-22.04
-
-    strategy:
-      matrix:
-        otp_version: ['25', '24']
-
-    steps:
-    - uses: actions/checkout@v4
-    - uses: erlef/setup-beam@v1
-      with:
-        otp-version: ${{ matrix.otp_version }}
-        rebar3-version: '3.22'
-    - name: Check rebar3 Version
-      run: rebar3 --version
-    - name: Compile
-      run: rebar3 compile
-    #- name: Xref Checks
-    #  run: rebar3 xref
-    # - name: Dialyzer
-    #   run: rebar3 dialyzer
-    - name: Compile Tests
-      run: rebar3 as test compile
-    - name: Run Unit Tests
-      run: rebar3 as test lfe ltest -tunit
-    - name: Run Integration Tests
-      run: rebar3 as test lfe ltest -tintegration
-    #- name: Test Coverage
-    #  run: rebar3 as test do proper -c, cover -v --min_coverage=0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          otp-version: ${{ matrix.otp_version }}
+          rebar3-version: '3.28.0'
+          version-type: strict
+      - name: Check Rebar3 version
+        run: rebar3 --version
+      - name: Native checks
+        run: make check-native

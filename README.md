@@ -125,3 +125,9 @@ Copyright © 2009, Tim Dysinger <tim@dysinger.net>
 [hex-badge]: https://img.shields.io/hexpm/v/lutil.svg?maxAge=2592000
 [hex-package]: https://hex.pm/packages/lutil
 [hex-downloads]: https://img.shields.io/hexpm/dt/lutil.svg
+
+## Development
+
+Run `make check-native` for the native compile and test checks, and `make docs`
+to build or refresh the ldoc reference at
+`_build/default/ldoc/current/site`.
