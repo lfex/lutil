@@ -22,11 +22,18 @@
   (env "HOME"))
 
 (defun get-env-funcs (env)
-  (lists:sort
-    (lists:map
-      (lambda (x)
-        (element 1 x))
-      (element 3 env))))
+  "Return sorted unique function and macro names in an LFE environment."
+  (let* ((fun-names
+          (lfe_env:fold_funs
+            (lambda (name _arity _definition names)
+              (cons name names))
+            '() env))
+         (all-names
+          (lfe_env:fold_macros
+            (lambda (name _definition names)
+              (cons name names))
+            fun-names env)))
+    (lists:usort all-names)))
 
 (defun shuffle (items)
   (list-comp ((<- `#(,_ ,n) (lists:sort

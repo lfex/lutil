@@ -114,7 +114,7 @@
                                     #(i "include"))))
 
 (defun compile-src ()
-  (compile-src (ebin-dir)))
+  (compile-src "ebin"))
 
 (defun compile-src (out-dir)
   (lists:merge
@@ -123,7 +123,7 @@
      (filename:join (src-dir) "*.lfe"))
     (deps)
     out-dir)
-   (list (compile-app-src))))
+   (list (compile-app-src out-dir))))
 
 (defun compile-test ()
   (compile-test (eunit-dir)))
@@ -136,28 +136,74 @@
    out-dir))
 
 (defun compile-app-src ()
-  (let* ((app-src (car (filelib:wildcard
-                        (filename:join
-                         "src"
-                         "*.app.src"))))
-         (app-dst (filename:join "ebin"
-                                 (filename:basename
-                                  (filename:rootname app-src)))))
-    (case (file:copy app-src app-dst)
-      ((tuple 'ok _)
-       `#(ok #(app-src ,app-src)
-             #(app-dst ,app-dst))))))
+  (compile-app-src "ebin"))
+
+(defun compile-app-src (out-dir)
+  "Copy the first application resource into OutDir and return both paths."
+  (let ((app-srcs (filelib:wildcard
+                    (filename:join "src" "*.app.src"))))
+    (case app-srcs
+      ('()
+       (tuple 'error (tuple 'app_src_not_found (src-dir))))
+      ((cons app-src _)
+       (let* ((app-dst (filename:join out-dir
+                                      (filename:basename
+                                       (filename:rootname app-src))))
+              (copy-result (file:copy app-src app-dst)))
+         (case copy-result
+           ((tuple 'ok _)
+            (tuple 'ok (tuple 'app-src app-src)
+                   (tuple 'app-dst app-dst)))
+           ((tuple 'error reason)
+            (tuple 'error
+                   (tuple 'app_src_copy_failed app-src app-dst reason)))))))))
 
 (defun compile-deps ()
   (let (((tuple 'ok orig-cwd) (file:get_cwd)))
-    (lists:map
-     (lambda (x)
-       (file:set_cwd x)
-       (compile
-        (filelib:wildcard (filename:join '("src" "*.lfe")))
-        "ebin"))
-     (deps))
-    (file:set_cwd orig-cwd)))
+    (try
+      (let* ((reversed-results
+              (lists:foldl
+               (lambda (directory results)
+                 (let* ((absolute-dir (filename:absname directory))
+                        (outcome
+                         (case (file:set_cwd absolute-dir)
+                           ('ok
+                            (compile
+                             (filelib:wildcard
+                              (filename:join '("src" "*.lfe")))
+                             "ebin"))
+                           ((tuple 'error reason)
+                            (tuple 'error
+                                   (tuple 'set_cwd_failed reason)))))
+                        (result (tuple absolute-dir outcome)))
+                   (cons result results)))
+               '()
+               (deps)))
+             (results (lists:reverse reversed-results))
+             (failed?
+              (lists:any
+               (lambda (entry)
+                 (let ((outcome (element 2 entry)))
+                   (case outcome
+                     ((tuple 'error _) 'true)
+                     (per-file-results
+                      (lists:any
+                       (lambda (file-result)
+                         (case file-result
+                           ((tuple 'error _) 'true)
+                           (_ 'false)))
+                       per-file-results)))))
+               results)))
+        (if failed?
+          (tuple 'error (tuple 'dependency_compile_failed results))
+          'ok))
+      (after
+        (case (file:set_cwd orig-cwd)
+          ('ok 'ok)
+          ((tuple 'error reason)
+           (error (tuple 'restore_cwd_failed orig-cwd reason)))
+          (other
+           (error (tuple 'restore_cwd_failed orig-cwd other))))))))
 
 (defun files->beams (file-data)
   "This function handles two cases:

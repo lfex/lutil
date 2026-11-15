@@ -28,8 +28,8 @@
   ((value (tuple lower-bound upper-bound)
           (tuple lower-bound-prime upper-bound-prime))
     (let* ((fraction (/
-                   (+ (abs lower-bound) value)
-                   (+ (abs lower-bound) upper-bound)))
+                   (- value lower-bound)
+                   (- upper-bound lower-bound)))
            (new-range (- upper-bound-prime lower-bound-prime)))
       (+ (* fraction new-range) lower-bound-prime))))
 
@@ -67,10 +67,12 @@
     (get-next-prime x1)))
 
 (defun prime? (x)
-  "If a number consists of more than two factors, it is not a prime number."
-  (let ((factors (factors x)))
-    (cond ((< (length (lists:sort factors)) 3) 'true)
-          ('true 'false))))
+  "Return true for prime integers greater than or equal to two."
+  (if (< x 2)
+    'false
+    (let ((factors (factors x)))
+      (cond ((< (length (lists:sort factors)) 3) 'true)
+            ('true 'false)))))
 
 (defun factors (n)
   "Tail-recursive prime factors function."
@@ -221,11 +223,12 @@
   (xform-numbers divisions numbers 2))
 
 (defun gcd
-  "Get the greatest common divisor."
+  "Get the nonnegative greatest common divisor."
   ((a 0)
-   a)
+   (abs a))
   ((a b)
    (gcd b (rem a b))))
 
 (defun float->str (float)
-  (caar (io_lib:format "~.20e" `(,float))))
+  "Format a float as a flat scientific-notation string."
+  (lists:flatten (io_lib:format "~.20e" (list float))))

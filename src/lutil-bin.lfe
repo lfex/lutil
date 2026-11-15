@@ -4,12 +4,17 @@
    (trim-trailing-ws 1)))
 
 (defun trim-trailing-ws (bitstr)
-  (clj:-> bitstr          
-          (trim-trailing #" ")
-          (trim-trailing #"\t")
-          (trim-trailing #"\n")
-          (trim-trailing #"\r")
-          (trim-trailing #"\r\n")))
+  "Remove repeated trailing space, tab, CR, and LF tokens."
+  (let ((trimmed
+         (clj:-> bitstr
+                 (trim-trailing #" ")
+                 (trim-trailing #"\t")
+                 (trim-trailing #"\n")
+                 (trim-trailing #"\r")
+                 (trim-trailing #"\r\n"))))
+    (if (== trimmed bitstr)
+      bitstr
+      (trim-trailing-ws trimmed))))
 
 (defun trim-trailing (bitstr)
   (trim-trailing bitstr #"\n"))

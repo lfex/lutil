@@ -73,6 +73,8 @@
     "\n"))
 
 (defun make-wrapped-lines
+  (('() _max-len)
+   '())
   (((cons word rest) max-len)
     (let (((tuple _ len last-line lines) (assemble-lines
                                            max-len
@@ -87,7 +89,7 @@
 
 (defun assemble-line
   ((word (tuple max line-len line acc))
-    (when (> (+ (length word) line-len) max))
+    (when (> (+ 1 (length word) line-len) max))
     (tuple max (length word) word (cons line acc)))
   ((word (tuple max line-len line acc))
     (tuple max (+ line-len 1 (length word)) (++ line " " word) acc)))

@@ -49,10 +49,15 @@
     (chunks-by-length list-data length)))
   
 (defun partition (list-data)
-  "This function takes lists of even length with an implicit key (atom) value
-  pairing and generates a list of two lists: one with all the keys, and the
-  other with all the values."
-  (lists:partition #'is_atom/1 list-data))
+  "Split positional key/value pairs, including atom-valued values."
+  (partition list-data '() '()))
+
+(defun partition
+  "Continue partitioning pairs with reversed key and value accumulators."
+  (('() keys values)
+   (tuple (lists:reverse keys) (lists:reverse values)))
+  (((cons key (cons value rest)) keys values)
+   (partition rest (cons key keys) (cons value values))))
 
 ;; The zip/2, zip/3, and zip/4 implementations are for kicks; probably *much*
 ;; better to use Erlang's lists:zip/2 and lists:zip3/3. There's no zip/4, so
@@ -116,13 +121,16 @@
 ;;   (((cons h1 t1) (cons h2 t2) (cons h3 t3) (cons h4 t4) acc)
 ;;     (zip-4 t1 t2 t3 t4 (++ acc `((,h1 ,h2 ,h3 ,h4))))))
 
-(defun zip-any (lists acc)
-  (cond
-    ((lists:any
-        (lambda (x) (== x '()))
-        lists)
-     acc)
-    ('true
-      (let ((heads (lists:map #'cl:car/1 lists))
-            (tails (lists:map #'cl:cdr/1 lists)))
-        (zip-any tails (++ acc `(,heads)))))))
+(defun zip-any
+  (('() acc)
+   acc)
+  ((lists acc)
+   (cond
+     ((lists:any
+         (lambda (x) (== x '()))
+         lists)
+      acc)
+     ('true
+       (let ((heads (lists:map #'cl:car/1 lists))
+             (tails (lists:map #'cl:cdr/1 lists)))
+         (zip-any tails (++ acc (list heads))))))))

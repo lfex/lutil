@@ -151,7 +151,7 @@
             (lutil-math:xform-numbers 9 (lists:seq 1 10))))
 
 (deftest primes
-  (is-equal 1 (lutil-math:get-next-prime 0))
+  (is-equal 2 (lutil-math:get-next-prime 0))
   (is-equal 2 (lutil-math:get-next-prime 1))
   (is-equal 3 (lutil-math:get-next-prime 2))
   (is-equal 5 (lutil-math:get-next-prime 3))

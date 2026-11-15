@@ -4,9 +4,9 @@
    (all 0)))
 
 (defun get ()
-  (get 'lutil))
+  (lookup 'lutil))
 
-(defun get (app-name)
+(defun lookup (app-name)
   (application:load app-name)
   (case (application:get_key app-name 'vsn)
     (`#(ok ,vsn) vsn)
@@ -16,7 +16,7 @@
   `#(architecture ,(erlang:system_info 'system_architecture)))
 
 (defun version+name (app-name)
-  `#(,app-name ,(get app-name)))
+  `#(,app-name ,(lookup app-name)))
 
 (defun versions-rebar ()
   `(,(version+name 'rebar)
