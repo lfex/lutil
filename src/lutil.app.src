@@ -1,7 +1,7 @@
 %% -*- erlang -*-
 {application, lutil, [
   {description, "LFE Utility Functions and Macros"},
-  {vsn, "0.16.3"},
+  {vsn, "0.17.0"},
   {modules, []},
   {registered, []},
   {applications, [
@@ -18,7 +18,7 @@
     {"GitHub", "https://github.com/lfex/lutil"},
     {"Hex", "https://hex.pm/packages/lutil"}
   ]},
-  {exclude_paths, [
-    "priv"
+  {include_paths, [
+    "docs/overview.md"
   ]}
 ]}.

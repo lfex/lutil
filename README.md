@@ -48,7 +48,7 @@ In your `rebar.config` file, update your `deps` section to include
 
 ```erlang
 {deps, [
-  {lutil, "0.16.3"}
+  {lutil, "0.17.0"}
 ]}.
 ```
 
